@@ -19,4 +19,3 @@ You'll want to fork the project from my repo then, clone your fork to your machi
 
 Once you create a pull request, any further commits you push to the branch you are working on in your fork get added to that pull request - that's why if you do one pull request in an area, then want to work on another feature while you wait for the main repo to pull it in, you should be creating two branches.  Reading the forking/pull request articles will explain this better.
 
-#fuckperl
