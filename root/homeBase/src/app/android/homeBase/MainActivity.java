@@ -1,4 +1,4 @@
-package com.beardedhen.androidbootstraptest;
+package app.android.homeBase;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.View;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.beardedhen.androidbootstrap.FontAwesomeText;
+import app.android.homeBase.R;
 
 public class MainActivity extends Activity {
 
