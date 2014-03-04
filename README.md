@@ -15,6 +15,8 @@ Currently homeBase holds the Bootstrap example code, which is a bunch of xml fil
 
 Get familiar with how forks work (https://help.github.com/articles/fork-a-repo) and pull requests work (https://help.github.com/articles/using-pull-requests).
 
-You'll want to fork the project it, clone it to your machine, create an upstream.  Then, you commit to your local repo, push it to your fork, pull from upstream to remerge and fix any inconsistencies that don't auto-merge, THEN you push again to your fork and finally create a pull request.  
+You'll want to fork the project from my repo then, clone your fork to your machine, create an upstream that points to the master branch in the main repo you forked from, and probably create a branch on your fork for whatever issue you are currently tackling.  Then, you commit to your local working branch, push it to your fork, pull from upstream to remerge and fix any inconsistencies that don't auto-merge, THEN you commit->push again to your fork's working branch and finally create a pull request.  
 
-Once you create a pull request, any further commits you push to the branch you are working on in your fork get added to that pull request - that's why if you do one pull request in an area, then want to work on another feature while you wait for the main repo to pull it in, you should be creating two branches.  Reading the forking article will explain this better.
+Once you create a pull request, any further commits you push to the branch you are working on in your fork get added to that pull request - that's why if you do one pull request in an area, then want to work on another feature while you wait for the main repo to pull it in, you should be creating two branches.  Reading the forking/pull request articles will explain this better.
+
+#fuckperl
