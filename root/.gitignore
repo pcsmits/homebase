@@ -1,6 +1,3 @@
-# Copyright: Benjamin Weiss (keyboardsurfer) https://github.com/keyboardsurfer
-# Under CC-BY-SA V3.0 (https://creativecommons.org/licenses/by-sa/3.0/legalcode)
-
 # svn files
 .svn
 
@@ -56,7 +53,4 @@ Thumbs.db
 .gradle
 build/
 
-#for oh-my-zsh jira plugin (https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#jira)
-.jira-url
-atlassian-ide-plugin.xml
 
