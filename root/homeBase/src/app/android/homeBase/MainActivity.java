@@ -9,7 +9,7 @@ import android.view.View;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.beardedhen.androidbootstrap.FontAwesomeText;
-import app.android.homeBase.R;
+// NO IMPORT R
 
 public class MainActivity extends Activity {
 
