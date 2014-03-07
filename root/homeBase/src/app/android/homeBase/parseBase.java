@@ -13,14 +13,34 @@ import java.util.List;
  */
 public class parseBase
 {
-
     public parseBase(Context context)
     {
+        //TODO SEE IF THIS GOES HERE
         Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
+    }
+
+    public boolean userLoggedIn()
+    {
+        ParseUser curUser = ParseUser.getCurrentUser();
+        return (curUser != null);
     }
 
     public void loginUser(final String username, final  String password, final Context context)
     {
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser parseUser, ParseException e) {
+                if(e != null || parseUser == null)
+                {
+                    Toast.makeText(context, "Login error occured: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    //TODO make intenet, stash parseUser
+                    Toast.makeText(context, "login worked!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 

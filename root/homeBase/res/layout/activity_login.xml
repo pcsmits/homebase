@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,15 +19,13 @@
             android:layout_weight="0.71"></RelativeLayout>
 
         <com.beardedhen.androidbootstrap.BootstrapEditText
-            android:id="@id/login_password_etext"
+            android:id="@id/login_username_etext"
             android:layout_width="258dp"
             android:layout_height="wrap_content"
             bootstrapbutton:be_roundedCorners="true"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:layout_centerVertical="true"
-            android:layout_alignLeft="@id/login_password_etext"
-            android:layout_alignStart="@id/login_password_etext"
             android:hint="@string/login_username_hint" />
 
 
@@ -52,15 +49,17 @@
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_signup_text"
+        android:text="@string/login_login_text"
         bootstrapbutton:bb_roundedCorners="true"
         bootstrapbutton:bb_size="default"
         bootstrapbutton:bb_type="primary"
         android:layout_marginBottom="56dp"
-        android:id="@id/login_button_signup"
+        android:id="@id/login_login_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:onClick="loginOnClick"
+        >
     </com.beardedhen.androidbootstrap.BootstrapButton>
 
     <RelativeLayout
@@ -70,11 +69,11 @@
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_login_text"
+            android:text="@string/login_signup_text"
             bootstrapbutton:bb_roundedCorners="true"
             bootstrapbutton:bb_size="default"
             bootstrapbutton:bb_type="primary"
-            android:id="@id/login_login_button"
+            android:id="@id/login_signup_button"
             android:layout_weight="0.12"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true">
