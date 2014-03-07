@@ -14,7 +14,6 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
