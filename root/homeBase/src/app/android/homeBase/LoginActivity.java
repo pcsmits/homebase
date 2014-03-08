@@ -1,5 +1,6 @@
 package app.android.homeBase;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -58,11 +59,16 @@ public class LoginActivity extends ActionBarActivity {
         if(!username.isEmpty() && !password.isEmpty())
         {
             parse.loginUser(username, password, v.getContext());
-
         }
         else
         {
             Toast.makeText(v.getContext(), "Please enter your username and password", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void onSignUpClick(View view)
+    {
+        Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+        startActivity(intent);
     }
 }

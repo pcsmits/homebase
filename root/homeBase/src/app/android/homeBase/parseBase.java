@@ -1,6 +1,8 @@
 package app.android.homeBase;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.parse.*;
@@ -13,6 +15,11 @@ import java.util.List;
  */
 public class parseBase
 {
+    public  parseBase()
+    {
+
+    }
+
     public parseBase(Context context)
     {
         //TODO SEE IF THIS GOES HERE
@@ -42,48 +49,5 @@ public class parseBase
             }
         });
 
-    }
-
-    public void addUser(final String username, final String password, final Context context)
-    {
-        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-        userQuery.whereEqualTo("username", username);
-        userQuery.findInBackground(new FindCallback<ParseUser>()
-        {
-            @Override
-            public void done(List<ParseUser> parseUsers, ParseException e)
-            {
-                if(e == null)
-                {
-                    if(parseUsers.isEmpty())
-                    {
-                        ParseUser user = new ParseUser();
-                        user.setUsername(username);
-                        user.setPassword(password);
-                        user.signUpInBackground(new SignUpCallback()
-                        {
-                            @Override
-                            public void done(ParseException e)
-                            {
-                                if(e == null)
-                                {
-                                    //TODO
-                                    Toast.makeText(context, "SUCCSESS REPALCE WITH INTENT", Toast.LENGTH_LONG).show();
-                                }
-                                else
-                                {
-                                    Toast.makeText(context, "Sign up failed: "+e.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-                    }
-                    else
-                    {
-                        Toast.makeText(context, username+" is already in use please choose another username", Toast.LENGTH_LONG).show();
-                    }
-                    Toast.makeText(context, "Error contacting the parse cloud", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
     }
 }
