@@ -8,5 +8,7 @@
     <string name="login_login_text">Login</string>
     <string name="login_username_hint">username</string>
     <string name="login_password_hint">password</string>
+    <string name="login_passwordVer_hint">password again</string>
+    <string name="signup_signup_button">Sign Up</string>
 
 </resources>
