@@ -13,6 +13,13 @@ import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
+/**
+ * This activity is the default launcher activity for the app
+ * If there is a cached user session it will simple hand off the instance to the feed activity
+ * Otherwise it presents the nessecary login features and has a button leading to signup
+ *
+ * TODO handle a logged in user who has none or multiple houses
+ */
 public class LoginActivity extends ActionBarActivity {
     private parseBase parse;
 
@@ -21,6 +28,7 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         parse = new parseBase(this);
         setContentView(R.layout.activity_login);
+        // Intenet to feed activity here
         if(parse.userLoggedIn())
         {
             //TODO ADD INTENET HERE
@@ -30,7 +38,6 @@ public class LoginActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.login, menu);
         return true;
@@ -48,6 +55,11 @@ public class LoginActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * on click method for the login button
+     * Gets the entered information and calls the loginUser method in parseBase class
+     * @param v
+     */
     public void loginOnClick(View v)
     {
         BootstrapEditText usernameText= (BootstrapEditText) findViewById(R.id.login_username_etext);
@@ -66,6 +78,11 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Simple onclick method for the signup button
+     * Just starts the signUp activity
+     * @param view
+     */
     public void onSignUpClick(View view)
     {
         Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
