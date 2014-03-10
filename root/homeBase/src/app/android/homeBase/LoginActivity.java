@@ -83,9 +83,15 @@ public class LoginActivity extends HomeBaseActivity{
     }
 
     @Override
-    public void OnParseSuccess() {
-        Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
-        startActivity(intent);
+    public void onLoginSuccess()
+    {
+    }
+
+    @Override
+    public void onLoginError()
+    {
+        //Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
+        //startActivity(intent);
     }
 
     /**
@@ -103,13 +109,6 @@ public class LoginActivity extends HomeBaseActivity{
     {
         //animation test
         //view.startAnimation(animTranslate);
-        Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void homeBaseCallbackAction()
-    {
         Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
         startActivity(intent);
     }

@@ -51,23 +51,24 @@ public class parseBase
                 // Make sure we get a valid user back!
                 if(e != null || parseUser == null)
                 {
-                    OnLoginError(caller, context, parseUser, e);
+                    onLoginError(caller, context, parseUser, e);
                 }
                 else
                 {
-                    OnLoginSuccess(caller, context, parseUser, e);
+                    onLoginSuccess(caller, context, parseUser, e);
                 }
             }
         });
 
     }
 
-    private void OnLoginError(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
-        Toast.makeText(context, "Login error occured: "+e.getMessage(), Toast.LENGTH_SHORT).show();
-        caller.OnParseSuccess();
+    private void onLoginError(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
+        Toast.makeText(context, "Login error occured: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+        caller.onLoginError();
     }
 
-    private void OnLoginSuccess(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
+    private void onLoginSuccess(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
         Toast.makeText(context, "login worked!", Toast.LENGTH_LONG).show();
+        caller.onLoginSuccess();
     }
 }

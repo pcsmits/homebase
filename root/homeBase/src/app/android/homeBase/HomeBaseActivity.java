@@ -6,32 +6,48 @@ import android.view.KeyEvent;
 
 import com.parse.*;
 
-public abstract class HomeBaseActivity extends ActionBarActivity implements HomeBaseCallback{
+public abstract class HomeBaseActivity extends ActionBarActivity{
     private HomeBaseEventNotifier eventHandler;
 
-    public void OnParseSuccess()
+    public void onLoginSuccess()
     {
 
     }
 
-    public void OnParseSuccess(ParseObject parseObject)
+    public void onLoginError()
     {
 
     }
 
-    public void OnParseSuccess(ParseObject parseObject, ParseException e)
+    public void onSignupSuccess()
     {
 
     }
 
-    public void OnParseSuccess(ParseObject parseObject, ParseException e, HomeBaseCallback callback)
+    public void onSignupError()
     {
 
     }
 
-    public void homeBaseCallbackAction()
+    public void onParseSuccess()
     {
 
+    }
+
+    public void onParseSuccess(ParseObject parseObject)
+    {
 
     }
+
+    public void onParseSuccess(ParseObject parseObject, ParseException e)
+    {
+
+    }
+
+    public void onParseSuccess(ParseObject parseObject, ParseException e, HomeBaseCallback callback)
+    {
+
+    }
+
+
 }
