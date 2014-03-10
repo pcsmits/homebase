@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.parse.Parse;
@@ -22,6 +24,7 @@ import com.parse.ParseUser;
  */
 public class LoginActivity extends HomeBaseActivity{
     private parseBase parse;
+    private Animation animTranslate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class LoginActivity extends HomeBaseActivity{
             //TODO ADD INTENET HERE
             Toast.makeText(this, "User logged in already!", Toast.LENGTH_LONG).show();
         }
+        animTranslate = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
     }
 
     @Override
@@ -79,9 +83,15 @@ public class LoginActivity extends HomeBaseActivity{
     }
 
     @Override
-    public void OnParseSuccess() {
-        Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
-        startActivity(intent);
+    public void onLoginSuccess()
+    {
+    }
+
+    @Override
+    public void onLoginError()
+    {
+        //Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
+        //startActivity(intent);
     }
 
     /**
@@ -101,10 +111,4 @@ public class LoginActivity extends HomeBaseActivity{
         startActivity(intent);
     }
 
-    @Override
-    public void homeBaseCallbackAction()
-    {
-        Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
-        startActivity(intent);
-    }
 }
