@@ -15,28 +15,43 @@ import java.util.List;
  */
 public class parseBase
 {
+    // Default constructor
     public  parseBase()
     {
 
     }
 
+    // This is the constructor which calls the parse init
+    // TODO figue out if this should be a singleton or not
     public parseBase(Context context)
     {
-        //TODO SEE IF THIS GOES HERE
+        //TODO maybe store these keys in xml
         Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
     }
 
+    // Simple wrapper for parse method
+    // should move to parseUser subclass if one is ever made
     public boolean userLoggedIn()
     {
         ParseUser curUser = ParseUser.getCurrentUser();
         return (curUser != null);
     }
 
+    /**
+     * Method to start a user session via parse
+     * Should be set up for boolean return values instead of context sensetive stuff like
+     * Toasting and firing intenets
+     *
+     * @param username
+     * @param password
+     * @param context
+     */
     public void loginUser(final String username, final  String password, final Context context)
     {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
+                // Make sure we get a valid user back!
                 if(e != null || parseUser == null)
                 {
                     Toast.makeText(context, "Login error occured: "+e.getMessage(), Toast.LENGTH_SHORT).show();
