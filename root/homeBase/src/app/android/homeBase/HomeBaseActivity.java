@@ -3,6 +3,7 @@ package app.android.homeBase;
 
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.parse.*;
 
@@ -33,5 +34,20 @@ public abstract class HomeBaseActivity extends ActionBarActivity implements Home
     {
 
 
+    }
+
+    public void onSaveSuccess()
+    {
+
+    }
+
+    public void onSaveSuccess(Object saved)
+    {
+
+    }
+
+    public void onSaveError(String error)
+    {
+        Toast.makeText(this, "Parse error: "+error, Toast.LENGTH_LONG).show();
     }
 }
