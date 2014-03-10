@@ -1,12 +1,9 @@
 package app.android.homeBase;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.parse.*;
-import java.util.List;
 
 /**
  * A custom class/wrapper for interacting with Parse
@@ -46,7 +43,7 @@ public class parseBase
      * @param password
      * @param context
      */
-    public void loginUser(final String username, final  String password, final Context context)
+    public void loginUser(final String username, final  String password, final Context context, final HomeBaseActivity caller)
     {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
@@ -54,15 +51,23 @@ public class parseBase
                 // Make sure we get a valid user back!
                 if(e != null || parseUser == null)
                 {
-                    Toast.makeText(context, "Login error occured: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    OnLoginError(caller, context, parseUser, e);
                 }
                 else
                 {
-                    //TODO make intenet, stash parseUser
-                    Toast.makeText(context, "login worked!", Toast.LENGTH_LONG).show();
+                    OnLoginSuccess(caller, context, parseUser, e);
                 }
             }
         });
 
+    }
+
+    private void OnLoginError(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
+        Toast.makeText(context, "Login error occured: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+        caller.OnParseSuccess();
+    }
+
+    private void OnLoginSuccess(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
+        Toast.makeText(context, "login worked!", Toast.LENGTH_LONG).show();
     }
 }

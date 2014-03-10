@@ -20,7 +20,7 @@ import com.parse.ParseUser;
  *
  * TODO handle a logged in user who has none or multiple houses
  */
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends HomeBaseActivity{
     private parseBase parse;
 
     @Override
@@ -70,12 +70,18 @@ public class LoginActivity extends ActionBarActivity {
 
         if(!username.isEmpty() && !password.isEmpty())
         {
-            parse.loginUser(username, password, v.getContext());
+            parse.loginUser(username, password, v.getContext(), this);
         }
         else
         {
             Toast.makeText(v.getContext(), "Please enter your username and password", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void OnParseSuccess() {
+        Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
+        startActivity(intent);
     }
 
     /**
@@ -90,6 +96,13 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void onTestChoresClick(View view)
+    {
+        Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void homeBaseCallbackAction()
     {
         Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
         startActivity(intent);
