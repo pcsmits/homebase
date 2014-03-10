@@ -88,4 +88,10 @@ public class LoginActivity extends ActionBarActivity {
         Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(intent);
     }
+
+    public void onTestChoresClick(View view)
+    {
+        Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
+        startActivity(intent);
+    }
 }

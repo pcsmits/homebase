@@ -6,6 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="login_signup_text">Sign Up</string>
     <string name="login_login_text">Login</string>
+    <string name="login_testChores_text">Chores Test</string>
     <string name="login_username_hint">username</string>
     <string name="login_password_hint">password</string>
     <string name="login_passwordVer_hint">password again</string>
