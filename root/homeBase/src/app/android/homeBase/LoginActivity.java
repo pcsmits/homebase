@@ -107,9 +107,8 @@ public class LoginActivity extends HomeBaseActivity{
 
     public void onTestChoresClick(View view)
     {
-        //animation test
-        //view.startAnimation(animTranslate);
-        Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
+        Intent intent = new Intent(LoginActivity.this, NewHouseActivity.class);
         startActivity(intent);
     }
+
 }
