@@ -1,7 +1,6 @@
 package app.android.homeBase;
 
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import java.util.ArrayList;
 import android.os.Bundle;
@@ -15,7 +14,7 @@ import android.view.View;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
-public class ChoresActivity extends ActionBarActivity {
+public class ChoreInfoActivity extends ActionBarActivity {
     ArrayList<BootstrapButton> choreContainers;
 
     @Override
@@ -61,14 +60,21 @@ public class ChoresActivity extends ActionBarActivity {
 
         //this will eventually run through chores from parse and populate view accordingly, but this is a good framework
         //for creating bootstrap buttons programmaticaly from xml frameworks
-        for (int i = 0; i < 5; i++) {
+
+        Bundle extras = getIntent().getExtras();
+        String value = "";
+        if (extras != null) {
+            value = extras.getString("info");
+        }
+
+        for (int i = 0; i < 1; i++) {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
 
             BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_testChores_button);
             buttonCont.removeView(myButton);
             layout.addView(myButton);
-            String text = "Button " + i;
+            String text = value;
             myButton.setText(text);
             myButton.setRightIcon("fa-heart");
             choreContainers.add(myButton);
@@ -79,8 +85,5 @@ public class ChoresActivity extends ActionBarActivity {
     {
         BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.login_testChores_button);
         thisButton.setText("Clicked");
-        Intent intent = new Intent(ChoresActivity.this, ChoreInfoActivity.class);
-        intent.putExtra("info", "I'm putting this custom information here");
-        startActivity(intent);
     }
 }

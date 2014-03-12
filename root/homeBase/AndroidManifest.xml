@@ -65,6 +65,12 @@
             android:name="app.android.homeBase.NewHouseActivity"
             android:label="@string/app_name" >
         </activity>
+
+        <activity
+            android:name="app.android.homeBase.ChoreInfoActivity"
+            android:label="@string/app_name" >
+        </activity>
+
     </application>
 
 </manifest>
