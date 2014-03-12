@@ -4,5 +4,15 @@
     <item name="login_login_button" type="id"/>
     <item name="login_username_etext" type="id"/>
     <item name="login_password_etext" type="id"/>
+    <item name="login_testChores_button" type="id"/>
+
+    <item name="signup_username_etext" type="id"/>
+    <item name="signup_password_etext" type="id"/>
+    <item name="signup_passwordV_etext" type="id"/>
+
+    <item name="signup_progressbar" type="id"/>
+    <item name="signup_signup_button" type="id"/>
+
+    <item name="chores_choreContainer_button" type="id"/>
 
 </resources>

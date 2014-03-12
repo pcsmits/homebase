@@ -5,7 +5,9 @@
     xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:fontFamily="fontawesome-webfont.ttf"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,70 +18,110 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.71"></RelativeLayout>
+            android:layout_weight="0.8">
+        </RelativeLayout>
 
         <com.beardedhen.androidbootstrap.BootstrapEditText
             android:id="@id/login_username_etext"
             android:layout_width="258dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             bootstrapbutton:be_roundedCorners="true"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:layout_centerVertical="true"
-            android:hint="@string/login_username_hint" />
-
+            android:hint="@string/login_username_hint"
+            android:textColor="@android:color/black" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="10dp"
-            android:layout_weight="0.19"></RelativeLayout>
+            android:layout_weight="0.05"/>
 
         <com.beardedhen.androidbootstrap.BootstrapEditText
             android:id="@id/login_password_etext"
             android:layout_width="258dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             bootstrapbutton:be_roundedCorners="true"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
-            android:layout_below="@id/login_password_etext"
-            android:layout_centerHorizontal="true"
-            android:hint="@string/login_password_hint" />
+            android:hint="@string/login_password_hint"
+            android:textColor="@android:color/black"
+            android:password="true"
+            />
 
     </LinearLayout>
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_login_text"
-        bootstrapbutton:bb_roundedCorners="true"
-        bootstrapbutton:bb_size="default"
-        bootstrapbutton:bb_type="primary"
-        android:layout_marginBottom="56dp"
-        android:id="@id/login_login_button"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:onClick="loginOnClick"
-        >
-    </com.beardedhen.androidbootstrap.BootstrapButton>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="158dp">
+        android:layout_height="10dp"
+        android:layout_weight="0.08"/>
 
+    <RelativeLayout
+        android:layout_height="70dp"
+        android:layout_width="120dp"
+        android:layout_gravity="center_horizontal">
         <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_signup_text"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:text="@string/login_login_text"
+            android:textAlignment="center"
             bootstrapbutton:bb_roundedCorners="true"
             bootstrapbutton:bb_size="default"
             bootstrapbutton:bb_type="primary"
-            android:id="@id/login_signup_button"
-            android:layout_weight="0.12"
+            bootstrapbutton:bb_text_alignment="center"
+            bootstrapbutton:bb_icon_right="fa-chevron-right"
+            android:id="@id/login_login_button"
+            android:layout_gravity="center_horizontal"
+            android:onClick="loginOnClick"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
         </com.beardedhen.androidbootstrap.BootstrapButton>
     </RelativeLayout>
 
 
+    <RelativeLayout
+        android:layout_height="70dp"
+        android:layout_width="120dp"
+        android:layout_gravity="center_horizontal">
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:text="@string/login_signup_text"
+            android:textAlignment="center"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_size="default"
+            bootstrapbutton:bb_type="primary"
+            bootstrapbutton:bb_text_alignment="center"
+            bootstrapbutton:bb_icon_right="fa-chevron-right"
+            android:id="@id/login_signup_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:onClick="onSignUpClick"
+            >
+        </com.beardedhen.androidbootstrap.BootstrapButton>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_height="70dp"
+        android:layout_width="120dp"
+        android:layout_gravity="center_horizontal">
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:text="@string/login_testChores_text"
+            android:textAlignment="center"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_size="default"
+            bootstrapbutton:bb_type="primary"
+            bootstrapbutton:bb_text_alignment="center"
+            bootstrapbutton:bb_icon_right="fa-chevron-right"
+            android:id="@id/login_testChores_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:onClick="onTestChoresClick"
+            >
+        </com.beardedhen.androidbootstrap.BootstrapButton>
+    </RelativeLayout>
 
 </LinearLayout>

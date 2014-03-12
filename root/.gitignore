@@ -54,3 +54,4 @@ Thumbs.db
 build/
 gradle/
 
+build.gradle
