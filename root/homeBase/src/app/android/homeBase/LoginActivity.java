@@ -1,19 +1,15 @@
 package app.android.homeBase;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.beardedhen.androidbootstrap.BootstrapEditText;
-import com.parse.Parse;
-import com.parse.ParseUser;
 
 /**
  * This activity is the default launcher activity for the app
@@ -61,7 +57,7 @@ public class LoginActivity extends HomeBaseActivity{
 
     /**
      * on click method for the login button
-     * Gets the entered information and calls the loginUser method in parseBase class
+     * Gets the entered information and calls the loginUser method in ParseBase class
      * @param v
      */
     public void loginOnClick(View v)

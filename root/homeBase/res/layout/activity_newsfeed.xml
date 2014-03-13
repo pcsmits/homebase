@@ -36,7 +36,7 @@
                 android:id="@+id/newsfeed_menu_container"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
-                android:layout_marginBottom="2dp">
+                android:layout_marginBottom="4dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -53,7 +53,7 @@
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"
-                            bootstrapbutton:bb_type="info"
+                            bootstrapbutton:bb_type="primary"
                             bootstrapbutton:bb_text_alignment="center"
                             bootstrapbutton:bb_icon_right="fa-chevron-down"
                             android:layout_gravity="center_horizontal"

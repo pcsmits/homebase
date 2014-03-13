@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import app.android.homeBase.GPSservice;
-
 public class testParker extends Activity {
 
     Button btnShowLocation;
@@ -36,7 +34,7 @@ public class testParker extends Activity {
                     double latitude = gps.getLatitude();
                     double longitude = gps.getLongitude();
 
-                    parseBase par = new parseBase();
+                    ParseBase par = new ParseBase();
                     Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                 }else{
                     // can't get location
