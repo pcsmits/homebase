@@ -1,84 +1,74 @@
 package app.android.homeBase;
 
 
+import android.app.ActionBar;
+import android.content.res.Resources;
 import android.support.v7.app.ActionBarActivity;
-import java.util.ArrayList;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.Gravity;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.view.ViewGroup.LayoutParams;
 import android.graphics.Point;
-import android.view.LayoutInflater;
+import android.view.Display;
 import android.view.View;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class ChoreInfoActivity extends ActionBarActivity {
-    ArrayList<BootstrapButton> choreContainers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chores);
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
+        setContentView(R.layout.activity_chore_info);
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.chores_choreContainer_button);
-        choreContainers = new ArrayList<BootstrapButton>();
+        Bundle extras = getIntent().getExtras();
+        String title = "";
+        String info = "";
+        if (extras != null) {
+            title = extras.getString("title");
+            info = extras.getString("info");
+        }
 
-        /*RelativeLayout container = new RelativeLayout(this);
-        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.CENTER;
+        BootstrapButton headerBar = (BootstrapButton) this.findViewById(R.id.chore_info_header_button);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
-        int height = size.y;
+        Resources resources = this.getResources();
 
-        params.height = (int)(height * 0.25f);
-        params.width = (int)(width * 0.50f);
+        int navBarHeight = 0;
 
-        rlp.height = 50;
-        rlp.width = 70;
-
-        BootstrapButton runtimeButton = new BootstrapButton(this);
-        //container.addView(runtimeButton);
-
-        String buttonText = "test";
-        runtimeButton.setText(buttonText);
-
-        runtimeButton.setRightIcon("fa-heart");
-
-        runtimeButton.setBootstrapType("success");
-
-        //layout.addView(container, rlp);
-        //layout.addView(runtimeButton, params);*/
-
-        //this will eventually run through chores from parse and populate view accordingly, but this is a good framework
-        //for creating bootstrap buttons programmaticaly from xml frameworks
-
-        Bundle extras = getIntent().getExtras();
-        String value = "";
-        if (extras != null) {
-            value = extras.getString("info");
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            navBarHeight = resources.getDimensionPixelSize(resourceId);
         }
 
-        for (int i = 0; i < 1; i++) {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
+        int statusBarHeight = 0;
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_testChores_button);
-            buttonCont.removeView(myButton);
-            layout.addView(myButton);
-            String text = value;
-            myButton.setText(text);
-            myButton.setRightIcon("fa-heart");
-            choreContainers.add(myButton);
+        resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = resources.getDimensionPixelSize(resourceId);
         }
+
+        int height = (int)((size.y - headerBar.getLayoutParams().height * 3) - navBarHeight - statusBarHeight);
+
+        BootstrapButton infoContainer = (BootstrapButton) this.findViewById(R.id.chore_info_body_button);
+        ViewGroup.LayoutParams rlp = infoContainer.getLayoutParams();
+        rlp.height = height;
+        infoContainer.setLayoutParams(rlp);
+        BootstrapButton body = (BootstrapButton) this.findViewById(R.id.chore_info_body_button);
+
+        headerBar.setText(title);
+        body.setText(info);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_in_back, R.anim.anim_out_back);
     }
 
     public void onChoreContainerClick(View view)

@@ -16,7 +16,7 @@
             android:layout_height="50dp"
             android:text="@string/login_testChores_text"
             android:textAlignment="center"
-            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_roundedCorners="false"
             bootstrapbutton:bb_size="default"
             bootstrapbutton:bb_type="primary"
             bootstrapbutton:bb_text_alignment="center"

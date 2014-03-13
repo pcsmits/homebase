@@ -12,4 +12,9 @@
     <string name="login_passwordVer_hint">password again</string>
     <string name="signup_signup_button">Sign Up</string>
 
+    <string name="chores_viewActive_button">Active</string>
+    <string name="chores_viewClosed_button">Completed</string>
+    <string name="chores_viewMine_button">Mine</string>
+    <string name="chores_add_button">Add</string>
+
 </resources>

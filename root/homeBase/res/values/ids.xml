@@ -15,4 +15,7 @@
 
     <item name="chores_choreContainer_button" type="id"/>
 
+    <item name="chore_info_header_button" type="id"/>
+    <item name="chore_info_body_button" type="id"/>
+    <item name="chore_info_container_button" type="id"/>
 </resources>

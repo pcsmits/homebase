@@ -7,6 +7,127 @@
     android:weightSum="1"
     android:fontFamily="fontawesome-webfont.ttf"
     >
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp">
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/chores_viewActive_button"
+            android:enabled="false"
+            android:textAlignment="center"
+            bootstrapbutton:bb_roundedCorners="false"
+            bootstrapbutton:bb_size="default"
+            bootstrapbutton:bb_type="primary"
+            bootstrapbutton:bb_text_alignment="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </com.beardedhen.androidbootstrap.BootstrapButton>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="0dp">
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/chores_viewActive_button"
+                android:textAlignment="center"
+                bootstrapbutton:bb_roundedCorners="false"
+                bootstrapbutton:bb_size="default"
+                bootstrapbutton:bb_type="info"
+                bootstrapbutton:bb_text_alignment="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+            </com.beardedhen.androidbootstrap.BootstrapButton>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="0dp">
+
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:text="@string/chores_viewMine_button"
+                    android:textAlignment="center"
+                    bootstrapbutton:bb_roundedCorners="false"
+                    bootstrapbutton:bb_size="default"
+                    bootstrapbutton:bb_type="info"
+                    bootstrapbutton:bb_text_alignment="center"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+                </com.beardedhen.androidbootstrap.BootstrapButton>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_weight="1.1"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="0dp">
+
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:text="@string/chores_viewClosed_button"
+                    android:textAlignment="center"
+                    bootstrapbutton:bb_roundedCorners="false"
+                    bootstrapbutton:bb_size="default"
+                    bootstrapbutton:bb_type="info"
+                    bootstrapbutton:bb_text_alignment="center"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+                </com.beardedhen.androidbootstrap.BootstrapButton>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_weight="0.8"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="0dp">
+
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:text="@string/chores_add_button"
+                    android:textAlignment="center"
+                    bootstrapbutton:bb_roundedCorners="false"
+                    bootstrapbutton:bb_size="default"
+                    bootstrapbutton:bb_type="success"
+                    bootstrapbutton:bb_text_alignment="center"
+                    bootstrapbutton:bb_icon_right="fa-plus"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+                </com.beardedhen.androidbootstrap.BootstrapButton>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@id/chores_choreContainer_button"
         android:layout_width="match_parent"
