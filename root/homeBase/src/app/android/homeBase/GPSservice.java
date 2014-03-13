@@ -34,10 +34,13 @@ public class GPSservice extends Service implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 10 * 1; // 1 minute
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
+
+    //parse object
+    parseBase parse = new parseBase();
 
     public GPSservice(Context context) {
         this.mContext = context;
@@ -99,6 +102,7 @@ public class GPSservice extends Service implements LocationListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
         return location;
     }
@@ -179,6 +183,17 @@ public class GPSservice extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.d("GPS", "NEW LOCATION BRO");
+        parse.updateLocation(getLatitude(), getLongitude());
+
+
+        /**
+         * If new location
+         *
+         * check if home
+         * if it differes update parse
+         *
+         */
     }
 
     @Override

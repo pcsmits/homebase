@@ -1,9 +1,13 @@
 package app.android.homeBase;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.parse.*;
+
+
+import java.util.List;
 
 /**
  * A custom class/wrapper for interacting with Parse
@@ -34,6 +38,10 @@ public class parseBase
         return (curUser != null);
     }
 
+    public ParseUser getCurrentUser(){
+        return ParseUser.getCurrentUser();
+    }
+
     /**
      * Method to start a user session via parse
      * Should be set up for boolean return values instead of context sensetive stuff like
@@ -56,6 +64,30 @@ public class parseBase
                 else
                 {
                     onLoginSuccess(caller, context, parseUser, e);
+                }
+            }
+        });
+
+    }
+
+    public void updateLocation(Double Lat, Double Long) {
+        //getCurrentUser().put("lat", Lat);
+
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.whereEqualTo("username", "new");
+        userQuery.findInBackground(new FindCallback<ParseUser>() {
+            Double Lat;
+            @Override
+            public void done(List<ParseUser> parseUsers, ParseException e)
+            {
+
+                if (e == null) {
+                    if (parseUsers.isEmpty()) {
+                        Log.d("GPS service", "user list null");
+                    }
+                    parseUsers.get(0).put("lat", Lat);
+                } else {
+                    Log.d("GPS service", "parse exception");
                 }
             }
         });
