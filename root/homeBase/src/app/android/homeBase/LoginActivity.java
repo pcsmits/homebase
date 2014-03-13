@@ -23,13 +23,13 @@ import com.parse.ParseUser;
  * TODO handle a logged in user who has none or multiple houses
  */
 public class LoginActivity extends HomeBaseActivity{
-    private parseBase parse;
+    private ParseBase parse;
     private Animation animTranslate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        parse = new parseBase(this);
+        parse = new ParseBase(this);
         setContentView(R.layout.activity_login);
         // Intenet to feed activity here
         if(parse.userLoggedIn())

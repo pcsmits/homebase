@@ -11,12 +11,12 @@ import android.widget.Toast;
 
 public class NewHouseActivity extends HomeBaseActivity {
 
-    public parseBase parse;
+    public ParseBase parse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_house);
-        parse = new parseBase();
+        parse = new ParseBase();
     }
 
     @Override
