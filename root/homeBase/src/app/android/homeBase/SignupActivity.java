@@ -25,7 +25,7 @@ public class SignupActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final parseSignUp parse = new parseSignUp(this);
+        final parseBase parse = new parseBase(this);
         setContentView(R.layout.activity_signup);
 
         //Get references to the three edit texts

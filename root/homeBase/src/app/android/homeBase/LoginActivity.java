@@ -75,6 +75,7 @@ public class LoginActivity extends HomeBaseActivity{
         if(!username.isEmpty() && !password.isEmpty())
         {
             parse.loginUser(username, password, v.getContext(), this);
+            //ToDo if house found save to disk
         }
         else
         {
