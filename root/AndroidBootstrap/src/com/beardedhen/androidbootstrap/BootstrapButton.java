@@ -48,6 +48,7 @@ public class BootstrapButton extends FrameLayout {
 		bbuttonTypeMap.put("info", BootstrapTypes.INFO);
 		bbuttonTypeMap.put("warning", BootstrapTypes.WARNING);
 		bbuttonTypeMap.put("danger", BootstrapTypes.DANGER);
+        bbuttonTypeMap.put("gray", BootstrapTypes.GRAY);
 		bbuttonTypeMap.put("inverse", BootstrapTypes.INVERSE);
 		
 		bbuttonTypeMapRounded = new HashMap<String, BootstrapTypes>();
@@ -58,6 +59,7 @@ public class BootstrapButton extends FrameLayout {
 		bbuttonTypeMapRounded.put("info", BootstrapTypes.INFO_ROUNDED);
 		bbuttonTypeMapRounded.put("warning", BootstrapTypes.WARNING_ROUNDED);
 		bbuttonTypeMapRounded.put("danger", BootstrapTypes.DANGER_ROUNDED);
+        bbuttonTypeMapRounded.put("gray", BootstrapTypes.GRAY_ROUNDED);
 		bbuttonTypeMapRounded.put("inverse", BootstrapTypes.INVERSE_ROUNDED);
 		
 		
@@ -89,6 +91,7 @@ public class BootstrapButton extends FrameLayout {
 		INFO(R.drawable.bbuton_info, R.color.white),
 		WARNING(R.drawable.bbuton_warning, R.color.white),
 		DANGER(R.drawable.bbuton_danger, R.color.white),
+        GRAY(R.drawable.bbuton_gray, R.color.black),
 		INVERSE(R.drawable.bbuton_inverse, R.color.white),
 		
 		DEFAULT_ROUNDED(R.drawable.bbuton_default_rounded, R.color.black),
@@ -97,6 +100,7 @@ public class BootstrapButton extends FrameLayout {
 		INFO_ROUNDED(R.drawable.bbuton_info_rounded, R.color.white),
 		WARNING_ROUNDED(R.drawable.bbuton_warning_rounded, R.color.white),
 		DANGER_ROUNDED(R.drawable.bbuton_danger_rounded, R.color.white),
+        GRAY_ROUNDED(R.drawable.bbuton_gray_rounded, R.color.black),
 		INVERSE_ROUNDED(R.drawable.bbuton_inverse_rounded, R.color.white);
 
 		private int backgroundDrawable;
