@@ -5,14 +5,8 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Enumeration;
-
 import android.os.Bundle;
-import android.view.Display;
-import android.view.Gravity;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.graphics.Point;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -46,7 +40,7 @@ public class ChoresActivity extends ActionBarActivity {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_testChores_button);
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_test_button);
             buttonCont.removeView(myButton);
             layout.addView(myButton);
             String text = "Button " + i;
@@ -63,7 +57,7 @@ public class ChoresActivity extends ActionBarActivity {
 
     public void onChoreContainerClick(View view)
     {
-        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.login_testChores_button);
+        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.login_test_button);
         thisButton.setText("Clicked");
         Intent intent = new Intent(ChoresActivity.this, ChoreInfoActivity.class);
         intent.putExtra("title", choreDescriptions.get(thisButton).title);

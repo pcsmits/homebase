@@ -6,7 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="login_signup_text">Sign Up</string>
     <string name="login_login_text">Login</string>
-    <string name="login_testChores_text">Chores Test</string>
+    <string name="login_test_text">Newsfeed</string>
     <string name="login_username_hint">username</string>
     <string name="login_password_hint">password</string>
     <string name="login_passwordVer_hint">password again</string>
@@ -16,5 +16,8 @@
     <string name="chores_viewClosed_button">Completed</string>
     <string name="chores_viewMine_button">Mine</string>
     <string name="chores_add_button">Add</string>
+
+    <string name="newsfeed_showMenu_button">Modules</string>
+    <string name="newsfeed_gotoChores_button">Chores</string>
 
 </resources>

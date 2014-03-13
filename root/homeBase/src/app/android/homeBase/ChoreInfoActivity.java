@@ -1,13 +1,10 @@
 package app.android.homeBase;
 
 
-import android.app.ActionBar;
 import android.content.res.Resources;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.view.ViewGroup.LayoutParams;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
@@ -73,7 +70,7 @@ public class ChoreInfoActivity extends ActionBarActivity {
 
     public void onChoreContainerClick(View view)
     {
-        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.login_testChores_button);
+        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.login_test_button);
         thisButton.setText("Clicked");
     }
 }
