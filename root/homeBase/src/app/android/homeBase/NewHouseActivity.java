@@ -11,12 +11,12 @@ import android.widget.Toast;
 
 public class NewHouseActivity extends HomeBaseActivity {
 
-    public ParseHouse parse;
+    public parseBase parse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_house);
-        parse = new ParseHouse();
+        parse = new parseBase();
     }
 
     @Override
@@ -52,6 +52,8 @@ public class NewHouseActivity extends HomeBaseActivity {
         String housename = "Name";
         String address = "123 street";
         int zipode = 12345;
+
+        //TODO do google look up address get lat and long if not found drop anchor
         parse.createHouse(housename, address, zipode, NewHouseActivity.this);
     }
 }
