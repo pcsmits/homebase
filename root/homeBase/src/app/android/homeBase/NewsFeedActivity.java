@@ -43,7 +43,7 @@ public class NewsFeedActivity extends ActionBarActivity {
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) (relativeLayout.getLayoutParams());
 
         ResizeAnimation a = new ResizeAnimation(relativeLayout);
-        a.setDuration(500);
+        a.setDuration(250);
 
         if (expand) {
             a.setParams(lp.height, menuHeight + menuHeight * 1); //this will be times the number of modules we have
