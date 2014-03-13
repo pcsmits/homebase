@@ -1,10 +1,15 @@
 package app.android.homeBase;
 
 
+import android.app.ActionBar;
+import android.content.res.Resources;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.view.ViewGroup.LayoutParams;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.View;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
@@ -25,7 +30,34 @@ public class ChoreInfoActivity extends ActionBarActivity {
             info = extras.getString("info");
         }
 
+
         BootstrapButton headerBar = (BootstrapButton) this.findViewById(R.id.chore_info_header_button);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        Resources resources = this.getResources();
+
+        int navBarHeight = 0;
+
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            navBarHeight = resources.getDimensionPixelSize(resourceId);
+        }
+
+        int statusBarHeight = 0;
+
+        resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = resources.getDimensionPixelSize(resourceId);
+        }
+
+        int height = (int)((size.y - headerBar.getLayoutParams().height * 3) - navBarHeight - statusBarHeight);
+
+        BootstrapButton infoContainer = (BootstrapButton) this.findViewById(R.id.chore_info_body_button);
+        ViewGroup.LayoutParams rlp = infoContainer.getLayoutParams();
+        rlp.height = height;
+        infoContainer.setLayoutParams(rlp);
         BootstrapButton body = (BootstrapButton) this.findViewById(R.id.chore_info_body_button);
 
         headerBar.setText(title);

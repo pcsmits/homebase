@@ -34,7 +34,7 @@
         android:enabled="false"
         bootstrapbutton:bb_roundedCorners="false"
         bootstrapbutton:bb_size="default"
-        bootstrapbutton:bb_type="info"
+        bootstrapbutton:bb_type="default"
         bootstrapbutton:bb_text_alignment="center"
         android:id="@id/chore_info_body_button"
         android:layout_gravity="center_horizontal"
@@ -42,4 +42,155 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
     </com.beardedhen.androidbootstrap.BootstrapButton>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="0dp">
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:text="@string/hello_world"
+        android:textAlignment="center"
+        android:enabled="false"
+        bootstrapbutton:bb_roundedCorners="false"
+        bootstrapbutton:bb_size="default"
+        bootstrapbutton:bb_type="primary"
+        bootstrapbutton:bb_text_alignment="center"
+        android:id="@id/chore_info_header_button"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    </com.beardedhen.androidbootstrap.BootstrapButton>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="0dp">
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/hello_world"
+                android:textAlignment="center"
+                android:enabled="false"
+                bootstrapbutton:bb_roundedCorners="false"
+                bootstrapbutton:bb_size="default"
+                bootstrapbutton:bb_type="default"
+                bootstrapbutton:bb_text_alignment="center"
+                android:id="@id/chore_info_header_button"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+            </com.beardedhen.androidbootstrap.BootstrapButton>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="0dp">
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/hello_world"
+                android:textAlignment="center"
+                android:enabled="false"
+                bootstrapbutton:bb_roundedCorners="false"
+                bootstrapbutton:bb_size="default"
+                bootstrapbutton:bb_type="primary"
+                bootstrapbutton:bb_text_alignment="center"
+                android:id="@id/chore_info_header_button"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+            </com.beardedhen.androidbootstrap.BootstrapButton>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="0dp">
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/hello_world"
+                android:textAlignment="center"
+                android:enabled="false"
+                bootstrapbutton:bb_roundedCorners="false"
+                bootstrapbutton:bb_size="default"
+                bootstrapbutton:bb_type="default"
+                bootstrapbutton:bb_text_alignment="center"
+                android:id="@id/chore_info_header_button"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+            </com.beardedhen.androidbootstrap.BootstrapButton>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="0dp">
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/hello_world"
+                android:textAlignment="center"
+                android:enabled="false"
+                bootstrapbutton:bb_roundedCorners="false"
+                bootstrapbutton:bb_size="default"
+                bootstrapbutton:bb_type="primary"
+                bootstrapbutton:bb_text_alignment="center"
+                android:id="@id/chore_info_header_button"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+            </com.beardedhen.androidbootstrap.BootstrapButton>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="0dp">
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/hello_world"
+                android:textAlignment="center"
+                android:enabled="false"
+                bootstrapbutton:bb_roundedCorners="false"
+                bootstrapbutton:bb_size="default"
+                bootstrapbutton:bb_type="default"
+                bootstrapbutton:bb_text_alignment="center"
+                android:id="@id/chore_info_header_button"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+            </com.beardedhen.androidbootstrap.BootstrapButton>
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>
