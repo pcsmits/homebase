@@ -1,22 +1,20 @@
 package app.android.homeBase;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 
 public class NewHouseActivity extends HomeBaseActivity {
 
-    public parseBase parse;
+    public ParseBase parse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_house);
-        parse = new parseBase();
+        parse = new ParseBase();
     }
 
     @Override

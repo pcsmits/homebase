@@ -1,19 +1,15 @@
 package app.android.homeBase;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.beardedhen.androidbootstrap.BootstrapEditText;
-import com.parse.Parse;
-import com.parse.ParseUser;
 
 /**
  * This activity is the default launcher activity for the app
@@ -23,13 +19,13 @@ import com.parse.ParseUser;
  * TODO handle a logged in user who has none or multiple houses
  */
 public class LoginActivity extends HomeBaseActivity{
-    private parseBase parse;
+    private ParseBase parse;
     private Animation animTranslate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        parse = new parseBase(this);
+        parse = new ParseBase(this);
         setContentView(R.layout.activity_login);
         // Intenet to feed activity here
         if(parse.userLoggedIn())
@@ -61,7 +57,7 @@ public class LoginActivity extends HomeBaseActivity{
 
     /**
      * on click method for the login button
-     * Gets the entered information and calls the loginUser method in parseBase class
+     * Gets the entered information and calls the loginUser method in ParseBase class
      * @param v
      */
     public void loginOnClick(View v)

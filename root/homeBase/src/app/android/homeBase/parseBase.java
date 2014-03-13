@@ -16,17 +16,17 @@ import java.util.List;
  * note that Parse.init should be called in every activity (I think) so every activity should make
  * a parse base in its onCreate()
  */
-public class parseBase
+public class ParseBase
 {
     // Default constructor
-    public  parseBase()
+    public ParseBase()
     {
 
     }
 
     // This is the constructor which calls the parse init
     // TODO figue out if this should be a singleton or not
-    public parseBase(Context context)
+    public ParseBase(Context context)
     {
         //TODO maybe store these keys in xml
         Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");

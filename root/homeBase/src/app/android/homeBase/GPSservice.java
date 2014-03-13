@@ -40,7 +40,7 @@ public class GPSservice extends Service implements LocationListener {
     protected LocationManager locationManager;
 
     //parse object
-    parseBase parse = new parseBase();
+    ParseBase parse = new ParseBase();
 
     public GPSservice(Context context) {
         this.mContext = context;

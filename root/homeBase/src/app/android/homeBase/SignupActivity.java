@@ -6,14 +6,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
-import com.beardedhen.androidbootstrap.BootstrapThumbnail;
-import com.parse.ParseUser;
 
 /**
  * This activity class handles the signup "flow" for the application
@@ -25,7 +22,7 @@ public class SignupActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final parseBase parse = new parseBase(this);
+        final ParseBase parse = new ParseBase(this);
         setContentView(R.layout.activity_signup);
 
         //Get references to the three edit texts
