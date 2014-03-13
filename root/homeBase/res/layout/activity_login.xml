@@ -109,17 +109,17 @@
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:text="@string/login_testChores_text"
+            android:text="@string/login_test_text"
             android:textAlignment="center"
             bootstrapbutton:bb_roundedCorners="true"
             bootstrapbutton:bb_size="default"
             bootstrapbutton:bb_type="primary"
             bootstrapbutton:bb_text_alignment="center"
             bootstrapbutton:bb_icon_right="fa-chevron-right"
-            android:id="@id/login_testChores_button"
+            android:id="@id/login_test_button"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:onClick="onTestChoresClick"
+            android:onClick="onTestButtonClick"
             >
         </com.beardedhen.androidbootstrap.BootstrapButton>
     </RelativeLayout>
