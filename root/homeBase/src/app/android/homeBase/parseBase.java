@@ -34,6 +34,11 @@ public class parseBase
         return (curUser != null);
     }
 
+    public ParseUser getCurrentUser(){
+
+        return ParseUser.getCurrentUser();
+    }
+
     /**
      * Method to start a user session via parse
      * Should be set up for boolean return values instead of context sensetive stuff like
@@ -60,6 +65,10 @@ public class parseBase
             }
         });
 
+    }
+
+    public void updateLocation(Double Lat, Double Long) {
+        getCurrentUser().put("lat", Lat);
     }
 
     private void onLoginError(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {

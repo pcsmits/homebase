@@ -39,6 +39,9 @@ public class GPSservice extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
+    //parse object
+    parseBase parse = new parseBase();
+
     public GPSservice(Context context) {
         this.mContext = context;
         getLocation();
@@ -179,6 +182,16 @@ public class GPSservice extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        parse.updateLocation(getLatitude(), getLongitude());
+
+
+        /**
+         * If new location
+         *
+         * check if home
+         * if it differes update parse
+         *
+         */
     }
 
     @Override
