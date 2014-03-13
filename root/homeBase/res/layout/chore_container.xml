@@ -15,7 +15,7 @@
             android:textAlignment="center"
             bootstrapbutton:bb_roundedCorners="false"
             bootstrapbutton:bb_size="default"
-            bootstrapbutton:bb_type="primary"
+            bootstrapbutton:bb_type="info"
             bootstrapbutton:bb_text_alignment="center"
             bootstrapbutton:bb_icon_right="fa-chevron-right"
             android:id="@id/login_test_button"
