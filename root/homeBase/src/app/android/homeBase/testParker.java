@@ -37,7 +37,7 @@ public class testParker extends Activity {
                     double longitude = gps.getLongitude();
 
                     parseBase par = new parseBase();
-                    Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude + "\n" + par.userLoggedIn(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                 }else{
                     // can't get location
                     // GPS or Network is not enabled
