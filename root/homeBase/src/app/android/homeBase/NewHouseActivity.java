@@ -49,9 +49,9 @@ public class NewHouseActivity extends HomeBaseActivity {
     {
         String housename = "Name";
         String address = "123 street";
-        int zipode = 12345;
+        int zipcode = 12345;
 
         //TODO do google look up address get lat and long if not found drop anchor
-        parse.createHouse(housename, address, zipode, NewHouseActivity.this);
+        parse.createHouse(housename, address, zipcode, NewHouseActivity.this);
     }
 }

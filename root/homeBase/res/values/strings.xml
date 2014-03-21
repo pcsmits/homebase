@@ -20,4 +20,10 @@
     <string name="newsfeed_showMenu_button">Modules</string>
     <string name="newsfeed_gotoChores_button">Chores</string>
 
+    <string name="newhouse_name_hint">House Name</string>
+    <string name="newhouse_address_hint">Address</string>
+    <string name="newhouse_city_hint">Address</string>
+    <string name="newhouse_state_hint">Address</string>
+    <string name="newhouse_zipcode_hint">House Name</string>
+
 </resources>
