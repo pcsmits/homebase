@@ -47,9 +47,9 @@ public class ParseBase
         return ParseUser.getCurrentUser();
     }
 
-    public void addUser(final String username, final String password, final Context context)
+    public void addUser(final String username, final String password, final HomeBaseActivity caller)
     {
-        ParseUser user = new ParseUser();
+        final ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
         user.signUpInBackground(new SignUpCallback()
@@ -59,13 +59,11 @@ public class ParseBase
             {
                 if(e == null)
                 {
-                    //TODO return true
-                    Toast.makeText(context, "SUCCSESS REPALCE WITH INTENT", Toast.LENGTH_LONG).show();
+                    caller.onSignupSuccess(user);
                 }
                 else
                 {
-                    //TODO return false
-                    Toast.makeText(context, "Sign up failed: "+e.getMessage(), Toast.LENGTH_LONG).show();
+                    caller.onSignupError(e);
                 }
             }
         });
@@ -74,13 +72,10 @@ public class ParseBase
     /**
      * This is the method for checking that a username is not already in use on parse
      * @param username
-     * @param view
+     * @param caller
      *
-     * This method is should only be called from the signup activity
-     * It toasts on failure, which is fine, but it is currently modifying the checkbox
-     * within the view :( sorry
      */
-    public void checkUserName(final String username, final View view)
+    public void checkUserName(final String username, final HomeBaseActivity caller)
     {
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.whereEqualTo("username", username);
@@ -94,19 +89,17 @@ public class ParseBase
                     // Make sure we didn't have errors and we got an empty list back
                     if (parseUsers.isEmpty())
                     {
-                        // TODO I think this is bad...
-                        CheckBox userBox = (CheckBox) view.findViewById(R.id.username_checkbox);
-                        userBox.setChecked(true);
+                        caller.onCheckUserSuccess();
                     }
                     else
                     {
-                        Toast.makeText(view.getContext(), "That username is already in use", Toast.LENGTH_LONG).show();
+                        caller.onCheckUserFailure();
                     }
 
                 }
                 else
                 {
-                    Toast.makeText(view.getContext(), "Parse error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    caller.onCheckUserError(e);
                 }
             }
         });

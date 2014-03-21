@@ -39,6 +39,8 @@
                 android:textColor="@android:color/black"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 />
 
             <com.beardedhen.androidbootstrap.BootstrapEditText
@@ -52,6 +54,8 @@
                 android:password="true"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 />
 
             <com.beardedhen.androidbootstrap.BootstrapEditText
@@ -64,6 +68,8 @@
                 android:textColor="@android:color/black"
                 android:password="true"
                 android:layout_marginLeft="20dp"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 />
 
         </LinearLayout>

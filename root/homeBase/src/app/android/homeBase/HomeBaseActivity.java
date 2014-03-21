@@ -20,17 +20,27 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
-    public void onSignupSuccess()
+    public void onSignupSuccess(ParseUser user)
     {
 
     }
 
-    public void onSignupError()
+    public void onSignupError(ParseException e)
     {
 
     }
 
-    public void onParseSuccess()
+    public void onCheckUserSuccess()
+    {
+
+    }
+
+    public void onCheckUserFailure()
+    {
+
+    }
+
+    public void onCheckUserError(ParseException e)
     {
 
     }
