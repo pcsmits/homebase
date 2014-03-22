@@ -130,7 +130,7 @@ public class ParseBase
     }
 
     private void onLoginSuccess(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
-        Toast.makeText(context, "login worked!", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "login worked!", Toast.LENGTH_LONG).show();
         caller.onLoginSuccess();
     }
 
@@ -168,18 +168,21 @@ public class ParseBase
      *  House Event and Wrappers for PARSE
      *************************************************************************************************************/
 
-    public void createHouse(String housename, String address, int zipcode, final HomeBaseActivity caller)
+    public void createHouse(String housename, String address, String city, String state, int zipcode, final HomeBaseActivity caller)
     {
-        final House newHouse = new House(housename, address, zipcode);
-        ParseObject house = new ParseObject("House");
-        house.put("houseName", newHouse.getHousename());
+        final House newHouse = new House(housename, address, city, state, zipcode);
+        final ParseObject house = new ParseObject("House");
+        house.put("housename", newHouse.getHousename());
         house.put("address", newHouse.getAddress());
+        house.put("city", newHouse.getCity());
+        house.put("state", newHouse.getState());
         house.put("zipcode", newHouse.getZipCode());
         house.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null)
                 {
+                    newHouse.setId(house.getObjectId());
                     caller.onSaveSuccess(newHouse);
                 }
                 else

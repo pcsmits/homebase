@@ -1,31 +1,207 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="...app.android.homeBase.NewHouseActivity">
+    tools:context="...app.android.homeBase.NewHouseActivity"
+    android:orientation="vertical"
+    android:layout_centerVertical="true"
+    android:layout_centerInParent="true"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@id/newhouse_newhouse_text"
+        android:text="@string/newhouse_newhouse_text"
+        android:textStyle="bold"
+        android:paddingBottom="@dimen/padding_micro" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_micro">
+
+        <com.beardedhen.androidbootstrap.BootstrapEditText
+            android:id="@id/newhouse_name_etext"
+            android:layout_width="258dp"
+            android:layout_height="50dp"
+            bootstrapbutton:be_roundedCorners="true"
+            android:gravity="center"
+            android:hint="@string/newhouse_name_hint"
+            android:textColor="@android:color/black"
+            android:password="false"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_small">
+
+        <com.beardedhen.androidbootstrap.BootstrapEditText
+            android:id="@id/newhouse_address_etext"
+            android:layout_width="258dp"
+            android:layout_height="50dp"
+            bootstrapbutton:be_roundedCorners="true"
+            android:gravity="center"
+            android:hint="@string/newhouse_address_hint"
+            android:textColor="@android:color/black"
+            android:password="false"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_micro">
+
+        <RelativeLayout
+            android:layout_width="258dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/padding_micro"
+            android:paddingBottom="@dimen/padding_micro">
+
+            <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:id="@id/newhouse_city_etext"
+                android:layout_width="125dp"
+                android:layout_height="50dp"
+                bootstrapbutton:be_roundedCorners="true"
+                android:hint="@string/newhouse_city_hint"
+                android:textColor="@android:color/black"
+                android:password="false"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentLeft="true" />
+
+            <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:id="@id/newhouse_state_etext"
+                android:layout_width="125dp"
+                android:layout_height="50dp"
+                bootstrapbutton:be_roundedCorners="true"
+                android:hint="@string/newhouse_state_hint"
+                android:textColor="@android:color/black"
+                android:password="false"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_micro">
+
+        <com.beardedhen.androidbootstrap.BootstrapEditText
+            android:id="@id/newhouse_zipcode_etext"
+            android:layout_width="258dp"
+            android:layout_height="50dp"
+            bootstrapbutton:be_roundedCorners="true"
+            android:gravity="center"
+            android:hint="@string/newhouse_zipcode_hint"
+            android:textColor="@android:color/black"
+            android:password="false"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
 
-    <com.beardedhen.androidbootstrap.BootstrapEditText
-        android:id="@id/newhouse_name_etext"
-        android:layout_width="258dp"
+    <RelativeLayout
+        android:layout_width="150dp"
         android:layout_height="50dp"
-        bootstrapbutton:be_roundedCorners="true"
-        android:gravity="center"
-        android:hint="@string/newhouse_name_hint"
-        android:textColor="@android:color/black"
-        android:password="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
-        />
+        android:layout_marginRight="47dp"
+        android:layout_gravity="right">
 
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/newhouse_newhouse_button"
+            android:id="@id/newhouse_newhouse_button"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_size="default"
+            bootstrapbutton:bb_type="primary"
+            bootstrapbutton:bb_text_alignment="center"
+            bootstrapbutton:bb_icon_right="fa-chevron-right"
+            android:onClick="onSubmitHouseClick"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@id/newhouse_joinhouse_text"
+        android:text="@string/newhouse_joinhouse_text"
+        android:textStyle="bold"
+        android:padding="@dimen/padding_micro" />
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingLeft="@dimen/padding_micro"
+        android:paddingTop="@dimen/padding_micro"
+        android:paddingRight="@dimen/padding_micro">
 
-</RelativeLayout>
+        <com.beardedhen.androidbootstrap.BootstrapEditText
+            android:id="@id/newhouse_joinhouse_etext"
+            android:layout_width="258dp"
+            android:layout_height="50dp"
+            bootstrapbutton:be_roundedCorners="true"
+            android:gravity="center"
+            android:hint="@string/newhouse_joinhouse_hint"
+            android:textColor="@android:color/black"
+            android:password="false"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="47dp">
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@id/newhouse_join_button"
+            android:text="@string/newhouse_joinhouse_button"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_type="primary"
+            bootstrapbutton:bb_size="default"
+            bootstrapbutton:bb_text_alignment="center"
+            bootstrapbutton:bb_icon_right="fa-chevron-right"
+            android:onClick="onJoinHouseClick"
+            android:layout_gravity="right"
+            android:focusable="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>
