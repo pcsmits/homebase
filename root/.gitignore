@@ -53,5 +53,6 @@ Thumbs.db
 .gradle
 build/
 gradle/
+gradle/wrapper/
 
 build.gradle

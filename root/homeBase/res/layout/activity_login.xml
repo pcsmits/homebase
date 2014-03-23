@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="0.59"
+        android:layout_weight="1.02"
         android:weightSum="1">
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8">
+            android:layout_weight="0.56">
         </RelativeLayout>
 
         <com.beardedhen.androidbootstrap.BootstrapEditText
@@ -51,77 +51,78 @@
 
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="10dp"
-        android:layout_weight="0.08"/>
+        android:layout_height="235dp"
+        android:weightSum="1">
 
-    <RelativeLayout
-        android:layout_height="70dp"
-        android:layout_width="120dp"
-        android:layout_gravity="center_horizontal">
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:text="@string/login_login_text"
-            android:textAlignment="center"
-            bootstrapbutton:bb_roundedCorners="true"
-            bootstrapbutton:bb_size="default"
-            bootstrapbutton:bb_type="primary"
-            bootstrapbutton:bb_text_alignment="center"
-            bootstrapbutton:bb_icon_right="fa-chevron-right"
-            android:id="@id/login_login_button"
-            android:layout_gravity="center_horizontal"
-            android:onClick="loginOnClick"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-        </com.beardedhen.androidbootstrap.BootstrapButton>
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="63dp"
+            android:layout_height="fill_parent"></RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="108dp"
+            android:layout_height="fill_parent">
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/login_login_text"
+                android:textAlignment="center"
+                bootstrapbutton:bb_roundedCorners="true"
+                bootstrapbutton:bb_size="default"
+                bootstrapbutton:bb_type="primary"
+                bootstrapbutton:bb_text_alignment="center"
+                bootstrapbutton:bb_icon_right="fa-chevron-right"
+                android:id="@id/login_login_button"
+                android:onClick="loginOnClick"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+            </com.beardedhen.androidbootstrap.BootstrapButton>
 
 
-    <RelativeLayout
-        android:layout_height="70dp"
-        android:layout_width="120dp"
-        android:layout_gravity="center_horizontal">
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:text="@string/login_signup_text"
-            android:textAlignment="center"
-            bootstrapbutton:bb_roundedCorners="true"
-            bootstrapbutton:bb_size="default"
-            bootstrapbutton:bb_type="primary"
-            bootstrapbutton:bb_text_alignment="center"
-            bootstrapbutton:bb_icon_right="fa-chevron-right"
-            android:id="@id/login_signup_button"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:onClick="onSignUpClick"
-            >
-        </com.beardedhen.androidbootstrap.BootstrapButton>
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="64dp"/>
 
-    <RelativeLayout
-        android:layout_height="70dp"
-        android:layout_width="120dp"
-        android:layout_gravity="center_horizontal">
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:text="@string/login_test_text"
-            android:textAlignment="center"
-            bootstrapbutton:bb_roundedCorners="true"
-            bootstrapbutton:bb_size="default"
-            bootstrapbutton:bb_type="primary"
-            bootstrapbutton:bb_text_alignment="center"
-            bootstrapbutton:bb_icon_right="fa-chevron-right"
-            android:id="@id/login_test_button"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:onClick="onTestButtonClick"
-            >
-        </com.beardedhen.androidbootstrap.BootstrapButton>
-    </RelativeLayout>
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/login_signup_text"
+                android:textAlignment="center"
+                bootstrapbutton:bb_roundedCorners="true"
+                bootstrapbutton:bb_size="default"
+                bootstrapbutton:bb_type="primary"
+                bootstrapbutton:bb_text_alignment="center"
+                bootstrapbutton:bb_icon_right="fa-chevron-right"
+                android:id="@id/login_signup_button"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:onClick="onSignUpClick"
+                >
+            </com.beardedhen.androidbootstrap.BootstrapButton>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="22dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/relativeLayout2"
+            android:layout_weight="0.35">
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="126dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:src="@drawable/house"
+            />
+
+    </LinearLayout>
+
 
 </LinearLayout>
