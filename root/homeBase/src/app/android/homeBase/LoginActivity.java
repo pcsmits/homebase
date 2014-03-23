@@ -30,8 +30,8 @@ public class LoginActivity extends HomeBaseActivity{
         // Intenet to feed activity here
         if(parse.userLoggedIn())
         {
-            //TODO ADD INTENET HERE
-            Toast.makeText(this, "User logged in already!", Toast.LENGTH_LONG).show();
+            Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
+            startActivity(startFeed);
         }
         animTranslate = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
     }
@@ -82,6 +82,8 @@ public class LoginActivity extends HomeBaseActivity{
     @Override
     public void onLoginSuccess()
     {
+        Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
+        startActivity(startFeed);
     }
 
     @Override
