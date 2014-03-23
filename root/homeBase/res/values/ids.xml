@@ -9,18 +9,28 @@
     <item name="signup_username_etext" type="id"/>
     <item name="signup_password_etext" type="id"/>
     <item name="signup_passwordV_etext" type="id"/>
-
     <item name="signup_progressbar" type="id"/>
     <item name="signup_signup_button" type="id"/>
 
     <item name="chores_choreContainer_button" type="id"/>
-
     <item name="chore_info_header_button" type="id"/>
     <item name="chore_info_body_button" type="id"/>
     <item name="chore_info_container_button" type="id"/>
 
     <item name="newsfeed_menu_container" type="id"/>
     <item name="newsfeed_newsfeedItem_container" type="id"/>
-
     <item name="newsfeed_template_button" type="id"/>
+
+    <item name="newhouse_code_etext" type="id"/>
+    <item name="newhouse_newhouse_text" type="id"/>
+    <item name="newhouse_newhouse_button" type="id"/>
+    <item name="newhouse_join_button" type="id"/>
+    <item name="newhouse_joinhouse_text" type="id"/>
+    <item name="newhouse_joinhouse_etext" type="id"/>
+    <item name="newhouse_name_etext" type="id"/>
+    <item name="newhouse_address_etext" type="id"/>
+    <item name="newhouse_city_etext" type="id"/>
+    <item name="newhouse_state_etext" type="id"/>
+    <item name="newhouse_zipcode_etext" type="id"/>
+
 </resources>

@@ -65,6 +65,11 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    public void onSaveSuccess()
+    {
+
+    }
+
     public void onSaveError(String error)
     {
         Toast.makeText(this, "Parse error: "+error, Toast.LENGTH_LONG).show();

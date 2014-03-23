@@ -2,13 +2,14 @@ package app.android.homeBase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.AndroidCharacter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class NewHouseActivity extends HomeBaseActivity {
-
     public ParseBase parse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +42,41 @@ public class NewHouseActivity extends HomeBaseActivity {
     public void onSaveSuccess(Object saved)
     {
         House house = (House) saved;
-        Intent startFeed = new Intent(NewHouseActivity.this, ChoresActivity.class);
+        Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
         startActivity(startFeed);
     }
 
-    public void onHouseClick(View v)
-    {
-        String housename = "Name";
-        String address = "123 street";
-        int zipode = 12345;
+    public void onSubmitHouseClick(View view) {
 
-        //TODO do google look up address get lat and long if not found drop anchor
-        parse.createHouse(housename, address, zipode, NewHouseActivity.this);
+        EditText houseNameET = (EditText) findViewById(R.id.newhouse_name_etext);
+        EditText houseAddressET = (EditText) findViewById(R.id.newhouse_address_etext);
+        EditText houseCityET = (EditText) findViewById(R.id.newhouse_city_etext);
+        EditText houseStateET = (EditText) findViewById(R.id.newhouse_state_etext);
+        EditText houseZipET = (EditText) findViewById(R.id.newhouse_zipcode_etext);
+
+        try {
+            String name = houseNameET.getText().toString();
+            String address = houseAddressET.getText().toString();
+            String city = houseCityET.getText().toString();
+            String state = houseStateET.getText().toString();
+            String zip = houseZipET.getText().toString();
+            int zipcode = Integer.parseInt(zip);
+            parse.createHouse(name, address, city, state, zipcode, NewHouseActivity.this);
+
+        } catch (Exception e) {
+            Toast.makeText(NewHouseActivity.this, "Please fill out all of the registration fields correctly", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void onJoinHouseClick(View view)
+    {
+        EditText houseCodeET = (EditText) findViewById(R.id.newhouse_code_etext);
+        try {
+            String code = houseCodeET.getText().toString();
+            Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
+            startActivity(startFeed);
+        } catch (Exception e) {
+            Toast.makeText(NewHouseActivity.this, "Please fill out the code field", Toast.LENGTH_LONG).show();
+        }
     }
 }
