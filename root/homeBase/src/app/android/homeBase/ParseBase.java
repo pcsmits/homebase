@@ -5,10 +5,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
+import android.location.*;
 
 import com.parse.*;
 
-
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -125,7 +126,7 @@ public class ParseBase
     }
 
     private void onLoginError(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
-        Toast.makeText(context, "Login error occured: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+
         caller.onLoginError();
     }
 
@@ -172,21 +173,42 @@ public class ParseBase
     {
         final House newHouse = new House(housename, address, city, state, zipcode);
         final ParseObject house = new ParseObject("House");
+
+        // Find latitude and longitude
+        Geocoder gc = new Geocoder(caller.getBaseContext());
+
+        if(gc.isPresent()){
+            List<Address> list = null;
+            try {
+                list = gc.getFromLocationName("1600 Amphitheatre Parkway, Mountain View, CA", 1);
+            } catch (IOException E) {
+                Log.d("GeoCoder", "Not a proper address");
+            }
+
+            Address fullAddress = list.get(0);
+
+            double lat = fullAddress.getLatitude();
+            double lng = fullAddress.getLongitude();
+            Toast.makeText(caller.getBaseContext(), "Lat and long"+ lat + " " + lng , Toast.LENGTH_SHORT).show();
+            newHouse.setLatitude(lat);
+            newHouse.setLongitude(lng);
+        }
+
         house.put("housename", newHouse.getHousename());
         house.put("address", newHouse.getAddress());
         house.put("city", newHouse.getCity());
         house.put("state", newHouse.getState());
         house.put("zipcode", newHouse.getZipCode());
+        house.put("latitude", newHouse.getLatitude());
+        house.put("longitude", newHouse.getLongitude());
+
         house.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if(e == null)
-                {
+                if (e == null) {
                     newHouse.setId(house.getObjectId());
                     caller.onSaveSuccess(newHouse);
-                }
-                else
-                {
+                } else {
                     caller.onSaveError(e.getMessage());
                 }
             }

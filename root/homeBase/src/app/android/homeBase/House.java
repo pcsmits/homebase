@@ -9,8 +9,8 @@ public class House {
     private String city;
     private String state;
     private int zipCode;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
     private String id;
 
     public House(String housename, String address, String city, String state, int zipCode)
@@ -20,6 +20,8 @@ public class House {
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
+        this.latitude = 0;
+        this.longitude = 0;
     }
 
     public String getId() {
@@ -71,20 +73,20 @@ public class House {
         this.zipCode = zipCode;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
 
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 }
