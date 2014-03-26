@@ -2,13 +2,25 @@ package app.android.homeBase;
 
 /**
  * Created by kyle on 3/24/14.
+ * Generic alert class for wrapping Chores, Messages, Groceries
  */
 public class HomeBaseAlert {
-    
-    private String id;
-    private String type;
+
+    // These can only be set on creation
+    private final String id;
+    private final String type;
+    private final String description;
+
     private boolean seen;
-    private String description;
+    //TODO private Picture picture;
+
+    public HomeBaseAlert(String id, String type, boolean seen, String description)
+    {
+        this.id = id;
+        this.type = type;
+        this.seen = seen;
+        this.description = description;
+    }
 
     public String getId() {
         return id;
@@ -30,5 +42,4 @@ public class HomeBaseAlert {
         return description;
     }
 
-    //TODO private Picture picture;
 }

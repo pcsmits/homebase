@@ -198,4 +198,32 @@ public class ParseBase
         return null;
     }
 
+    /***********************************************************************************************
+     *  ALERT METHODS
+     **********************************************************************************************/
+    public void createAlert()
+    {
+
+    }
+
+    public void getAlert()
+    {
+
+    }
+
+    public void getUserAlerts()
+    {
+
+    }
+
+    public void updateAlert()
+    {
+
+    }
+
+    public void deleteAlert()
+    {
+
+    }
+
 }
