@@ -9,6 +9,12 @@ import android.widget.Toast;
 import com.parse.*;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -201,14 +207,76 @@ public class ParseBase
     /***********************************************************************************************
      *  ALERT METHODS
      **********************************************************************************************/
-    public void createAlert()
+    public void createAlert(String type, String description, final HomeBaseActivity caller)
     {
+        JSONArray seen = new JSONArray();
+        seen.put("none");
+        final ParseObject alert = new ParseObject("Alert");
+        alert.put("type", type);
+        alert.put("description", description);
+        alert.put("seen", seen);
+        alert.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
 
+                List<String> seenList = convertJSON(alert.getJSONArray("seen"));
+
+                if(seenList == null)
+                {
+                    caller.onSaveError("Error occured parsing from parse");
+                }
+                else if(e == null)
+                {
+                    HomeBaseAlert hbAlert = new HomeBaseAlert(alert.getObjectId(), alert.getString("type"), seenList, alert.getString("description"));
+                    caller.onSaveSuccess(hbAlert);
+                }
+                else
+                {
+                    caller.onSaveError(e.getMessage());
+                }
+            }
+        });
     }
 
-    public void getAlert()
+    public List<String> convertJSON(JSONArray array)
     {
+        List<String> result = new ArrayList<String>();
+        for(int i = 0; i < array.length(); i++)
+        {
+            try {
+                Object seen = array.get(i);
+                result.add(seen.toString());
+                return result;
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
+    public HomeBaseAlert buildAlert(ParseObject alert)
+    {
+        String objectID = alert.getObjectId();
+        String type = alert.getString("type");
+        String description = alert.getString("description");
+        //TODO
+    }
+
+    public void getAlert(String objectID, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("objectId", objectID);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if(e == null)
+                {
+
+                }
+            }
+        });
     }
 
     public void getUserAlerts()
