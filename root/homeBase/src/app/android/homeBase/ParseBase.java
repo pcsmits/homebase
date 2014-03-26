@@ -207,6 +207,28 @@ public class ParseBase
     /***********************************************************************************************
      *  ALERT METHODS
      **********************************************************************************************/
+    public HomeBaseAlert buildAlert(ParseObject alert)
+    {
+        String objectID = alert.getObjectId();
+        String type = alert.getString("type");
+        String description = alert.getString("description");
+        List<String> seen = new ArrayList<String>();
+        JSONArray array = alert.getJSONArray("seen");
+        for(int i = 0; i < array.length(); i++)
+        {
+            try {
+                Object seenValue = array.get(i);
+                seen.add(seenValue.toString());
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        HomeBaseAlert hbAlert = new HomeBaseAlert(objectID,type,seen,description);
+        return  hbAlert;
+    }
+
     public void createAlert(String type, String description, final HomeBaseActivity caller)
     {
         JSONArray seen = new JSONArray();
@@ -218,50 +240,17 @@ public class ParseBase
         alert.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-
-                List<String> seenList = convertJSON(alert.getJSONArray("seen"));
-
-                if(seenList == null)
+               if(e == null)
                 {
-                    caller.onSaveError("Error occured parsing from parse");
-                }
-                else if(e == null)
-                {
-                    HomeBaseAlert hbAlert = new HomeBaseAlert(alert.getObjectId(), alert.getString("type"), seenList, alert.getString("description"));
-                    caller.onSaveSuccess(hbAlert);
+                    HomeBaseAlert hbAlert = buildAlert(alert);
+                    caller.onCreateAlertSuccess(hbAlert);
                 }
                 else
                 {
-                    caller.onSaveError(e.getMessage());
+                    caller.onCreateAlertFailure(e.getMessage());
                 }
             }
         });
-    }
-
-    public List<String> convertJSON(JSONArray array)
-    {
-        List<String> result = new ArrayList<String>();
-        for(int i = 0; i < array.length(); i++)
-        {
-            try {
-                Object seen = array.get(i);
-                result.add(seen.toString());
-                return result;
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public HomeBaseAlert buildAlert(ParseObject alert)
-    {
-        String objectID = alert.getObjectId();
-        String type = alert.getString("type");
-        String description = alert.getString("description");
-        //TODO
     }
 
     public void getAlert(String objectID, final HomeBaseActivity caller)
@@ -273,15 +262,15 @@ public class ParseBase
             public void done(ParseObject parseObject, ParseException e) {
                 if(e == null)
                 {
-
+                    HomeBaseAlert hbAlert = buildAlert(parseObject);
+                    caller.onGetAlertSuccess(hbAlert);
+                }
+                else
+                {
+                    caller.onGetAlertFailure(e.getMessage());
                 }
             }
         });
-    }
-
-    public void getUserAlerts()
-    {
-
     }
 
     public void updateAlert()

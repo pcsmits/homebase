@@ -12,4 +12,14 @@
         android:onClick="newOnClick"
         android:id="@+id/button"
         android:layout_gravity="center_horizontal" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Alert"
+        android:onClick="getOnClick"
+        android:id="@+id/button1"
+        android:layout_gravity="center_horizontal" />
+
 </LinearLayout>

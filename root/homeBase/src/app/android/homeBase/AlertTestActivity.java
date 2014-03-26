@@ -46,16 +46,33 @@ public class AlertTestActivity extends HomeBaseActivity {
         parse.createAlert(type, desc, AlertTestActivity.this);
     }
 
-    @Override
-    public void onSaveSuccess(Object saved) {
-        HomeBaseAlert savedAlert = (HomeBaseAlert) saved;
-        Toast.makeText(AlertTestActivity.this, savedAlert.getId(), Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onSaveError(String error)
+    public void getOnClick(View v)
     {
-        Toast.makeText(AlertTestActivity.this, error, Toast.LENGTH_LONG).show();
+        String id = "Vt7wcn3L9G";
+        parse.getAlert(id,AlertTestActivity.this);
     }
 
+    @Override
+    public void onCreateAlertSuccess(HomeBaseAlert alert)
+    {
+        Toast.makeText(AlertTestActivity.this, alert.getId(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCreateAlertFailure(String e)
+    {
+        Toast.makeText(AlertTestActivity.this, e, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onGetAlertSuccess(HomeBaseAlert alert)
+    {
+        Toast.makeText(AlertTestActivity.this, alert.getId(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onGetAlertFailure(String e)
+    {
+        Toast.makeText(AlertTestActivity.this, e, Toast.LENGTH_LONG).show();
+    }
 }
