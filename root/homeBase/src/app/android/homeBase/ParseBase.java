@@ -212,6 +212,8 @@ public class ParseBase
         String objectID = alert.getObjectId();
         String type = alert.getString("type");
         String description = alert.getString("description");
+        String owner = alert.getString("owner");
+        String creator = alert.getString("creator");
         List<String> seen = new ArrayList<String>();
         JSONArray array = alert.getJSONArray("seen");
         for(int i = 0; i < array.length(); i++)
@@ -225,11 +227,10 @@ public class ParseBase
                 e.printStackTrace();
             }
         }
-        HomeBaseAlert hbAlert = new HomeBaseAlert(objectID,type,seen,description);
-        return  hbAlert;
+        return new HomeBaseAlert(objectID,type,seen,description,owner,creator);
     }
 
-    public void createAlert(String type, String description, final HomeBaseActivity caller)
+    public void createAlert(String type, String description, String ownerID, String creatorID, final HomeBaseActivity caller)
     {
         JSONArray seen = new JSONArray();
         seen.put("none");
@@ -237,6 +238,8 @@ public class ParseBase
         alert.put("type", type);
         alert.put("description", description);
         alert.put("seen", seen);
+        alert.put("owner", ownerID);
+        alert.put("creator", creatorID);
         alert.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -273,7 +276,7 @@ public class ParseBase
         });
     }
 
-    public void updateAlert()
+    public void updateAlert(String objectID)
     {
 
     }

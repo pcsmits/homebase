@@ -43,12 +43,14 @@ public class AlertTestActivity extends HomeBaseActivity {
     {
         String type = "Grocery";
         String desc = "We need milk";
-        parse.createAlert(type, desc, AlertTestActivity.this);
+        String owner = "Kyle";
+        String creator = "Parker";
+        parse.createAlert(type, desc, owner, creator, AlertTestActivity.this);
     }
 
     public void getOnClick(View v)
     {
-        String id = "Vt7wcn3L9G";
+        String id = "h1PNOE1Twd";
         parse.getAlert(id,AlertTestActivity.this);
     }
 
