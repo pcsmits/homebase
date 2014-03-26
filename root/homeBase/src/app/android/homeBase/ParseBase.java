@@ -276,7 +276,7 @@ public class ParseBase
         });
     }
 
-    public void updateAlert(String objectID)
+    public void updateAlert(final String objectID, String key, String updatedValue, final HomeBaseActivity caller)
     {
 
     }
