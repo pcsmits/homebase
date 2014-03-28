@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 public class AlertTestActivity extends HomeBaseActivity {
     public ParseBase parse;
+    public HomeBaseAlert testAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +51,30 @@ public class AlertTestActivity extends HomeBaseActivity {
 
     public void getOnClick(View v)
     {
-        String id = "h1PNOE1Twd";
-        parse.getAlert(id,AlertTestActivity.this);
+        if(!testAlert.getId().isEmpty())
+        {
+            parse.getAlert(testAlert.getId(), AlertTestActivity.this);
+        }
+    }
+
+    public void updateOnClick(View v)
+    {
+        testAlert.addSeen("Kyle");
+        testAlert.setCreatorID("asjdalskjda");
+        testAlert.setDescription("updated description");
+        parse.updateAlert(testAlert, AlertTestActivity.this);
+    }
+
+    public void deleteOnClick(View v)
+    {
+        parse.deleteAlert(testAlert, AlertTestActivity.this);
     }
 
     @Override
     public void onCreateAlertSuccess(HomeBaseAlert alert)
     {
         Toast.makeText(AlertTestActivity.this, alert.getId(), Toast.LENGTH_LONG).show();
+        testAlert = alert;
     }
 
     @Override
@@ -74,6 +91,30 @@ public class AlertTestActivity extends HomeBaseActivity {
 
     @Override
     public void onGetAlertFailure(String e)
+    {
+        Toast.makeText(AlertTestActivity.this, e, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onUpdateAlertSuccess(HomeBaseAlert alert)
+    {
+        Toast.makeText(AlertTestActivity.this, alert.getId()+" was updated!!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onUpdateAlertFailure(String e)
+    {
+        Toast.makeText(AlertTestActivity.this, e, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDeleteAlertSuccess()
+    {
+        Toast.makeText(AlertTestActivity.this, "Deleted!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDeleteAlertFailure(String e)
     {
         Toast.makeText(AlertTestActivity.this, e, Toast.LENGTH_LONG).show();
     }
