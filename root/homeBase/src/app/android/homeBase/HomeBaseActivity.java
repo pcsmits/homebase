@@ -93,4 +93,21 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     {
 
     }
+    public void onUpdateAlertSuccess(HomeBaseAlert alert)
+    {
+
+    }
+    public void onUpdateAlertFailure(String e)
+    {
+
+    }
+
+    public void onDeleteAlertSuccess()
+    {
+
+    }
+    public void onDeleteAlertFailure(String e)
+    {
+
+    }
 }
