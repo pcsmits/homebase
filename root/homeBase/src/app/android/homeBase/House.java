@@ -13,15 +13,15 @@ public class House {
     private double longitude;
     private String id;
 
-    public House(String housename, String address, String city, String state, int zipCode)
+    public House(String housename, String address, String city, String state, int zipCode, double lat, double lng)
     {
         this.housename = housename;
         this.address = address;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
-        this.latitude = 0;
-        this.longitude = 0;
+        this.latitude = lat;
+        this.longitude = lng;
     }
 
     public String getId() {

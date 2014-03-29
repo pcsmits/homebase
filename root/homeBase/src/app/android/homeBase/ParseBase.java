@@ -11,6 +11,7 @@ import com.parse.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A custom class/wrapper for interacting with Parse
@@ -169,30 +170,10 @@ public class ParseBase
      *  House Event and Wrappers for PARSE
      *************************************************************************************************************/
 
-    public void createHouse(String housename, String address, String city, String state, int zipcode, final HomeBaseActivity caller)
+    public void createHouse(String housename, String address, String city, String state, int zipcode, double lat, double lng, final HomeBaseActivity caller)
     {
-        final House newHouse = new House(housename, address, city, state, zipcode);
+        final House newHouse = new House(housename, address, city, state, zipcode, lat, lng);
         final ParseObject house = new ParseObject("House");
-
-        // Find latitude and longitude
-        Geocoder gc = new Geocoder(caller.getBaseContext());
-
-        if(gc.isPresent()){
-            List<Address> list = null;
-            try {
-                list = gc.getFromLocationName("1600 Amphitheatre Parkway, Mountain View, CA", 1);
-            } catch (IOException E) {
-                Log.d("GeoCoder", "Not a proper address");
-            }
-
-            Address fullAddress = list.get(0);
-
-            double lat = fullAddress.getLatitude();
-            double lng = fullAddress.getLongitude();
-            Toast.makeText(caller.getBaseContext(), "Lat and long"+ lat + " " + lng , Toast.LENGTH_SHORT).show();
-            newHouse.setLatitude(lat);
-            newHouse.setLongitude(lng);
-        }
 
         house.put("housename", newHouse.getHousename());
         house.put("address", newHouse.getAddress());

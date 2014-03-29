@@ -1,13 +1,20 @@
 package app.android.homeBase;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.text.AndroidCharacter;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class NewHouseActivity extends HomeBaseActivity {
     public ParseBase parse;
@@ -61,7 +68,25 @@ public class NewHouseActivity extends HomeBaseActivity {
             String state = houseStateET.getText().toString();
             String zip = houseZipET.getText().toString();
             int zipcode = Integer.parseInt(zip);
-            parse.createHouse(name, address, city, state, zipcode, NewHouseActivity.this);
+
+            // Find latitude and longitude
+            Geocoder gc = new Geocoder(this, Locale.getDefault());
+
+            List<Address> list = null;
+            try {
+                list = gc.getFromLocationName("1600 Amphitheatre Parkway, Mountain View, CA", 1);
+            } catch (IOException E) {
+                Log.d("GeoCoder", "Not a proper address");
+            }
+
+            Address fullAddress = list.get(0);
+
+            double lat = fullAddress.getLatitude();
+            double lng = fullAddress.getLongitude();
+            String gpsString = lat + " - " +lng;
+            Log.d("GeoCoder", gpsString);
+
+            parse.createHouse(name, address, city, state, zipcode, lat, lng, NewHouseActivity.this);
 
         } catch (Exception e) {
             Toast.makeText(NewHouseActivity.this, "Please fill out all of the registration fields correctly", Toast.LENGTH_LONG).show();
