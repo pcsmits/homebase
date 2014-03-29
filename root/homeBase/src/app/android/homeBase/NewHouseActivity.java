@@ -70,23 +70,28 @@ public class NewHouseActivity extends HomeBaseActivity {
             int zipcode = Integer.parseInt(zip);
 
             // Find latitude and longitude
-            Geocoder gc = new Geocoder(this, Locale.getDefault());
+            Geocoder gc = new Geocoder(NewHouseActivity.this, Locale.getDefault());
+           // Geocoder gc = new Geocoder (NewHouseActivity.this);
 
-            List<Address> list = null;
-            try {
-                list = gc.getFromLocationName("1600 Amphitheatre Parkway, Mountain View, CA", 1);
-            } catch (IOException E) {
-                Log.d("GeoCoder", "Not a proper address");
+            if (gc.isPresent()) {
+                List<Address> list = null;
+                try {
+                    list = gc.getFromLocationName(address + ", " + zip, 1);
+                } catch (IOException E) {
+                    Log.d("GeoCoder", "Not a proper address");
+                }
+
+                Address fullAddress = list.get(0);
+
+                double lat = fullAddress.getLatitude();
+                double lng = fullAddress.getLongitude();
+                String gpsString = lat + " - " +lng;
+                Log.d("GeoCoder", gpsString);
+
+                parse.createHouse(name, address, city, state, zipcode, lat, lng, NewHouseActivity.this);
+            } else {
+                Log.d("GeoCoder", "Not present");
             }
-
-            Address fullAddress = list.get(0);
-
-            double lat = fullAddress.getLatitude();
-            double lng = fullAddress.getLongitude();
-            String gpsString = lat + " - " +lng;
-            Log.d("GeoCoder", gpsString);
-
-            parse.createHouse(name, address, city, state, zipcode, lat, lng, NewHouseActivity.this);
 
         } catch (Exception e) {
             Toast.makeText(NewHouseActivity.this, "Please fill out all of the registration fields correctly", Toast.LENGTH_LONG).show();
