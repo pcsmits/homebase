@@ -190,13 +190,13 @@ public class ParseBase
      *  House Event and Wrappers for PARSE
      *************************************************************************************************************/
 
-    public void createHouse(String housename, String address, String city, String state, int zipcode, String userid double lat, double lng, final HomeBaseActivity caller)
+    public void createHouse(String housename, String address, String city, String state, int zipcode, String userid, double lat, double lng, final HomeBaseActivity caller)
     {
         // Add the creator to the user list, also get added as admin in constructor
         List<String> memberList = new LinkedList<String>();
         memberList.add(userid);
 
-        final House newHouse = new House(housename, address, city, state, zipcode, memberList, lat, lng);
+        final House newHouse = new House(housename, address, city, state, zipcode, userid, memberList, lat, lng);
         final ParseObject house = new ParseObject("House");
 
         house.put("admin", newHouse.getAdmin());
@@ -216,11 +216,6 @@ public class ParseBase
                     newHouse.setId(house.getObjectId());
                     caller.onSaveSuccess(newHouse);
                 } else {
-                    caller.onSaveError(e.getMessage());
-                    caller.onCreateHouseSuccess(newHouse);
-                }
-                else
-                {
                     caller.onCreateHouseFailure("Could not create house, please try again.");
                 }
             }
@@ -260,11 +255,8 @@ public class ParseBase
                                 String id = parseHouse.getObjectId();
 
                                 // Create House instance
-                                House house = new House(housename, address, city, state, admin, members, zipcode);
-                                house.setLatitude(lat);
-                                house.setLongitude(longitude);
+                                House house = new House(housename, address, city, state, zipcode, admin, members, lat, longitude);
                                 house.setId(id);
-
                                 caller.onGetHouseSuccess(house);
                             }
                             else
@@ -305,9 +297,7 @@ public class ParseBase
                     String id = parseHouse.getObjectId();
 
                     // Create House instance
-                    House house = new House(housename, address, city, state, admin, members, zipcode);
-                    house.setLatitude(lat);
-                    house.setLongitude(longitude);
+                    House house = new House(housename, address, city, state, zipcode, admin, members, lat, longitude);
                     house.setId(id);
 
                     caller.onGetHouseSuccess(house);
