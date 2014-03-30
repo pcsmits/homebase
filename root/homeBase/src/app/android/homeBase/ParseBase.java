@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,10 +26,7 @@ import java.util.List;
 public class ParseBase
 {
     // Default constructor
-    public  ParseBase()
-    {
-
-    }
+    public  ParseBase() { }
 
     // This is the constructor which calls the parse init
     // TODO figue out if this should be a singleton or not
@@ -38,7 +36,25 @@ public class ParseBase
         Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
     }
 
-
+    /********************************************************************************************************
+     *   GENERAL AND/OR PRIVATE METHODS
+     **********************************************************************************************************/
+    private List<String> convertJSON(JSONArray array)
+    {
+        List<String> list = new LinkedList<String>();
+        for(int i = 0; i < array.length(); i++)
+        {
+            try {
+                Object seenValue = array.get(i);
+                list.add(seenValue.toString());
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return list;
+    }
 
     /********************************************************************************************************
      *   USER BASED METHODS AND WRAPPERS
@@ -174,15 +190,22 @@ public class ParseBase
      *  House Event and Wrappers for PARSE
      *************************************************************************************************************/
 
-    public void createHouse(String housename, String address, String city, String state, int zipcode, final HomeBaseActivity caller)
+    public void createHouse(String housename, String address, String city, String state, int zipcode, String userid, final HomeBaseActivity caller)
     {
-        final House newHouse = new House(housename, address, city, state, zipcode);
+        List<String> memberList = new LinkedList<String>();
+        memberList.add(userid);
+
+        final House newHouse = new House(housename, address, city, state, userid, memberList, zipcode);
         final ParseObject house = new ParseObject("House");
+
+        house.put("admin", newHouse.getAdmin());
+        house.put("members", newHouse.getMembers());
         house.put("housename", newHouse.getHousename());
         house.put("address", newHouse.getAddress());
         house.put("city", newHouse.getCity());
         house.put("state", newHouse.getState());
         house.put("zipcode", newHouse.getZipCode());
+
         house.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -199,9 +222,55 @@ public class ParseBase
         });
     }
 
-    public ParseObject getHouse(){
+    public void getHouse(String adminUsername, final HomeBaseActivity caller)
+    {
 
-        return null;
+    }
+
+    public void getHouse(House house, final HomeBaseActivity caller)
+    {
+
+    }
+
+
+    public void updateHouse(final House house, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
+        query.whereEqualTo("objectId", house.getId());
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseHouse, ParseException outerException) {
+                if(outerException == null)
+                {
+                    parseHouse.put("housename", house.getHousename());
+                    parseHouse.put("address", house.getAddress());
+                    parseHouse.put("city", house.getCity());
+                    parseHouse.put("state", house.getState());
+                    parseHouse.put("zipcode", house.getZipCode());
+                    parseHouse.put("latitude", house.getLatitude());
+                    parseHouse.put("longitude", house.getLongitude());
+                    parseHouse.put("admin", house.getAdmin());
+                    parseHouse.put("members", house.getMembers());
+                    parseHouse.saveInBackground(new SaveCallback()
+                    {
+                        @Override
+                        public void done(ParseException innerException)
+                        {
+                            if(innerException == null)
+                            {
+
+                            }
+                        }
+                    });
+                }
+                else
+                {
+
+                }
+
+            }
+        });
+
     }
 
     /***********************************************************************************************
@@ -233,7 +302,6 @@ public class ParseBase
     public void createAlert(String type, String description, String ownerID, String creatorID, final HomeBaseActivity caller)
     {
         JSONArray seen = new JSONArray();
-        seen.put("none");
         final ParseObject alert = new ParseObject("Alert");
         alert.put("type", type);
         alert.put("description", description);
