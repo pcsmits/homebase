@@ -13,6 +13,8 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.parse.ParseObject;
+
 public class GPSservice extends Service implements LocationListener {
 
     private final Context mContext;
@@ -80,7 +82,7 @@ public class GPSservice extends Service implements LocationListener {
                     }
                 }
                 // if GPS Enabled get lat/long using GPS Services
-                if (isGPSEnabled) {
+                else if (isGPSEnabled) {
                     if (location == null) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
@@ -184,6 +186,11 @@ public class GPSservice extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         Log.d("GPS", "NEW LOCATION BRO");
+        // Check house location and new location to compare
+        ParseBase parse = new ParseBase(mContext);
+        //parse.getHouse()
+       // ParseObject house = new ParseObject();
+        //location.distanceBetween(getLatitude(), getLongitude(),  );
         parse.updateLocation(getLatitude(), getLongitude());
 
 

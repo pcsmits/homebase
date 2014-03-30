@@ -143,7 +143,7 @@ public class ParseBase
      ********************************************************************************************************/
 
     public void updateLocation(Double Lat, Double Long) {
-        //getCurrentUser().put("lat", Lat);
+        getCurrentUser().put("lat", Lat);
 
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.whereEqualTo("username", "new");
@@ -197,8 +197,26 @@ public class ParseBase
     }
 
     public ParseObject getHouse(){
-
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        //get user
+        query.whereEqualTo("housename","radical");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> houses, ParseException e) {
+                if (e == null) {
+                    // Results were successfully found, looking first on the
+                    // network and then on disk.
+                    for (ParseObject house : houses) {
+                        // This does not require a network access.
+                        //ParseObject post = house.getParseObject("user");
+                        //Log.d("post", house.get("housename"));
+                    }
+                } else {
+                    // The network was inaccessible and we have no cached data
+                    // for th.
+                }
+            }
+        });
         return null;
     }
-
 }

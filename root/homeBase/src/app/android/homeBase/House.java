@@ -22,6 +22,7 @@ public class House {
         this.zipCode = zipCode;
         this.latitude = lat;
         this.longitude = lng;
+        // array of users?
     }
 
     public String getId() {
@@ -89,4 +90,6 @@ public class House {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
+
+
 }

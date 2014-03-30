@@ -36,7 +36,6 @@
             </intent-filter>
 
         </activity>
-
 <!--
         <activity
             android:name="app.android.homeBase.testParker"
@@ -49,10 +48,11 @@
             </intent-filter>
 
         </activity>
--->
+        -->
         <!--
         <service android:enabled="true" android:name="app.android.homeBase.GPSservice"/> 
         -->
+        <service android:name="app.android.homeBase.ReceiveTransitionsIntentService" android:exported="false"/>
 
         <activity
             android:name="app.android.homeBase.SignupActivity"
