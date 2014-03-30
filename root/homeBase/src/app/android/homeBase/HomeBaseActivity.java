@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.parse.*;
 
 public abstract class HomeBaseActivity extends ActionBarActivity{
-    private HomeBaseEventNotifier eventHandler;
 
     public void onLoginSuccess()
     {
@@ -51,11 +50,6 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     }
 
     public void onParseSuccess(ParseObject parseObject, ParseException e)
-    {
-
-    }
-
-    public void onParseSuccess(ParseObject parseObject, ParseException e, HomeBaseCallback callback)
     {
 
     }
