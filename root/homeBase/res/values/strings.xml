@@ -25,7 +25,7 @@
     <string name="newhouse_newhouse_button">Register</string>
     <string name="newhouse_joinhouse_button">Join</string>
     <string name="newhouse_joinhouse_text">Join an existing House</string>
-    <string name="newhouse_joinhouse_hint">House Code</string>
+    <string name="newhouse_joinhouse_hint">Admin Username</string>
     <string name="newhouse_name_hint">House Name</string>
     <string name="newhouse_address_hint">Address</string>
     <string name="newhouse_city_hint">City</string>
