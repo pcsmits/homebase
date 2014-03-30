@@ -40,13 +40,6 @@ public class NewHouseActivity extends HomeBaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onCreateHouseSuccess(House saved)
-    {
-        Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
-        startActivity(startFeed);
-    }
-
     public void onSubmitHouseClick(View view)
     {
         // Get a list of all the edit texts
@@ -95,14 +88,60 @@ public class NewHouseActivity extends HomeBaseActivity {
 
     public void onJoinHouseClick(View view)
     {
-        EditText houseCodeET = (EditText) findViewById(R.id.newhouse_code_etext);
-        if(houseCodeET.length() == 0)
+        EditText houseCodeET = (EditText) findViewById(R.id.newhouse_joinhouse_etext);
+        try
+        {
+            String code = houseCodeET.getText().toString();
+            if(code.length() != 0)
+            {
+                parse.getHouse(code, NewHouseActivity.this);
+            }
+            else
+            {
+                Toast.makeText(NewHouseActivity.this, "Plase enter the username of the house admin", Toast.LENGTH_LONG).show();
+            }
+        } catch (NullPointerException e)
         {
             Toast.makeText(NewHouseActivity.this, "Please enter the username of the house admin", Toast.LENGTH_LONG).show();
         }
-        else
-        {
+    }
 
-        }
+    @Override
+    public void onGetHouseSuccess(House house)
+    {
+        house.getMembers().add(ParseUser.getCurrentUser().getObjectId());
+        parse.updateHouse(house, NewHouseActivity.this);
+    }
+
+    @Override
+    public void onGetHouseFailure(String e)
+    {
+        Toast.makeText(NewHouseActivity.this, e, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUpdateHouseSuccess(House house)
+    {
+        Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
+        startActivity(startFeed);
+    }
+
+    @Override
+    public void onUpdateHouseFailure(String e)
+    {
+        Toast.makeText(NewHouseActivity.this, e, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCreateHouseSuccess(House saved)
+    {
+        Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
+        startActivity(startFeed);
+    }
+
+    @Override
+    public void onCreateHouseFailure(String e)
+    {
+        Toast.makeText(NewHouseActivity.this, e, Toast.LENGTH_SHORT).show();
     }
 }
