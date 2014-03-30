@@ -1,5 +1,7 @@
 package app.android.homeBase;
 
+import java.util.List;
+
 /**
  * Created by kyle on 3/10/14.
  */
@@ -12,15 +14,37 @@ public class House {
     private float latitude;
     private float longitude;
     private String id;
+    private String admin;
+    private List<String> members;
 
-    public House(String housename, String address, String city, String state, int zipCode)
+    public House(String housename, String address, String city, String state, String admin, List<String> members, int zipCode)
     {
         this.housename = housename;
         this.address = address;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
+        this.admin = admin;
+        this.members = members;
+
     }
+
+    public String getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
+    }
+
+    public List<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<String> members) {
+        this.members = members;
+    }
+
 
     public String getId() {
         return id;
