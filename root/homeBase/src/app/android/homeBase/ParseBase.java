@@ -9,6 +9,12 @@ import android.widget.Toast;
 import com.parse.*;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -196,6 +202,136 @@ public class ParseBase
     public ParseObject getHouse(){
 
         return null;
+    }
+
+    /***********************************************************************************************
+     *  ALERT METHODS
+     **********************************************************************************************/
+    private HomeBaseAlert buildAlert(ParseObject alert)
+    {
+        String objectID = alert.getObjectId();
+        String type = alert.getString("type");
+        String description = alert.getString("description");
+        String owner = alert.getString("owner");
+        String creator = alert.getString("creator");
+        List<String> seen = new ArrayList<String>();
+        JSONArray array = alert.getJSONArray("seen");
+        for(int i = 0; i < array.length(); i++)
+        {
+            try {
+                Object seenValue = array.get(i);
+                seen.add(seenValue.toString());
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return new HomeBaseAlert(objectID,type,seen,description,owner,creator);
+    }
+
+    public void createAlert(String type, String description, String ownerID, String creatorID, final HomeBaseActivity caller)
+    {
+        JSONArray seen = new JSONArray();
+        seen.put("none");
+        final ParseObject alert = new ParseObject("Alert");
+        alert.put("type", type);
+        alert.put("description", description);
+        alert.put("seen", seen);
+        alert.put("owner", ownerID);
+        alert.put("creator", creatorID);
+        alert.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    HomeBaseAlert hbAlert = buildAlert(alert);
+                    caller.onCreateAlertSuccess(hbAlert);
+                } else {
+                    caller.onCreateAlertFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void getAlert(String objectID, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("objectId", objectID);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if(e == null)
+                {
+                    HomeBaseAlert hbAlert = buildAlert(parseObject);
+                    caller.onGetAlertSuccess(hbAlert);
+                }
+                else
+                {
+                    caller.onGetAlertFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void updateAlert(final HomeBaseAlert alert, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("objectId", alert.getId());
+        query.getFirstInBackground(new GetCallback<ParseObject>()
+        {
+            @Override
+            public void done(final ParseObject parseAlert, ParseException outerException)
+            {
+                if(outerException == null)
+                {
+                    parseAlert.put("type", alert.getType());
+                    parseAlert.put("description", alert.getDescription());
+                    parseAlert.put("owner", alert.getOwnerID());
+                    parseAlert.put("creator", alert.getCreatorID());
+                    JSONArray seenArray = new JSONArray(alert.getSeen());
+                    parseAlert.put("seen", seenArray);
+                    parseAlert.saveInBackground(new SaveCallback()
+                    {
+                        @Override
+                        public void done(ParseException innerException)
+                        {
+                            if(innerException == null)
+                            {
+                                HomeBaseAlert updated = buildAlert(parseAlert);
+                                caller.onUpdateAlertSuccess(updated);
+                            }
+                            else
+                            {
+                                caller.onUpdateAlertFailure(innerException.getMessage());
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    caller.onGetAlertFailure(outerException.getMessage());
+                }
+            }
+        });
+    }
+
+    public void deleteAlert(final HomeBaseAlert alert, final HomeBaseActivity caller)
+    {
+        ParseObject deleteAlert = ParseObject.createWithoutData("Alert", alert.getId());
+        deleteAlert.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e)
+            {
+                if(e == null)
+                {
+                    caller.onDeleteAlertSuccess();
+                }
+                else
+                {
+                    caller.onDeleteAlertFailure(e.getMessage());
+                }
+            }
+        });
     }
 
 }

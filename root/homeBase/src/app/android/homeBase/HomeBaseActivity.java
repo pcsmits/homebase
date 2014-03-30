@@ -74,4 +74,40 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     {
         Toast.makeText(this, "Parse error: "+error, Toast.LENGTH_LONG).show();
     }
+
+
+
+    public void onGetAlertSuccess(HomeBaseAlert alert)
+    {
+
+    }
+    public void onGetAlertFailure(String e)
+    {
+
+    }
+    public void onCreateAlertSuccess(HomeBaseAlert alert)
+    {
+
+    }
+    public void onCreateAlertFailure(String e)
+    {
+
+    }
+    public void onUpdateAlertSuccess(HomeBaseAlert alert)
+    {
+
+    }
+    public void onUpdateAlertFailure(String e)
+    {
+
+    }
+
+    public void onDeleteAlertSuccess()
+    {
+
+    }
+    public void onDeleteAlertFailure(String e)
+    {
+
+    }
 }
