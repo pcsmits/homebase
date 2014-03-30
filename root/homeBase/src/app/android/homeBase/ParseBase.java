@@ -8,8 +8,13 @@ import android.widget.Toast;
 import android.location.*;
 
 import com.parse.*;
-
 import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,10 +26,7 @@ import java.util.Locale;
 public class ParseBase
 {
     // Default constructor
-    public  ParseBase()
-    {
-
-    }
+    public  ParseBase() { }
 
     // This is the constructor which calls the parse init
     // TODO figue out if this should be a singleton or not
@@ -34,7 +36,25 @@ public class ParseBase
         Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
     }
 
-
+    /********************************************************************************************************
+     *   GENERAL AND/OR PRIVATE METHODS
+     **********************************************************************************************************/
+    private List<String> convertJSON(JSONArray array)
+    {
+        List<String> list = new LinkedList<String>();
+        for(int i = 0; i < array.length(); i++)
+        {
+            try {
+                Object seenValue = array.get(i);
+                list.add(seenValue.toString());
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return list;
+    }
 
     /********************************************************************************************************
      *   USER BASED METHODS AND WRAPPERS
@@ -170,11 +190,17 @@ public class ParseBase
      *  House Event and Wrappers for PARSE
      *************************************************************************************************************/
 
-    public void createHouse(String housename, String address, String city, String state, int zipcode, double lat, double lng, final HomeBaseActivity caller)
+    public void createHouse(String housename, String address, String city, String state, int zipcode, String userid double lat, double lng, final HomeBaseActivity caller)
     {
-        final House newHouse = new House(housename, address, city, state, zipcode, lat, lng);
+        // Add the creator to the user list, also get added as admin in constructor
+        List<String> memberList = new LinkedList<String>();
+        memberList.add(userid);
+
+        final House newHouse = new House(housename, address, city, state, zipcode, memberList, lat, lng);
         final ParseObject house = new ParseObject("House");
 
+        house.put("admin", newHouse.getAdmin());
+        house.put("members", newHouse.getMembers());
         house.put("housename", newHouse.getHousename());
         house.put("address", newHouse.getAddress());
         house.put("city", newHouse.getCity());
@@ -191,32 +217,274 @@ public class ParseBase
                     caller.onSaveSuccess(newHouse);
                 } else {
                     caller.onSaveError(e.getMessage());
+                    caller.onCreateHouseSuccess(newHouse);
+                }
+                else
+                {
+                    caller.onCreateHouseFailure("Could not create house, please try again.");
                 }
             }
         });
     }
 
-    public ParseObject getHouse(){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        //get user
-        query.whereEqualTo("housename","radical");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> houses, ParseException e) {
-                if (e == null) {
-                    // Results were successfully found, looking first on the
-                    // network and then on disk.
-                    for (ParseObject house : houses) {
-                        // This does not require a network access.
-                        //ParseObject post = house.getParseObject("user");
-                        //Log.d("post", house.get("housename"));
-                    }
-                } else {
-                    // The network was inaccessible and we have no cached data
-                    // for th.
+    // Get via admin username
+    public void getHouse(final String adminUsername, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.whereEqualTo("username", adminUsername);
+        userQuery.getFirstInBackground(new GetCallback<ParseUser>()
+        {
+            @Override
+            public void done(ParseUser parseUser, ParseException e)
+            {
+                if (e == null)
+                {
+                    ParseQuery<ParseObject> houseQuery = ParseQuery.getQuery("House");
+                    houseQuery.whereEqualTo("admin", parseUser.getObjectId());
+                    houseQuery.getFirstInBackground(new GetCallback<ParseObject>()
+                    {
+                        @Override
+                        public void done(ParseObject parseHouse, ParseException e)
+                        {
+                            if (e == null)
+                            {
+                                String housename = parseHouse.getString("housename");
+                                String address = parseHouse.getString("address");
+                                String city = parseHouse.getString("city");
+                                String state = parseHouse.getString("state");
+                                int zipcode = parseHouse.getInt("zipcode");
+                                int lat = parseHouse.getInt("latitude");
+                                int longitude = parseHouse.getInt("longitude");
+                                String admin = parseHouse.getString("admin");
+                                List<String> members = convertJSON(parseHouse.getJSONArray("members"));
+                                String id = parseHouse.getObjectId();
+
+                                // Create House instance
+                                House house = new House(housename, address, city, state, admin, members, zipcode);
+                                house.setLatitude(lat);
+                                house.setLongitude(longitude);
+                                house.setId(id);
+
+                                caller.onGetHouseSuccess(house);
+                            }
+                            else
+                            {
+                                caller.onGetHouseFailure("Could not fetch house information, please try again");
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    caller.onGetHouseFailure("Could not find a house associated with admin: "+adminUsername);
                 }
             }
         });
-        return null;
+    }
+
+    // Get via application model
+    public void getHouse(House house, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
+        query.whereEqualTo("objectId", house.getId());
+        query.getFirstInBackground(new GetCallback<ParseObject>()
+        {
+            @Override
+            public void done(ParseObject parseHouse, ParseException e) {
+                if (e == null)
+                {
+                    String housename = parseHouse.getString("housename");
+                    String address = parseHouse.getString("address");
+                    String city = parseHouse.getString("city");
+                    String state = parseHouse.getString("state");
+                    int zipcode  = parseHouse.getInt("zipcode");
+                    int lat = parseHouse.getInt("latitude");
+                    int longitude = parseHouse.getInt("longitude");
+                    String admin = parseHouse.getString("admin");
+                    List<String> members = convertJSON(parseHouse.getJSONArray("members"));
+                    String id = parseHouse.getObjectId();
+
+                    // Create House instance
+                    House house = new House(housename, address, city, state, admin, members, zipcode);
+                    house.setLatitude(lat);
+                    house.setLongitude(longitude);
+                    house.setId(id);
+
+                    caller.onGetHouseSuccess(house);
+                }
+                else
+                {
+                    caller.onGetHouseFailure("Could not fetch house information, please try again");
+                }
+            }
+        });
+    }
+
+    // General Update
+    public void updateHouse(final House house, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
+        query.whereEqualTo("objectId", house.getId());
+        query.getFirstInBackground(new GetCallback<ParseObject>()
+        {
+            @Override
+            public void done(ParseObject parseHouse, ParseException outerException)
+            {
+                if(outerException == null)
+                {
+                    // Update al fields, for simplicity
+                    parseHouse.put("housename", house.getHousename());
+                    parseHouse.put("address", house.getAddress());
+                    parseHouse.put("city", house.getCity());
+                    parseHouse.put("state", house.getState());
+                    parseHouse.put("zipcode", house.getZipCode());
+                    parseHouse.put("latitude", house.getLatitude());
+                    parseHouse.put("longitude", house.getLongitude());
+                    parseHouse.put("admin", house.getAdmin());
+                    parseHouse.put("members", house.getMembers());
+
+                    // Save and callback
+                    parseHouse.saveInBackground(new SaveCallback()
+                    {
+                        @Override
+                        public void done(ParseException innerException)
+                        {
+                            if(innerException == null)
+                            {
+                                caller.onUpdateHouseSuccess(house);
+                            }
+                            else
+                            {
+                                caller.onUpdateHouseFailure("Could not update house information");
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    caller.onUpdateHouseFailure("Could not locate the requested house: "+house.getId());
+                }
+            }
+        });
+    }
+
+    /***********************************************************************************************
+     *  ALERT METHODS
+     **********************************************************************************************/
+    private HomeBaseAlert buildAlert(ParseObject alert)
+    {
+        String objectID = alert.getObjectId();
+        String type = alert.getString("type");
+        String description = alert.getString("description");
+        String owner = alert.getString("owner");
+        String creator = alert.getString("creator");
+        JSONArray array = alert.getJSONArray("seen");
+
+        List<String> seen = convertJSON(array);
+
+        return new HomeBaseAlert(objectID,type,seen,description,owner,creator);
+    }
+
+    public void createAlert(String type, String description, String ownerID, String creatorID, final HomeBaseActivity caller)
+    {
+        JSONArray seen = new JSONArray();
+        final ParseObject alert = new ParseObject("Alert");
+        alert.put("type", type);
+        alert.put("description", description);
+        alert.put("seen", seen);
+        alert.put("owner", ownerID);
+        alert.put("creator", creatorID);
+        alert.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    HomeBaseAlert hbAlert = buildAlert(alert);
+                    caller.onCreateAlertSuccess(hbAlert);
+                } else {
+                    caller.onCreateAlertFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void getAlert(String objectID, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("objectId", objectID);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if(e == null)
+                {
+                    HomeBaseAlert hbAlert = buildAlert(parseObject);
+                    caller.onGetAlertSuccess(hbAlert);
+                }
+                else
+                {
+                    caller.onGetAlertFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void updateAlert(final HomeBaseAlert alert, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("objectId", alert.getId());
+        query.getFirstInBackground(new GetCallback<ParseObject>()
+        {
+            @Override
+            public void done(final ParseObject parseAlert, ParseException outerException)
+            {
+                if(outerException == null)
+                {
+                    parseAlert.put("type", alert.getType());
+                    parseAlert.put("description", alert.getDescription());
+                    parseAlert.put("owner", alert.getOwnerID());
+                    parseAlert.put("creator", alert.getCreatorID());
+                    JSONArray seenArray = new JSONArray(alert.getSeen());
+                    parseAlert.put("seen", seenArray);
+                    parseAlert.saveInBackground(new SaveCallback()
+                    {
+                        @Override
+                        public void done(ParseException innerException)
+                        {
+                            if(innerException == null)
+                            {
+                                HomeBaseAlert updated = buildAlert(parseAlert);
+                                caller.onUpdateAlertSuccess(updated);
+                            }
+                            else
+                            {
+                                caller.onUpdateAlertFailure(innerException.getMessage());
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    caller.onGetAlertFailure(outerException.getMessage());
+                }
+            }
+        });
+    }
+
+    public void deleteAlert(final HomeBaseAlert alert, final HomeBaseActivity caller)
+    {
+        ParseObject deleteAlert = ParseObject.createWithoutData("Alert", alert.getId());
+        deleteAlert.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e)
+            {
+                if(e == null)
+                {
+                    caller.onDeleteAlertSuccess();
+                }
+                else
+                {
+                    caller.onDeleteAlertFailure(e.getMessage());
+                }
+            }
+        });
     }
 }

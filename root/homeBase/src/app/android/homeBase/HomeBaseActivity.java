@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.parse.*;
 
 public abstract class HomeBaseActivity extends ActionBarActivity{
-    private HomeBaseEventNotifier eventHandler;
 
     public void onLoginSuccess()
     {
@@ -55,11 +54,6 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
-    public void onParseSuccess(ParseObject parseObject, ParseException e, HomeBaseCallback callback)
-    {
-
-    }
-
     public void onSaveSuccess(Object saved)
     {
 
@@ -73,5 +67,75 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     public void onSaveError(String error)
     {
         Toast.makeText(this, "Parse error: "+error, Toast.LENGTH_LONG).show();
+    }
+
+
+
+    public void onGetAlertSuccess(HomeBaseAlert alert)
+    {
+
+    }
+    public void onGetAlertFailure(String e)
+    {
+
+    }
+    public void onCreateAlertSuccess(HomeBaseAlert alert)
+    {
+
+    }
+    public void onCreateAlertFailure(String e)
+    {
+
+    }
+    public void onUpdateAlertSuccess(HomeBaseAlert alert)
+    {
+
+    }
+    public void onUpdateAlertFailure(String e)
+    {
+
+    }
+
+    public void onDeleteAlertSuccess()
+    {
+
+    }
+    public void onDeleteAlertFailure(String e)
+    {
+
+    }
+
+    public void onGetHouseSuccess(House house)
+    {
+
+    }
+    public void onGetHouseFailure(String e)
+    {
+
+    }
+    public void onCreateHouseSuccess(House house)
+    {
+
+    }
+    public void onCreateHouseFailure(String e)
+    {
+
+    }
+    public void onUpdateHouseSuccess(House house)
+    {
+
+    }
+    public void onUpdateHouseFailure(String e)
+    {
+
+    }
+
+    public void onDeleteHouseSuccess()
+    {
+
+    }
+    public void onDeleteHouseFailure(String e)
+    {
+
     }
 }

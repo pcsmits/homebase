@@ -11,9 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import java.io.IOException;
+import com.parse.ParseUser;
+import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
 import java.util.Locale;
 
 public class NewHouseActivity extends HomeBaseActivity {
@@ -45,23 +46,37 @@ public class NewHouseActivity extends HomeBaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onSaveSuccess(Object saved)
+    public void onSubmitHouseClick(View view)
     {
-        House house = (House) saved;
-        Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
-        startActivity(startFeed);
-    }
-
-    public void onSubmitHouseClick(View view) {
+        // Get a list of all the edit texts
+        List<EditText> checkList = new ArrayList<EditText>();
 
         EditText houseNameET = (EditText) findViewById(R.id.newhouse_name_etext);
-        EditText houseAddressET = (EditText) findViewById(R.id.newhouse_address_etext);
-        EditText houseCityET = (EditText) findViewById(R.id.newhouse_city_etext);
-        EditText houseStateET = (EditText) findViewById(R.id.newhouse_state_etext);
-        EditText houseZipET = (EditText) findViewById(R.id.newhouse_zipcode_etext);
+        checkList.add(houseNameET);
 
-        try {
+        EditText houseAddressET = (EditText) findViewById(R.id.newhouse_address_etext);
+        checkList.add(houseNameET);
+
+        EditText houseCityET = (EditText) findViewById(R.id.newhouse_city_etext);
+        checkList.add(houseNameET);
+
+        EditText houseStateET = (EditText) findViewById(R.id.newhouse_state_etext);
+        checkList.add(houseNameET);
+
+        EditText houseZipET = (EditText) findViewById(R.id.newhouse_zipcode_etext);
+        checkList.add(houseNameET);
+
+        for(EditText item : checkList)
+        {
+            if(item.length() == 0)
+            {
+                Toast.makeText(NewHouseActivity.this, "Please fill out the "+item.getHint()+" field", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
+        try
+        {
             String name = houseNameET.getText().toString();
             String address = houseAddressET.getText().toString();
             String city = houseCityET.getText().toString();
@@ -88,25 +103,74 @@ public class NewHouseActivity extends HomeBaseActivity {
                 String gpsString = lat + " - " +lng;
                 Log.d("GeoCoder", gpsString);
 
-                parse.createHouse(name, address, city, state, zipcode, lat, lng, NewHouseActivity.this);
+	        ParseUser curr = ParseUser.getCurrentUser();
+                parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), lat, lng, NewHouseActivity.this);
             } else {
                 Log.d("GeoCoder", "Not present");
             }
 
-        } catch (Exception e) {
-            Toast.makeText(NewHouseActivity.this, "Please fill out all of the registration fields correctly", Toast.LENGTH_LONG).show();
+        } catch (NullPointerException e){
+            Toast.makeText(NewHouseActivity.this, "Please fill out all the forms", Toast.LENGTH_LONG).show();
         }
+
     }
 
     public void onJoinHouseClick(View view)
     {
-        EditText houseCodeET = (EditText) findViewById(R.id.newhouse_code_etext);
-        try {
+        EditText houseCodeET = (EditText) findViewById(R.id.newhouse_joinhouse_etext);
+        try
+        {
             String code = houseCodeET.getText().toString();
-            Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
-            startActivity(startFeed);
-        } catch (Exception e) {
-            Toast.makeText(NewHouseActivity.this, "Please fill out the code field", Toast.LENGTH_LONG).show();
+            if(code.length() != 0)
+            {
+                parse.getHouse(code, NewHouseActivity.this);
+            }
+            else
+            {
+                Toast.makeText(NewHouseActivity.this, "Plase enter the username of the house admin", Toast.LENGTH_LONG).show();
+            }
+        } catch (NullPointerException e)
+        {
+            Toast.makeText(NewHouseActivity.this, "Please enter the username of the house admin", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onGetHouseSuccess(House house)
+    {
+        house.getMembers().add(ParseUser.getCurrentUser().getObjectId());
+        parse.updateHouse(house, NewHouseActivity.this);
+    }
+
+    @Override
+    public void onGetHouseFailure(String e)
+    {
+        Toast.makeText(NewHouseActivity.this, e, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUpdateHouseSuccess(House house)
+    {
+        Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
+        startActivity(startFeed);
+    }
+
+    @Override
+    public void onUpdateHouseFailure(String e)
+    {
+        Toast.makeText(NewHouseActivity.this, e, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCreateHouseSuccess(House saved)
+    {
+        Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
+        startActivity(startFeed);
+    }
+
+    @Override
+    public void onCreateHouseFailure(String e)
+    {
+        Toast.makeText(NewHouseActivity.this, e, Toast.LENGTH_SHORT).show();
     }
 }
