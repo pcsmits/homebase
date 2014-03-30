@@ -110,4 +110,38 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     {
 
     }
+
+    public void onGetHouseSuccess(House house)
+    {
+
+    }
+    public void onGetHouseFailure(String e)
+    {
+
+    }
+    public void onCreateHouseSuccess(House house)
+    {
+
+    }
+    public void onCreateHouseFailure(String e)
+    {
+
+    }
+    public void onUpdateHouseSuccess(House house)
+    {
+
+    }
+    public void onUpdateHouseFailure(String e)
+    {
+
+    }
+
+    public void onDeleteHouseSuccess()
+    {
+
+    }
+    public void onDeleteHouseFailure(String e)
+    {
+
+    }
 }
