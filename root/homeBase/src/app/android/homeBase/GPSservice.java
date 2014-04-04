@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class GPSservice extends Service implements LocationListener {
 
@@ -188,10 +189,22 @@ public class GPSservice extends Service implements LocationListener {
         Log.d("GPS", "NEW LOCATION BRO");
         // Check house location and new location to compare
         ParseBase parse = new ParseBase(mContext);
-        //parse.getHouse()
+        //parse.getHouse(parse.getCurrentUser().getUsername(), GPSservice.this);
        // ParseObject house = new ParseObject();
-        //location.distanceBetween(getLatitude(), getLongitude(),  );
-        parse.updateLocation(getLatitude(), getLongitude());
+        float[] results = new float[3];
+        //location.distanceBetween(getLatitude(), getLongitude(), house.getLat(), house.getLong(), results);
+
+        boolean wasHome = parse.getUserLocation();
+
+        //home
+        boolean nowHome = false;
+        if(results[0] <= 30) {
+                nowHome = true;
+        }
+        if (nowHome != wasHome) {
+            parse.updateLocation(nowHome);
+            //set in background
+        }
 
 
         /**

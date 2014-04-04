@@ -162,28 +162,17 @@ public class ParseBase
      * GPS Events and Wrappersbfor Parse
      ********************************************************************************************************/
 
-    public void updateLocation(Double Lat, Double Long) {
-        getCurrentUser().put("lat", Lat);
+    public void updateLocation(boolean home) {
+        ParseUser jesus = getCurrentUser();
+        jesus.put("isHome", home);
+        jesus.saveEventually();
 
-        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-        userQuery.whereEqualTo("username", "new");
-        userQuery.findInBackground(new FindCallback<ParseUser>() {
-            Double Lat;
-            @Override
-            public void done(List<ParseUser> parseUsers, ParseException e)
-            {
+    }
 
-                if (e == null) {
-                    if (parseUsers.isEmpty()) {
-                        Log.d("GPS service", "user list null");
-                    }
-                    parseUsers.get(0).put("lat", Lat);
-                } else {
-                    Log.d("GPS service", "parse exception");
-                }
-            }
-        });
-
+    public boolean getUserLocation() {
+        ParseUser jesus = this.getCurrentUser();
+        Boolean isHome = jesus.getBoolean("isHome");
+        return isHome;
     }
 
     /**************************************************************************************************************
