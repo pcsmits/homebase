@@ -7,10 +7,19 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:fontFamily="fontawesome-webfont.ttf"
+    android:background="@color/off_white"
     >
+    <ImageView
+        android:src="@drawable/header1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="427dp"
+        android:layout_height="360dp"
         android:orientation="horizontal"
         android:weightSum="1">
 
@@ -23,10 +32,10 @@
             android:layout_alignRight="@+id/relativeLayout"
             android:layout_alignEnd="@+id/relativeLayout">
 
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="176dp"
-                android:layout_weight="0.23"></RelativeLayout>
+                android:layout_height="125dp"></RelativeLayout>
 
             <com.beardedhen.androidbootstrap.BootstrapEditText
                 android:id="@id/signup_username_etext"
@@ -88,10 +97,10 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="191dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="43dp">
+                android:layout_marginBottom="43dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="130dp">
 
                 <CheckBox
                     android:layout_width="wrap_content"
@@ -99,6 +108,7 @@
                     android:id="@+id/username_checkbox"
                     android:checked="false"
                     android:clickable="false"
+                    android:background="@color/orange"
                     />
 
                 <RelativeLayout
@@ -111,6 +121,7 @@
                     android:id="@+id/password_checkbox"
                     android:checked="false"
                     android:clickable="false"
+                    android:background="@color/orange"
                     />
 
                 <RelativeLayout
@@ -123,6 +134,7 @@
                     android:id="@+id/passwordVer_checkbox"
                     android:checked="false"
                     android:clickable="false"
+                    android:background="@color/orange"
                     />
 
             </LinearLayout>
@@ -135,7 +147,7 @@
         android:layout_margin="10dp"
         android:text="@string/signup_signup_button"
         bootstrapbutton:bb_roundedCorners="true"
-        bootstrapbutton:bb_type="primary"
+        bootstrapbutton:bb_type="danger"
         android:layout_gravity="center_horizontal"
         android:onClick="signUpClick"
         android:id="@+id/signup_signup_button"
