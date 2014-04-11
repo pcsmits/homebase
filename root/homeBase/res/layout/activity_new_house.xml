@@ -1,26 +1,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="...app.android.homeBase.NewHouseActivity"
     android:orientation="vertical"
     android:layout_centerVertical="true"
     android:layout_centerInParent="true"
-    android:background="@color/off_white"
-    >
-
-    <ImageView
-        android:src="@drawable/header1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="20dp"></RelativeLayout>
+    android:weightSum="1">
 
     <TextView
         android:layout_width="match_parent"
@@ -28,9 +19,7 @@
         android:id="@id/newhouse_newhouse_text"
         android:text="@string/newhouse_newhouse_text"
         android:textStyle="bold"
-        android:paddingBottom="@dimen/padding_micro"
-        android:textColor="@color/black"
-        />
+        android:paddingBottom="@dimen/padding_micro" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -151,7 +140,7 @@
             android:id="@id/newhouse_newhouse_button"
             bootstrapbutton:bb_roundedCorners="true"
             bootstrapbutton:bb_size="default"
-            bootstrapbutton:bb_type="danger"
+            bootstrapbutton:bb_type="primary"
             bootstrapbutton:bb_text_alignment="center"
             bootstrapbutton:bb_icon_right="fa-chevron-right"
             android:onClick="onSubmitHouseClick"
@@ -166,9 +155,7 @@
         android:id="@id/newhouse_joinhouse_text"
         android:text="@string/newhouse_joinhouse_text"
         android:textStyle="bold"
-        android:padding="@dimen/padding_micro"
-        android:textColor="@color/black"
-        />
+        android:padding="@dimen/padding_micro" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -205,7 +192,7 @@
             android:id="@id/newhouse_join_button"
             android:text="@string/newhouse_joinhouse_button"
             bootstrapbutton:bb_roundedCorners="true"
-            bootstrapbutton:bb_type="danger"
+            bootstrapbutton:bb_type="primary"
             bootstrapbutton:bb_size="default"
             bootstrapbutton:bb_text_alignment="center"
             bootstrapbutton:bb_icon_right="fa-chevron-right"
