@@ -8,9 +8,14 @@ import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
-public class NewsFeedActivity extends ActionBarActivity {
+public class NewsFeedActivity extends HomeBaseActivity {
+    public ParseBase parse;
+    public List<HomeBaseAlert> alerts;
     private LinearLayout globalLayout;
     private boolean expand = true;
     private int menuHeight;
@@ -20,20 +25,12 @@ public class NewsFeedActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newsfeed);
+
+        parse = new ParseBase(this);
         globalLayout = (LinearLayout)this.findViewById(R.id.newsfeed_menu_container);
         menuHeight = globalLayout.getLayoutParams().height;
-        LinearLayout layout = (LinearLayout) findViewById(R.id.newsfeed_newsfeedItem_container);
 
-        for (int i = 0; i < 5; i++) {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
-
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
-            buttonCont.removeView(myButton);
-            layout.addView(myButton);
-            String text = "NewsFeed Item ";
-            myButton.setText(text);
-        }
+        parse.getAlerts(NewsFeedActivity.this);
     }
 
     public void onMenuButtonClick(View view)
@@ -60,5 +57,22 @@ public class NewsFeedActivity extends ActionBarActivity {
     {
         Intent intent = new Intent(NewsFeedActivity.this, ChoresActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onGetAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.newsfeed_newsfeedItem_container);
+
+        for (int i = 0; i < alerts.size(); i++) {
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
+            buttonCont.removeView(myButton);
+            layout.addView(myButton);
+            String text = alerts.get(i).getDescription();
+            myButton.setText(text);
+        }
     }
 }

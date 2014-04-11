@@ -13,10 +13,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * A custom class/wrapper for interacting with Parse
@@ -419,6 +423,26 @@ public class ParseBase
                 else
                 {
                     caller.onGetAlertFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void getAlerts(final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    ArrayList<HomeBaseAlert> alertList = new ArrayList<HomeBaseAlert>();
+                    for (int i = 0; i < objects.size(); i++) {
+                        HomeBaseAlert alert = buildAlert(objects.get(i));
+                        alertList.add(alert);
+                    }
+                    caller.onGetAlertListSuccess(alertList);
+                } else {
+                    caller.onGetAlertListFailure(e.getMessage());
                 }
             }
         });

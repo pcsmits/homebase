@@ -4,6 +4,7 @@ package app.android.homeBase;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.widget.Toast;
+import java.util.ArrayList;
 
 import com.parse.*;
 
@@ -138,4 +139,15 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     {
 
     }
+
+    public void onGetAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+
+    }
+
+    public void onGetAlertListFailure(String e)
+    {
+
+    }
+
 }
