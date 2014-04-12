@@ -30,26 +30,27 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
             >
-            
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
-        </activity>
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+
+
+    </activity>
 
 <!--
-        <activity
-            android:name="app.android.homeBase.testParker"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+    <activity
+        android:name="app.android.homeBase.testParker"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
 
-        </activity>
+    </activity>
 -->
         <!--
         <service android:enabled="true" android:name="app.android.homeBase.GPSservice"/> 
@@ -94,6 +95,27 @@
 
         </activity>
 
-    </application>
+        <activity
+            android:name="app.android.homeBase.BillTestActivity"
+            android:label="@string/app_name" >
+            <!-- testing
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
+                       -->
+        </activity>
 
+        <activity
+            android:name="app.android.homeBase.BillsActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+        <activity
+            android:name="app.android.homeBase.BillInfoActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+
+    </application>
 </manifest>
