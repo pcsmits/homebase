@@ -43,7 +43,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
         a.setDuration(250);
 
         if (expand) {
-            a.setParams(lp.height, menuHeight + menuHeight * 2); //this will be times the number of modules we have
+            a.setParams(lp.height, menuHeight + menuHeight * 3); //this will be times the number of modules we have
         } else {
             a.setParams(lp.height, menuHeight);
         }

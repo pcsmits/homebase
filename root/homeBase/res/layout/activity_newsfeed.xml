@@ -67,11 +67,11 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal" >
+                    android:layout_height="100dp"
+                    android:orientation="vertical" >
                     <RelativeLayout
                         android:layout_weight="1"
-                        android:layout_width="0dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="50dp"
                         android:layout_margin="0dp">
                         <com.beardedhen.androidbootstrap.BootstrapButton
@@ -91,6 +91,14 @@
                             android:onClick="onChoresButtonClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="0dp">
                         <com.beardedhen.androidbootstrap.BootstrapButton
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
@@ -109,6 +117,7 @@
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>
+
                 </LinearLayout>
             </LinearLayout>
 
