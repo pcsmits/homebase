@@ -200,7 +200,7 @@ public class ParseBase
         List<String> memberList = new LinkedList<String>();
         memberList.add(userid);
 
-        final House newHouse = new House(housename, address, city, state, userid, memberList, zipcode);
+        final HomeBaseHouse newHouse = new HomeBaseHouse(housename, address, city, state, userid, memberList, zipcode);
         final ParseObject house = new ParseObject("House");
 
         house.put("admin", newHouse.getAdmin());
@@ -261,7 +261,7 @@ public class ParseBase
                                 String id = parseHouse.getObjectId();
 
                                 // Create House instance
-                                House house = new House(housename, address, city, state, admin, members, zipcode);
+                                HomeBaseHouse house = new HomeBaseHouse(housename, address, city, state, admin, members, zipcode);
                                 house.setLatitude(lat);
                                 house.setLongitude(longitude);
                                 house.setId(id);
@@ -284,7 +284,7 @@ public class ParseBase
     }
 
     // Get via application model
-    public void getHouse(House house, final HomeBaseActivity caller)
+    public void getHouse(HomeBaseHouse house, final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
         query.whereEqualTo("objectId", house.getId());
@@ -306,7 +306,7 @@ public class ParseBase
                     String id = parseHouse.getObjectId();
 
                     // Create House instance
-                    House house = new House(housename, address, city, state, admin, members, zipcode);
+                    HomeBaseHouse house = new HomeBaseHouse(housename, address, city, state, admin, members, zipcode);
                     house.setLatitude(lat);
                     house.setLongitude(longitude);
                     house.setId(id);
@@ -322,7 +322,7 @@ public class ParseBase
     }
 
     // General Update
-    public void updateHouse(final House house, final HomeBaseActivity caller)
+    public void updateHouse(final HomeBaseHouse house, final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
         query.whereEqualTo("objectId", house.getId());
@@ -375,21 +375,22 @@ public class ParseBase
     private HomeBaseAlert buildAlert(ParseObject alert)
     {
         String objectID = alert.getObjectId();
+        String title = alert.getString("title");
         String type = alert.getString("type");
         String description = alert.getString("description");
         String owner = alert.getString("owner");
         String creator = alert.getString("creator");
         JSONArray array = alert.getJSONArray("seen");
-
         List<String> seen = convertJSON(array);
 
-        return new HomeBaseAlert(objectID,type,seen,description,owner,creator);
+        return new HomeBaseAlert(title,objectID,type,seen,description,owner,creator);
     }
 
-    public void createAlert(String type, String description, String ownerID, String creatorID, final HomeBaseActivity caller)
+    public void createAlert(String title, String type, String description, String ownerID, String creatorID, final HomeBaseActivity caller)
     {
         JSONArray seen = new JSONArray();
         final ParseObject alert = new ParseObject("Alert");
+        alert.put("title", title);
         alert.put("type", type);
         alert.put("description", description);
         alert.put("seen", seen);
@@ -459,6 +460,7 @@ public class ParseBase
             {
                 if(outerException == null)
                 {
+                    parseAlert.put("title", alert.getTitle());
                     parseAlert.put("type", alert.getType());
                     parseAlert.put("description", alert.getDescription());
                     parseAlert.put("owner", alert.getOwnerID());
@@ -509,4 +511,162 @@ public class ParseBase
         });
     }
 
+    /***********************************************************************************************
+     *  BILL METHODS
+     **********************************************************************************************/
+    private HomeBaseBill buildBill(ParseObject bill)
+    {
+        String title = bill.getString("title");
+        String objectID = bill.getObjectId();
+        String description = bill.getString("description");
+        String owner = bill.getString("owner");
+        String creator = bill.getString("creator");
+        double amount = bill.getInt("amount");
+        List<String> seen = convertJSON(bill.getJSONArray("seen"));
+        List<String> paid = convertJSON(bill.getJSONArray("paid"));
+        List<String> toPay = convertJSON(bill.getJSONArray("toPay"));
+
+        return new HomeBaseBill(title, objectID, amount, toPay, paid, seen, description, owner, creator);
+    }
+
+    public void createBill(String title, Double amount, String description, String ownerID, String creatorID, final HomeBaseActivity caller)
+    {
+        final ParseObject bill = new ParseObject("Bill");
+        JSONArray seen = new JSONArray();
+        JSONArray paid = new JSONArray();
+        JSONArray toPay = new JSONArray();
+        bill.put("title", title);
+        bill.put("type", "bill");
+        bill.put("description", description);
+        bill.put("seen", seen);
+        bill.put("owner", ownerID);
+        bill.put("creator", creatorID);
+        bill.put("amount", amount);
+        bill.put("toPay", toPay);
+        bill.put("paid", paid);
+
+        bill.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    HomeBaseBill hbBill = buildBill(bill);
+                    caller.onCreateBillSuccess(hbBill);
+                } else {
+                    caller.onCreateBillFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void getBill(String objectID, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Bill");
+        query.whereEqualTo("objectId", objectID);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if(e == null)
+                {
+                    HomeBaseBill hbBill = buildBill(parseObject);
+                    caller.onGetBillSuccess(hbBill);
+                }
+                else
+                {
+                    caller.onGetBillFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void getUnpaidBillsByUserID(String userID, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> billsQuery = ParseQuery.getQuery("Bill");
+        billsQuery.whereEqualTo("toPay", userID);
+        billsQuery.orderByDescending("updatedAt");
+        billsQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e)
+            {
+                if(e == null)
+                {
+                    List<HomeBaseBill> bills = new LinkedList<HomeBaseBill>();
+                    for(ParseObject object : parseObjects)
+                    {
+                        HomeBaseBill newBill = buildBill(object);
+                        bills.add(newBill);
+                    }
+                    caller.onGetBillsSuccess(bills);
+                }
+                else
+                {
+                    caller.onGetBillsFailure(e.getMessage());
+                }
+            }
+        });
+    }
+    public void deleteBill(final HomeBaseBill bill, final HomeBaseActivity caller)
+    {
+        ParseObject deleteAlert = ParseObject.createWithoutData("Bill", bill.getId());
+        deleteAlert.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e)
+            {
+                if(e == null)
+                {
+                    caller.onDeleteBillSuccess();
+                }
+                else
+                {
+                    caller.onDeleteBillFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void updateBill(final HomeBaseBill bill, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Bill");
+        query.whereEqualTo("objectId", bill.getId());
+        query.getFirstInBackground(new GetCallback<ParseObject>()
+        {
+            @Override
+            public void done(final ParseObject parseBill, ParseException outerException)
+            {
+                if(outerException == null)
+                {
+                    //Set scalars
+                    parseBill.put("amount", bill.getAmount());
+                    parseBill.put("type", bill.getType());
+                    parseBill.put("description", bill.getDescription());
+                    parseBill.put("owner", bill.getOwnerID());
+                    parseBill.put("creator", bill.getCreatorID());
+                    parseBill.put("title", bill.getTitle());
+
+                    // Build and set arrays
+                    JSONArray seenArray = new JSONArray(bill.getSeen());
+                    JSONArray paidArray = new JSONArray(bill.getPaid());
+                    JSONArray toPayArray = new JSONArray(bill.getToPay());
+                    parseBill.put("seen", seenArray);
+                    parseBill.put("paid", paidArray);
+                    parseBill.put("toPay", toPayArray);
+
+                    parseBill.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException innerException) {
+                            if (innerException == null) {
+                                HomeBaseBill updated = buildBill(parseBill);
+                                caller.onUpdateBillSuccess(updated);
+                            } else {
+                                caller.onUpdateBillFailure(innerException.getMessage());
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    caller.onGetBillFailure(outerException.getMessage());
+                }
+            }
+        });
+    }
 }

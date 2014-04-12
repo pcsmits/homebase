@@ -17,8 +17,14 @@
     <string name="chores_viewMine_button">Mine</string>
     <string name="chores_add_button">Add</string>
 
+    <string name="bills_viewActive_button">Active</string>
+    <string name="bills_viewClosed_button">Completed</string>
+    <string name="bills_viewMine_button">Mine</string>
+    <string name="bills_add_button">Add</string>
+
     <string name="newsfeed_showMenu_button">Modules</string>
     <string name="newsfeed_gotoChores_button">Chores</string>
+    <string name="newsfeed_gotoBills_button">Bills</string>
 
     <string name="newhouse_code_hint">House Name</string>
     <string name="newhouse_newhouse_text">Register your House</string>

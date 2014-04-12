@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by kyle on 3/10/14.
  */
-public class House {
+public class HomeBaseHouse {
     private String housename;
     private String address;
     private String city;
@@ -17,7 +17,7 @@ public class House {
     private String admin;
     private List<String> members;
 
-    public House(String housename, String address, String city, String state, String admin, List<String> members, int zipCode)
+    public HomeBaseHouse(String housename, String address, String city, String state, String admin, List<String> members, int zipCode)
     {
         this.housename = housename;
         this.address = address;
