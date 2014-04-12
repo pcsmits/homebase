@@ -90,6 +90,24 @@
                             android:layout_alignParentStart="true"
                             android:onClick="onChoresButtonClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
+
+                        <com.beardedhen.androidbootstrap.BootstrapButton
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dp"
+                            android:text="@string/newsfeed_gotoBills_button"
+                            android:textAlignment="center"
+                            bootstrapbutton:bb_roundedCorners="false"
+                            bootstrapbutton:bb_size="default"
+                            bootstrapbutton:bb_type="info"
+                            bootstrapbutton:bb_text_alignment="center"
+                            bootstrapbutton:bb_icon_right="fa-chevron-right"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:onClick="onBillsButtonClick">
+                        </com.beardedhen.androidbootstrap.BootstrapButton>
+
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>

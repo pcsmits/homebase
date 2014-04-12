@@ -43,7 +43,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
         a.setDuration(250);
 
         if (expand) {
-            a.setParams(lp.height, menuHeight + menuHeight * 1); //this will be times the number of modules we have
+            a.setParams(lp.height, menuHeight + menuHeight * 2); //this will be times the number of modules we have
         } else {
             a.setParams(lp.height, menuHeight);
         }
@@ -54,6 +54,12 @@ public class NewsFeedActivity extends HomeBaseActivity {
     }
 
     public void onChoresButtonClick(View view)
+    {
+        Intent intent = new Intent(NewsFeedActivity.this, ChoresActivity.class);
+        startActivity(intent);
+    }
+
+    public void onBillsButtonClick(View view)
     {
         Intent intent = new Intent(NewsFeedActivity.this, ChoresActivity.class);
         startActivity(intent);
