@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.view.LayoutInflater;
+import android.widget.RelativeLayout;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
@@ -47,6 +50,16 @@ public class ChoreCreateActivity extends ActionBarActivity {
         ViewGroup.LayoutParams rlp = infoContainer.getLayoutParams();
         rlp.height = height;
         infoContainer.setLayoutParams(rlp);
+
+        //set up "responsible for" options
+        for (int i = 0; i < 2; i++) {
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout template = (LinearLayout) inflater.inflate(R.layout.user_select_template, null, false);
+            RelativeLayout btnContainer = (RelativeLayout) template.findViewById(R.id.chore_create_user_select_template);
+            template.removeView(btnContainer);
+            LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.chore_create_responsible_container);
+            responsibleContainer.addView(btnContainer);
+        }
     }
 
     public void onChoreCreateCancelClick(View view)
