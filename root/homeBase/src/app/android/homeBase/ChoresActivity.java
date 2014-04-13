@@ -64,4 +64,10 @@ public class ChoresActivity extends ActionBarActivity {
         intent.putExtra("info", choreDescriptions.get(thisButton).information);
         startActivity(intent);
     }
+
+    public void onChoreAddClick(View view)
+    {
+        Intent intent = new Intent(ChoresActivity.this, ChoreCreateActivity.class);
+        startActivity(intent);
+    }
 }

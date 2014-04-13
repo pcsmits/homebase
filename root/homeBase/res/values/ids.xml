@@ -17,6 +17,10 @@
     <item name="chore_info_body_button" type="id"/>
     <item name="chore_info_container_button" type="id"/>
 
+    <item name="chore_create_header_field" type="id"/>
+    <item name="chore_create_body_field" type="id"/>
+    <item name="chore_create_submit_button" type="id"/>
+
     <item name="bills_choreContainer_button" type="id"/>
     <item name="bill_info_header_button" type="id"/>
     <item name="bill_info_body_button" type="id"/>
