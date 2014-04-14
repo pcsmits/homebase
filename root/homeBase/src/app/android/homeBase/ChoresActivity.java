@@ -40,6 +40,17 @@ public class ChoresActivity extends HomeBaseActivity {
         parse.getAlerts(this, "Chore");
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        for(int i = 0; i < choreContainers.size(); i++) {
+            layout.removeView(choreContainers.get(i));
+        }
+
+        choreContainers.clear();
+        parse.getAlerts(this, "Chore");
+    }
+
     public void onChoreContainerClick(View view)
     {
         BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.login_test_button);
