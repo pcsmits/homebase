@@ -17,6 +17,7 @@ public class ChoresActivity extends HomeBaseActivity {
     private ArrayList<BootstrapButton> choreContainers;
     private HashMap<BootstrapButton, ChoreInfo> choreDescriptions;
     private LinearLayout layout;
+    private boolean startCalled = false;
 
     class ChoreInfo {
         public String title;
@@ -34,15 +35,23 @@ public class ChoresActivity extends HomeBaseActivity {
         parse = new ParseBase(this);
 
         layout = (LinearLayout) findViewById(R.id.chores_choreContainer_button);
+        layout.removeAllViews();
         choreContainers = new ArrayList<BootstrapButton>();
         choreDescriptions = new HashMap<BootstrapButton, ChoreInfo>();
 
+        startCalled = true;
         parse.getAlerts(this, "Chore");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (startCalled) {
+            startCalled = false;
+            return;
+        }
+
         for(int i = 0; i < choreContainers.size(); i++) {
             layout.removeView(choreContainers.get(i));
         }
@@ -71,7 +80,7 @@ public class ChoresActivity extends HomeBaseActivity {
     public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
         //this will eventually run through chores from parse and populate view accordingly, but this is a good framework
-        //for creating bootstrap buttons programmaticaly from xml frameworks
+        //for creating bootstrap buttons programatically from xml frameworks
         for (int i = 0; i < alerts.size(); i++) {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
