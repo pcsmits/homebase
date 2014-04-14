@@ -12,9 +12,11 @@ import android.view.View;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
-public class ChoresActivity extends ActionBarActivity {
-    ArrayList<BootstrapButton> choreContainers;
-    HashMap<BootstrapButton, ChoreInfo> choreDescriptions;
+public class ChoresActivity extends HomeBaseActivity {
+    private ParseBase parse;
+    private ArrayList<BootstrapButton> choreContainers;
+    private HashMap<BootstrapButton, ChoreInfo> choreDescriptions;
+    private LinearLayout layout;
 
     class ChoreInfo {
         public String title;
@@ -29,30 +31,13 @@ public class ChoresActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chores);
+        parse = new ParseBase(this);
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.chores_choreContainer_button);
+        layout = (LinearLayout) findViewById(R.id.chores_choreContainer_button);
         choreContainers = new ArrayList<BootstrapButton>();
         choreDescriptions = new HashMap<BootstrapButton, ChoreInfo>();
 
-        //this will eventually run through chores from parse and populate view accordingly, but this is a good framework
-        //for creating bootstrap buttons programmaticaly from xml frameworks
-        for (int i = 0; i < 5; i++) {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
-
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_test_button);
-            buttonCont.removeView(myButton);
-            layout.addView(myButton);
-            String text = "Button " + i;
-            myButton.setText(text);
-            choreContainers.add(myButton);
-            String title = "Issue #: " + i;
-            String information = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et imperdiet diam, " +
-                    "dignissim tincidunt mauris. Donec euismod vehicula augue. Ut velit augue, commodo in malesuada in, " +
-                    "volutpat at turpis. Fusce vitae lectus metus. Etiam at dui nisi. Aenean gravida ligula sit amet adipiscing porta. " +
-                    "Fusce non accumsan dolor, sed iaculis quam. Mauris tincidunt nulla vitae eros semper pulvinar.";
-            choreDescriptions.put(myButton, new ChoreInfo(title, information));
-        }
+        parse.getAlerts(this, "Chore");
     }
 
     public void onChoreContainerClick(View view)
@@ -69,5 +54,32 @@ public class ChoresActivity extends ActionBarActivity {
     {
         Intent intent = new Intent(ChoresActivity.this, ChoreCreateActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+        //this will eventually run through chores from parse and populate view accordingly, but this is a good framework
+        //for creating bootstrap buttons programmaticaly from xml frameworks
+        for (int i = 0; i < alerts.size(); i++) {
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_test_button);
+            buttonCont.removeView(myButton);
+            layout.addView(myButton);
+            String text = alerts.get(i).getTitle();
+            myButton.setText(text);
+            choreContainers.add(myButton);
+            String title = text;
+            String information = alerts.get(i).getDescription();
+            choreDescriptions.put(myButton, new ChoreInfo(title, information));
+        }
+    }
+
+    @Override
+    public void onGetAlertListByTypeFailure(String e)
+    {
+
     }
 }

@@ -150,6 +150,16 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+
+    }
+
+    public void onGetAlertListByTypeFailure(String e)
+    {
+
+    }
+
     public void onGetBillSuccess(HomeBaseBill bill)
     {
 
