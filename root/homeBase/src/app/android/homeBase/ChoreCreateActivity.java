@@ -2,7 +2,6 @@ package app.android.homeBase;
 
 
 import android.content.res.Resources;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.graphics.Point;
@@ -11,19 +10,25 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 
-public class ChoreCreateActivity extends ActionBarActivity {
+public class ChoreCreateActivity extends HomeBaseActivity {
+    public ParseBase parse;
+    private BootstrapEditText headerBar;
+    private BootstrapEditText infoContainer;
+    private BootstrapButton ownerField;
+    private final String k_alertType = "Chore";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chore_create);
+        parse = new ParseBase(this);
 
-
-        BootstrapEditText headerBar = (BootstrapEditText) this.findViewById(R.id.chore_create_header_field);
+        headerBar = (BootstrapEditText) this.findViewById(R.id.chore_create_header_field);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -46,7 +51,7 @@ public class ChoreCreateActivity extends ActionBarActivity {
 
         int height = ((size.y - headerBar.getLayoutParams().height * 3) - navBarHeight - statusBarHeight);
 
-        BootstrapEditText infoContainer = (BootstrapEditText) this.findViewById(R.id.chore_create_body_field);
+        infoContainer = (BootstrapEditText) this.findViewById(R.id.chore_create_body_field);
         ViewGroup.LayoutParams rlp = infoContainer.getLayoutParams();
         rlp.height = height;
         infoContainer.setLayoutParams(rlp);
@@ -60,10 +65,35 @@ public class ChoreCreateActivity extends ActionBarActivity {
             LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.chore_create_responsible_container);
             responsibleContainer.addView(btnContainer);
         }
+
+        ownerField = (BootstrapButton) this.findViewById(R.id.chore_create_creator_field);
+        ownerField.setText(parse.getCurrentUser().getUsername());
+    }
+
+    public void onChoreCreateSubmitClick(View view)
+    {
+        String title = headerBar.getText().toString();
+        String type = k_alertType;
+        String desc = infoContainer.getText().toString();
+        String creator = parse.getCurrentUser().getUsername();
+        String owner = "Parker";
+        parse.createAlert(title,type, desc, owner, creator, ChoreCreateActivity.this);
     }
 
     public void onChoreCreateCancelClick(View view)
     {
         onBackPressed();
+    }
+
+    @Override
+    public void onCreateAlertSuccess(HomeBaseAlert alert)
+    {
+        Toast.makeText(ChoreCreateActivity.this, alert.getTitle() + ": " +alert.getDescription(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCreateAlertFailure(String e)
+    {
+        Toast.makeText(ChoreCreateActivity.this, e, Toast.LENGTH_LONG).show();
     }
 }

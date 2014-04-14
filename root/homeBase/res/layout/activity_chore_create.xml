@@ -51,7 +51,7 @@
             <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
-                android:text="Owner"
+                android:text="Created By:"
                 android:textAlignment="center"
                 android:enabled="false"
                 bootstrapbutton:bb_roundedCorners="false"
@@ -70,21 +70,22 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_margin="0dp">
-            <com.beardedhen.androidbootstrap.BootstrapEditText
+            <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:textAlignment="center"
                 android:layout_centerVertical="true"
-                android:hint="Owner"
+                android:text="Creator"
+                bootstrapbutton:bb_type="gray"
+                android:enabled="false"
                 android:textColor="@android:color/black"
-                android:imeOptions="actionDone"
                 android:singleLine="true"
-                android:id="@id/chore_info_header_button"
+                android:id="@id/chore_create_creator_field"
                 android:layout_gravity="center_horizontal"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true">
-            </com.beardedhen.androidbootstrap.BootstrapEditText>
+            </com.beardedhen.androidbootstrap.BootstrapButton>
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
@@ -100,14 +101,13 @@
             <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
-                android:text="Responsible"
+                android:text="Owned By:"
                 android:textAlignment="center"
                 android:enabled="false"
                 bootstrapbutton:bb_roundedCorners="false"
                 bootstrapbutton:bb_size="default"
                 bootstrapbutton:bb_type="primary"
                 bootstrapbutton:bb_text_alignment="center"
-                android:id="@id/chore_info_header_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
@@ -163,7 +163,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:onClick="onChoreCreateSubmitClick">
             </com.beardedhen.androidbootstrap.BootstrapButton>
         </RelativeLayout>
         <RelativeLayout
