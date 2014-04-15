@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import android.app.AlertDialog;
+import android.util.Log;
 
 /**
  * A custom class/wrapper for interacting with Parse
@@ -74,17 +76,12 @@ public class ParseBase
         final ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
-        user.signUpInBackground(new SignUpCallback()
-        {
+        user.signUpInBackground(new SignUpCallback() {
             @Override
-            public void done(ParseException e)
-            {
-                if(e == null)
-                {
+            public void done(ParseException e) {
+                if (e == null) {
                     caller.onSignupSuccess(user);
-                }
-                else
-                {
+                } else {
                     caller.onSignupError(e);
                 }
             }
@@ -171,7 +168,14 @@ public class ParseBase
 
     public boolean getUserLocation() {
         ParseUser jesus = this.getCurrentUser();
-        Boolean isHome = jesus.getBoolean("isHome");
+        Boolean isHome = false;
+        try {
+            isHome = jesus.getBoolean("isHome");
+        } catch (Exception E){
+            Log.d("Getting user Local","couldn't get isHome");
+            jesus.put("isHome", false);
+            return false;
+        }
         return isHome;
     }
 
@@ -261,6 +265,40 @@ public class ParseBase
                 }
             }
         });
+    }
+
+
+    public void getHouse(final GPSservice caller)
+    {
+        //get the current user, then the user part of that house
+
+        ParseQuery<ParseObject> houseQuery = ParseQuery.getQuery("House");
+        houseQuery.whereEqualTo("admin", getCurrentUser().getObjectId());
+        houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseHouse, ParseException e) {
+                if (e == null) {
+                    String housename = parseHouse.getString("housename");
+                    String address = parseHouse.getString("address");
+                    String city = parseHouse.getString("city");
+                    String state = parseHouse.getString("state");
+                    int zipcode = parseHouse.getInt("zipcode");
+                    int lat = parseHouse.getInt("latitude");
+                    int longitude = parseHouse.getInt("longitude");
+                    String admin = parseHouse.getString("admin");
+                    List<String> members = convertJSON(parseHouse.getJSONArray("members"));
+                    String id = parseHouse.getObjectId();
+
+                    // Create House instance
+                    House house = new House(housename, address, city, state, zipcode, admin, members, lat, longitude);
+                    house.setId(id);
+                    caller.onGetHouseSuccess(house);
+                } else {
+                    caller.onGetHouseFailure("Could not fetch house information, please try again");
+                }
+            }
+        });
+
     }
 
     // Get via application model

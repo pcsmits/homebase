@@ -83,6 +83,7 @@ public class LoginActivity extends HomeBaseActivity{
     public void onLoginSuccess()
     {
         Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
+        GPSservice gps = new GPSservice(LoginActivity.this);
         startActivity(startFeed);
     }
 

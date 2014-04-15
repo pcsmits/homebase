@@ -86,8 +86,8 @@ public class NewHouseActivity extends HomeBaseActivity {
 
             // Find latitude and longitude
             Geocoder gc = new Geocoder(NewHouseActivity.this, Locale.getDefault());
-           // Geocoder gc = new Geocoder (NewHouseActivity.this);
 
+            ParseUser curr = ParseUser.getCurrentUser();
             if (gc.isPresent()) {
                 List<Address> list = null;
                 try {
@@ -103,10 +103,11 @@ public class NewHouseActivity extends HomeBaseActivity {
                 String gpsString = lat + " - " +lng;
                 Log.d("GeoCoder", gpsString);
 
-	        ParseUser curr = ParseUser.getCurrentUser();
                 parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), lat, lng, NewHouseActivity.this);
             } else {
                 Log.d("GeoCoder", "Not present");
+                parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), 0, 0, NewHouseActivity.this);
+                Log.d("GeoCoder", "House loctaion set to 0 0");
             }
 
         } catch (NullPointerException e){
