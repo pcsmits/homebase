@@ -200,7 +200,7 @@ public class GPSservice extends Service implements LocationListener {
 
     }
 
-    public void onGetHouseSuccess(House house)
+    public void onGetHouseSuccess(HomeBaseHouse house)
     {
 
         float[] results = new float[3];

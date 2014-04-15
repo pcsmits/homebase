@@ -137,7 +137,7 @@ public class NewHouseActivity extends HomeBaseActivity {
     }
 
     @Override
-    public void onGetHouseSuccess(House house)
+    public void onGetHouseSuccess(HomeBaseHouse house)
     {
         house.getMembers().add(ParseUser.getCurrentUser().getObjectId());
         parse.updateHouse(house, NewHouseActivity.this);
@@ -150,7 +150,7 @@ public class NewHouseActivity extends HomeBaseActivity {
     }
 
     @Override
-    public void onUpdateHouseSuccess(House house)
+    public void onUpdateHouseSuccess(HomeBaseHouse house)
     {
         Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
         startActivity(startFeed);
@@ -163,7 +163,7 @@ public class NewHouseActivity extends HomeBaseActivity {
     }
 
     @Override
-    public void onCreateHouseSuccess(House saved)
+    public void onCreateHouseSuccess(HomeBaseHouse saved)
     {
         Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
         startActivity(startFeed);

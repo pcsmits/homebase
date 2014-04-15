@@ -17,6 +17,19 @@
     <item name="chore_info_body_button" type="id"/>
     <item name="chore_info_container_button" type="id"/>
 
+    <item name="chore_create_header_field" type="id"/>
+    <item name="chore_create_body_field" type="id"/>
+    <item name="chore_create_responsible_container" type="id"/>
+    <item name="chore_create_creator_field" type="id"/>
+    <item name="chore_create_user_select_template" type="id"/>
+
+    <item name="bills_choreContainer_button" type="id"/>
+    <item name="bill_info_header_button" type="id"/>
+    <item name="bill_info_body_button" type="id"/>
+    <item name="bill_info_container_button" type="id"/>
+    <item name="bill_container_button" type="id"/>
+
+
     <item name="newsfeed_menu_container" type="id"/>
     <item name="newsfeed_newsfeedItem_container" type="id"/>
     <item name="newsfeed_template_button" type="id"/>

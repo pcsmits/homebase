@@ -9,17 +9,18 @@ import java.util.List;
 public class HomeBaseAlert {
 
     // These can only be set on creation
+    private String title;
     private final String id;
     private String type;
     private String description;
     private String ownerID;
     private String creatorID;
-
     private List<String> seen;
     //TODO private Picture picture;
 
-    public HomeBaseAlert(String id, String type, List<String> seen, String description, String ownerID, String creatorID)
+    public HomeBaseAlert(String title, String id, String type, List<String> seen, String description, String ownerID, String creatorID)
     {
+        this.title = title;
         this.id = id;
         this.type = type;
         this.seen = seen;
@@ -27,6 +28,14 @@ public class HomeBaseAlert {
         this.ownerID = ownerID;
         this.creatorID = ownerID;
 
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setType(String type) {

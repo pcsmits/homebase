@@ -26,6 +26,7 @@
             android:layout_alignParentStart="true">
         </com.beardedhen.androidbootstrap.BootstrapButton>
 
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -129,7 +130,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true">
+                            android:layout_alignParentStart="true"
+                            android:onClick="onChoreAddClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>
@@ -137,14 +139,18 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@id/chores_choreContainer_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="0.59"
-                android:weightSum="1">
-            </LinearLayout>
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <LinearLayout
+                    android:id="@id/chores_choreContainer_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="0.59"
+                    android:weightSum="1">
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

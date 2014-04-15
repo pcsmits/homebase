@@ -1,9 +1,10 @@
 package app.android.homeBase;
 
-
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.parse.*;
 
@@ -105,7 +106,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
-    public void onGetHouseSuccess(House house)
+    public void onGetHouseSuccess(HomeBaseHouse house)
     {
 
     }
@@ -113,7 +114,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     {
 
     }
-    public void onCreateHouseSuccess(House house)
+    public void onCreateHouseSuccess(HomeBaseHouse house)
     {
 
     }
@@ -121,7 +122,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     {
 
     }
-    public void onUpdateHouseSuccess(House house)
+    public void onUpdateHouseSuccess(HomeBaseHouse house)
     {
 
     }
@@ -138,4 +139,70 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     {
 
     }
+
+    public void onGetAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+
+    }
+
+    public void onGetAlertListFailure(String e)
+    {
+
+    }
+
+    public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+
+    }
+
+    public void onGetAlertListByTypeFailure(String e)
+    {
+
+    }
+
+    public void onGetBillSuccess(HomeBaseBill bill)
+    {
+
+    }
+
+    public void onGetBillsSuccess(List<HomeBaseBill> bills)
+    {
+
+    }
+
+    public void onGetBillFailure(String e)
+    {
+
+    }
+
+    public void onGetBillsFailure(String e)
+    {
+
+    }
+    public void onCreateBillSuccess(HomeBaseBill bill)
+    {
+
+    }
+    public void onCreateBillFailure(String e)
+    {
+
+    }
+    public void onUpdateBillSuccess(HomeBaseBill bill)
+    {
+
+    }
+    public void onUpdateBillFailure(String e)
+    {
+
+    }
+
+    public void onDeleteBillSuccess()
+    {
+
+    }
+    public void onDeleteBillFailure(String e)
+    {
+
+    }
+
 }
