@@ -211,7 +211,7 @@ public class ParseBase
             public void done(ParseException e) {
                 if (e == null) {
                     newHouse.setId(house.getObjectId());
-                    caller.onSaveSuccess(newHouse);
+                    caller.onCreateHouseSuccess(newHouse);
                 } else {
                     caller.onCreateHouseFailure("Could not create house, please try again.");
                 }
