@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.beardedhen.androidbootstrap.BootstrapEditText;
+import com.parse.ParseUser;
 
 /**
  * This activity is the default launcher activity for the app
@@ -27,11 +28,18 @@ public class LoginActivity extends HomeBaseActivity{
         super.onCreate(savedInstanceState);
         parse = new ParseBase(this);
         setContentView(R.layout.activity_login);
-        // Intenet to feed activity here
+
+        // activity here
         if(parse.userLoggedIn())
         {
-            Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
-            startActivity(startFeed);
+            if(ParseUser.getCurrentUser().has("house")) {
+                Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
+                startActivity(startFeed);
+            }
+            else {
+                Intent startNewhouse = new Intent(LoginActivity.this, NewHouseActivity.class);
+                startActivity(startNewhouse);
+            }
         }
         animTranslate = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
     }
