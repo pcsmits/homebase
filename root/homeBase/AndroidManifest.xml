@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.android.homeBase"
     android:versionCode="1"
-    android:versionName="1.0"
-    >
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="13"
@@ -17,21 +16,19 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        >
-
+        android:theme="@style/AppTheme" >
         <activity
             android:name="app.android.homeBase.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            >
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-<!--
+        <!--
     <activity
         android:name="app.android.homeBase.testParker"
         android:label="@string/app_name"
@@ -44,35 +41,32 @@
 
     </activity>
         -->
-        <!--
-        <service android:enabled="true" android:name="app.android.homeBase.GPSservice"/> 
-        -->
+<!--         <service android:enabled="true" android:name="app.android.homeBase.GPSservice"/>  -->
 
         <activity
             android:name="app.android.homeBase.SignupActivity"
             android:label="@string/app_name" >
         </activity>
-
         <activity
             android:name="app.android.homeBase.ChoresActivity"
             android:label="@string/app_name" >
         </activity>
-
+        <activity
+            android:name=".GPSActivity"
+            android:label="@string/app_name" >
+        </activity>
         <activity
             android:name="app.android.homeBase.ChoreInfoActivity"
             android:label="@string/app_name" >
         </activity>
-
         <activity
             android:name="app.android.homeBase.ChoreCreateActivity"
             android:label="@string/app_name" >
         </activity>
-
         <activity
             android:name="app.android.homeBase.NewHouseActivity"
             android:label="@string/app_name" >
         </activity>
-
         <activity
             android:name="app.android.homeBase.NewsFeedActivity"
             android:label="@string/app_name" >
@@ -83,7 +77,8 @@
             android:name="app.android.homeBase.AlertTestActivity"
             android:label="@string/app_name" >
 
-            <!-- testing
+            <!--
+            testing
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -91,28 +86,30 @@
             -->
 
         </activity>
-
         <activity
             android:name="app.android.homeBase.BillTestActivity"
             android:label="@string/app_name" >
-            <!-- testing
+
+            <!--
+                 testing
                         <intent-filter>
                             <action android:name="android.intent.action.MAIN" />
                             <category android:name="android.intent.category.LAUNCHER" />
                         </intent-filter>
-                       -->
+            -->
         </activity>
-
         <activity
             android:name="app.android.homeBase.BillsActivity"
             android:label="@string/app_name" >
         </activity>
-
         <activity
             android:name="app.android.homeBase.BillInfoActivity"
             android:label="@string/app_name" >
         </activity>
-
-
+        <activity
+            android:name=".GPSActivity"
+            android:label="@string/title_activity_activity_gps" >
+        </activity>
     </application>
+
 </manifest>
