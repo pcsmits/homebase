@@ -77,7 +77,7 @@ public class ChoreCreateActivity extends HomeBaseActivity {
         String desc = infoContainer.getText().toString();
         String creator = parse.getCurrentUser().getUsername();
         String owner = "Parker";
-        parse.createAlert(title,type, desc, owner, creator, ChoreCreateActivity.this);
+        parse.createAlert(title,type, desc, creator, owner, ChoreCreateActivity.this);
     }
 
     public void onChoreCreateCancelClick(View view)
