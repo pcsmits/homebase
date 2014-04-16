@@ -494,6 +494,27 @@ public class ParseBase
         });
     }
 
+    public void refreshAlerts(final HomeBaseActivity caller, String type)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("type", type);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    ArrayList<HomeBaseAlert> alertList = new ArrayList<HomeBaseAlert>();
+                    for (int i = 0; i < objects.size(); i++) {
+                        HomeBaseAlert alert = buildAlert(objects.get(i));
+                        alertList.add(alert);
+                    }
+                    caller.onUpdateAlertListByTypeSuccess(alertList);
+                } else {
+                    caller.onUpdateAlertListByTypeFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
     public void updateAlert(final HomeBaseAlert alert, final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");

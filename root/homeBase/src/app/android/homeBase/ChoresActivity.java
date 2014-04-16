@@ -15,6 +15,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 public class ChoresActivity extends HomeBaseActivity {
     private ParseBase parse;
     private ArrayList<BootstrapButton> choreContainers;
+    private ArrayList<String> choreTitles;
     private HashMap<BootstrapButton, ChoreInfo> choreDescriptions;
     private LinearLayout layout;
     private boolean startCalled = false;
@@ -37,6 +38,7 @@ public class ChoresActivity extends HomeBaseActivity {
         layout = (LinearLayout) findViewById(R.id.chores_choreContainer_button);
         layout.removeAllViews();
         choreContainers = new ArrayList<BootstrapButton>();
+        choreTitles = new ArrayList<String>();
         choreDescriptions = new HashMap<BootstrapButton, ChoreInfo>();
 
         startCalled = true;
@@ -52,12 +54,12 @@ public class ChoresActivity extends HomeBaseActivity {
             return;
         }
 
-        for(int i = 0; i < choreContainers.size(); i++) {
+        /*for(int i = 0; i < choreContainers.size(); i++) {
             layout.removeView(choreContainers.get(i));
-        }
+        }*/
 
-        choreContainers.clear();
-        parse.getAlerts(this, "Chore");
+        //choreContainers.clear();
+        parse.refreshAlerts(this, "Chore");
     }
 
     public void onChoreContainerClick(View view)
@@ -92,6 +94,7 @@ public class ChoresActivity extends HomeBaseActivity {
             myButton.setText(text);
             choreContainers.add(myButton);
             String title = text;
+            choreTitles.add(title);
             String information = alerts.get(i).getDescription();
             choreDescriptions.put(myButton, new ChoreInfo(title, information));
         }
@@ -99,6 +102,34 @@ public class ChoresActivity extends HomeBaseActivity {
 
     @Override
     public void onGetAlertListByTypeFailure(String e)
+    {
+
+    }
+
+    @Override
+    public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+        for (int i = 0; i < alerts.size(); i++) {
+            if (!choreTitles.contains(alerts.get(i).getTitle())) {
+                LayoutInflater inflater = LayoutInflater.from(this);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
+
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_test_button);
+                buttonCont.removeView(myButton);
+                layout.addView(myButton);
+                String text = alerts.get(i).getTitle();
+                myButton.setText(text);
+                choreContainers.add(myButton);
+                String title = text;
+                choreTitles.add(title);
+                String information = alerts.get(i).getDescription();
+                choreDescriptions.put(myButton, new ChoreInfo(title, information));
+            }
+        }
+    }
+
+    @Override
+    public void onUpdateAlertListByTypeFailure(String e)
     {
 
     }

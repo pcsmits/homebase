@@ -160,6 +160,16 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+
+    }
+
+    public void onUpdateAlertListByTypeFailure(String e)
+    {
+
+    }
+
     public void onGetBillSuccess(HomeBaseBill bill)
     {
 
@@ -179,18 +189,22 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     {
 
     }
+
     public void onCreateBillSuccess(HomeBaseBill bill)
     {
 
     }
+
     public void onCreateBillFailure(String e)
     {
 
     }
+
     public void onUpdateBillSuccess(HomeBaseBill bill)
     {
 
     }
+
     public void onUpdateBillFailure(String e)
     {
 
@@ -200,9 +214,9 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     {
 
     }
+
     public void onDeleteBillFailure(String e)
     {
 
     }
-
 }
