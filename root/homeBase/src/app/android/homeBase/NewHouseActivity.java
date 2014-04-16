@@ -128,7 +128,7 @@ public class NewHouseActivity extends HomeBaseActivity {
             }
             else
             {
-                Toast.makeText(NewHouseActivity.this, "Plase enter the username of the house admin", Toast.LENGTH_LONG).show();
+                Toast.makeText(NewHouseActivity.this, "Please enter the username of the house admin", Toast.LENGTH_LONG).show();
             }
         } catch (NullPointerException e)
         {
@@ -152,6 +152,7 @@ public class NewHouseActivity extends HomeBaseActivity {
     @Override
     public void onUpdateHouseSuccess(HomeBaseHouse house)
     {
+        ParseUser.getCurrentUser().put("house", house.getId());
         Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
         startActivity(startFeed);
     }
@@ -163,8 +164,9 @@ public class NewHouseActivity extends HomeBaseActivity {
     }
 
     @Override
-    public void onCreateHouseSuccess(HomeBaseHouse saved)
+    public void onCreateHouseSuccess(HomeBaseHouse house)
     {
+        ParseUser.getCurrentUser().put("house", house.getId());
         Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
         startActivity(startFeed);
     }
