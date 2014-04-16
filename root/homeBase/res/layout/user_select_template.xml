@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:id="@id/chore_create_user_select_template">
+        android:id="@id/userSelection_template_container">
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:layout_width="fill_parent"
             android:layout_height="50dp"

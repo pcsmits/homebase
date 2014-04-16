@@ -4,10 +4,13 @@ package app.android.homeBase;
 import android.content.res.Resources;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
@@ -56,6 +59,16 @@ public class ChoreInfoActivity extends ActionBarActivity {
         rlp.height = height;
         infoContainer.setLayoutParams(rlp);
         BootstrapButton body = (BootstrapButton) this.findViewById(R.id.chore_info_body_button);
+
+        //set up "responsible for" options
+        for (int i = 0; i < 2; i++) {
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout template = (LinearLayout) inflater.inflate(R.layout.user_select_template, null, false);
+            RelativeLayout btnContainer = (RelativeLayout) template.findViewById(R.id.userSelection_template_container);
+            template.removeView(btnContainer);
+            LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.chore_info_responsible_container);
+            responsibleContainer.addView(btnContainer);
+        }
 
         headerBar.setText(title);
         body.setText(info);

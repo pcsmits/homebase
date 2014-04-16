@@ -60,7 +60,7 @@ public class ChoreCreateActivity extends HomeBaseActivity {
         for (int i = 0; i < 2; i++) {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout template = (LinearLayout) inflater.inflate(R.layout.user_select_template, null, false);
-            RelativeLayout btnContainer = (RelativeLayout) template.findViewById(R.id.chore_create_user_select_template);
+            RelativeLayout btnContainer = (RelativeLayout) template.findViewById(R.id.userSelection_template_container);
             template.removeView(btnContainer);
             LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.chore_create_responsible_container);
             responsibleContainer.addView(btnContainer);
