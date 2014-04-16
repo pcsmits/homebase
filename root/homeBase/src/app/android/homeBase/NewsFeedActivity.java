@@ -65,6 +65,12 @@ public class NewsFeedActivity extends HomeBaseActivity {
         startActivity(intent);
     }
 
+    public void onUsersHomeButtonClick(View view)
+    {
+        Intent intent = new Intent(NewsFeedActivity.this, ActivityGPS.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onGetAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
     {
