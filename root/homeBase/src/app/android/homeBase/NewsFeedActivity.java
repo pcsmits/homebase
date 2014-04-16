@@ -2,7 +2,6 @@ package app.android.homeBase;
 
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
@@ -67,7 +66,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
     public void onUsersHomeButtonClick(View view)
     {
-        Intent intent = new Intent(NewsFeedActivity.this, ActivityGPS.class);
+        Intent intent = new Intent(NewsFeedActivity.this, GPSActivity.class);
         startActivity(intent);
     }
 

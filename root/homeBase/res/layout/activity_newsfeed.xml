@@ -67,8 +67,32 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="150dp"
                     android:orientation="vertical" >
+
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="0dp">
+                        <com.beardedhen.androidbootstrap.BootstrapButton
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dp"
+                            android:text="@string/newsfeed_gotoGPS_button"
+                            android:textAlignment="center"
+                            bootstrapbutton:bb_roundedCorners="false"
+                            bootstrapbutton:bb_size="default"
+                            bootstrapbutton:bb_type="info"
+                            bootstrapbutton:bb_text_alignment="center"
+                            bootstrapbutton:bb_icon_right="fa-chevron-right"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:onClick="onUsersHomeButtonClick">
+                        </com.beardedhen.androidbootstrap.BootstrapButton>
+                    </RelativeLayout>
+
                     <RelativeLayout
                         android:layout_weight="1"
                         android:layout_width="fill_parent"
