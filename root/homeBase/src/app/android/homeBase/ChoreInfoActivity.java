@@ -25,9 +25,11 @@ public class ChoreInfoActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         String title = "";
         String info = "";
+        String creator = "";
         if (extras != null) {
             title = extras.getString("title");
             info = extras.getString("info");
+            creator = extras.getString("creator");
         }
 
 
@@ -70,6 +72,9 @@ public class ChoreInfoActivity extends ActionBarActivity {
             responsibleContainer.addView(btnContainer);
         }
 
+        BootstrapButton creatorField = (BootstrapButton) this.findViewById(R.id.chore_info_creator_field);
+
+        creatorField.setText(creator);
         headerBar.setText(title);
         body.setText(info);
     }

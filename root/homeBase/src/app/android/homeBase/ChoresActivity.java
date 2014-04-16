@@ -23,9 +23,11 @@ public class ChoresActivity extends HomeBaseActivity {
     class ChoreInfo {
         public String title;
         public String information;
-        ChoreInfo(String title, String information) {
+        public String creator;
+        ChoreInfo(String title, String information, String creator) {
             this.title = title;
             this.information = information;
+            this.creator = creator;
         }
     }
 
@@ -69,6 +71,7 @@ public class ChoresActivity extends HomeBaseActivity {
         Intent intent = new Intent(ChoresActivity.this, ChoreInfoActivity.class);
         intent.putExtra("title", choreDescriptions.get(thisButton).title);
         intent.putExtra("info", choreDescriptions.get(thisButton).information);
+        intent.putExtra("creator", choreDescriptions.get(thisButton).creator);
         startActivity(intent);
     }
 
@@ -96,7 +99,8 @@ public class ChoresActivity extends HomeBaseActivity {
             String title = text;
             choreTitles.add(title);
             String information = alerts.get(i).getDescription();
-            choreDescriptions.put(myButton, new ChoreInfo(title, information));
+            String creator = alerts.get(i).getCreatorID();
+            choreDescriptions.put(myButton, new ChoreInfo(title, information, creator));
         }
     }
 
@@ -123,7 +127,8 @@ public class ChoresActivity extends HomeBaseActivity {
                 String title = text;
                 choreTitles.add(title);
                 String information = alerts.get(i).getDescription();
-                choreDescriptions.put(myButton, new ChoreInfo(title, information));
+                String creator = alerts.get(i).getCreatorID();
+                choreDescriptions.put(myButton, new ChoreInfo(title, information, creator));
             }
         }
     }

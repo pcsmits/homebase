@@ -85,7 +85,7 @@
                 bootstrapbutton:bb_size="default"
                 bootstrapbutton:bb_type="gray"
                 bootstrapbutton:bb_text_alignment="center"
-                android:id="@id/chore_info_header_button"
+                android:id="@id/chore_info_creator_field"
                 android:layout_gravity="center_horizontal"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
