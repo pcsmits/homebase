@@ -5,14 +5,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
+import android.location.*;
 
 import com.parse.*;
-
-
+import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +19,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import android.app.AlertDialog;
+import android.util.Log;
 import java.util.ListIterator;
 
 /**
@@ -78,17 +80,12 @@ public class ParseBase
         final ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
-        user.signUpInBackground(new SignUpCallback()
-        {
+        user.signUpInBackground(new SignUpCallback() {
             @Override
-            public void done(ParseException e)
-            {
-                if(e == null)
-                {
+            public void done(ParseException e) {
+                if (e == null) {
                     caller.onSignupSuccess(user);
-                }
-                else
-                {
+                } else {
                     caller.onSignupError(e);
                 }
             }
@@ -151,7 +148,7 @@ public class ParseBase
     }
 
     private void onLoginError(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
-        Toast.makeText(context, "Login error occured: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+
         caller.onLoginError();
     }
 
@@ -166,41 +163,37 @@ public class ParseBase
      * GPS Events and Wrappersbfor Parse
      ********************************************************************************************************/
 
-    public void updateLocation(Double Lat, Double Long) {
-        //getCurrentUser().put("lat", Lat);
+    public void updateLocation(boolean home) {
+        ParseUser jesus = getCurrentUser();
+        jesus.put("isHome", home);
+        jesus.saveEventually();
 
-        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-        userQuery.whereEqualTo("username", "new");
-        userQuery.findInBackground(new FindCallback<ParseUser>() {
-            Double Lat;
-            @Override
-            public void done(List<ParseUser> parseUsers, ParseException e)
-            {
+    }
 
-                if (e == null) {
-                    if (parseUsers.isEmpty()) {
-                        Log.d("GPS service", "user list null");
-                    }
-                    parseUsers.get(0).put("lat", Lat);
-                } else {
-                    Log.d("GPS service", "parse exception");
-                }
-            }
-        });
-
+    public boolean getUserLocation() {
+        ParseUser jesus = this.getCurrentUser();
+        Boolean isHome = false;
+        try {
+            isHome = jesus.getBoolean("isHome");
+        } catch (Exception E){
+            Log.d("Getting user Local","couldn't get isHome");
+            jesus.put("isHome", false);
+            return false;
+        }
+        return isHome;
     }
 
     /**************************************************************************************************************
      *  House Event and Wrappers for PARSE
      *************************************************************************************************************/
 
-    public void createHouse(String housename, String address, String city, String state, int zipcode, String userid, final HomeBaseActivity caller)
+    public void createHouse(String housename, String address, String city, String state, int zipcode, String userid, double lat, double lng, final HomeBaseActivity caller)
     {
         // Add the creator to the user list, also get added as admin in constructor
         List<String> memberList = new LinkedList<String>();
         memberList.add(userid);
 
-        final HomeBaseHouse newHouse = new HomeBaseHouse(housename, address, city, state, userid, memberList, zipcode);
+        final HomeBaseHouse newHouse = new HomeBaseHouse(housename, address, city, state, zipcode, userid, memberList, lat, lng);
         final ParseObject house = new ParseObject("House");
 
         house.put("admin", newHouse.getAdmin());
@@ -210,18 +203,16 @@ public class ParseBase
         house.put("city", newHouse.getCity());
         house.put("state", newHouse.getState());
         house.put("zipcode", newHouse.getZipCode());
+        house.put("latitude", newHouse.getLatitude());
+        house.put("longitude", newHouse.getLongitude());
 
-        house.saveInBackground(new SaveCallback()
-        {
+        house.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if(e == null)
-                {
+                if (e == null) {
                     newHouse.setId(house.getObjectId());
-                    caller.onCreateHouseSuccess(newHouse);
-                }
-                else
-                {
+                    caller.onSaveSuccess(newHouse);
+                } else {
                     caller.onCreateHouseFailure("Could not create house, please try again.");
                 }
             }
@@ -261,11 +252,10 @@ public class ParseBase
                                 String id = parseHouse.getObjectId();
 
                                 // Create House instance
-                                HomeBaseHouse house = new HomeBaseHouse(housename, address, city, state, admin, members, zipcode);
+                                HomeBaseHouse house = new HomeBaseHouse(housename, address, city, state, zipcode, admin, members, lat, longitude);
                                 house.setLatitude(lat);
                                 house.setLongitude(longitude);
                                 house.setId(id);
-
                                 caller.onGetHouseSuccess(house);
                             }
                             else
@@ -281,6 +271,40 @@ public class ParseBase
                 }
             }
         });
+    }
+
+
+    public void getHouse(final GPSservice caller)
+    {
+        //get the current user, then the user part of that house
+
+        ParseQuery<ParseObject> houseQuery = ParseQuery.getQuery("House");
+        houseQuery.whereEqualTo("admin", getCurrentUser().getObjectId());
+        houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseHouse, ParseException e) {
+                if (e == null) {
+                    String housename = parseHouse.getString("housename");
+                    String address = parseHouse.getString("address");
+                    String city = parseHouse.getString("city");
+                    String state = parseHouse.getString("state");
+                    int zipcode = parseHouse.getInt("zipcode");
+                    int lat = parseHouse.getInt("latitude");
+                    int longitude = parseHouse.getInt("longitude");
+                    String admin = parseHouse.getString("admin");
+                    List<String> members = convertJSON(parseHouse.getJSONArray("members"));
+                    String id = parseHouse.getObjectId();
+
+                    // Create House instance
+                    HomeBaseHouse house = new HomeBaseHouse(housename, address, city, state, zipcode, admin, members, lat, longitude);
+                    house.setId(id);
+                    caller.onGetHouseSuccess(house);
+                } else {
+                    caller.onGetHouseFailure("Could not fetch house information, please try again");
+                }
+            }
+        });
+
     }
 
     // Get via application model
@@ -306,7 +330,7 @@ public class ParseBase
                     String id = parseHouse.getObjectId();
 
                     // Create House instance
-                    HomeBaseHouse house = new HomeBaseHouse(housename, address, city, state, admin, members, zipcode);
+                    HomeBaseHouse house = new HomeBaseHouse(housename, address, city, state, zipcode, admin, members, lat, longitude);
                     house.setLatitude(lat);
                     house.setLongitude(longitude);
                     house.setId(id);

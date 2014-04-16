@@ -1,7 +1,11 @@
 package app.android.homeBase;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.text.AndroidCharacter;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +14,8 @@ import android.widget.Toast;
 import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
+import java.util.Locale;
 
 public class NewHouseActivity extends HomeBaseActivity {
     public ParseBase parse;
@@ -77,8 +83,32 @@ public class NewHouseActivity extends HomeBaseActivity {
             String state = houseStateET.getText().toString();
             String zip = houseZipET.getText().toString();
             int zipcode = Integer.parseInt(zip);
+
+            // Find latitude and longitude
+            Geocoder gc = new Geocoder(NewHouseActivity.this, Locale.getDefault());
+
             ParseUser curr = ParseUser.getCurrentUser();
-            parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), NewHouseActivity.this);
+            if (gc.isPresent()) {
+                List<Address> list = null;
+                try {
+                    list = gc.getFromLocationName(address + ", " + zip, 1);
+                } catch (IOException E) {
+                    Log.d("GeoCoder", "Not a proper address");
+                }
+
+                Address fullAddress = list.get(0);
+
+                double lat = fullAddress.getLatitude();
+                double lng = fullAddress.getLongitude();
+                String gpsString = lat + " - " +lng;
+                Log.d("GeoCoder", gpsString);
+
+                parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), lat, lng, NewHouseActivity.this);
+            } else {
+                Log.d("GeoCoder", "Not present");
+                parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), 0, 0, NewHouseActivity.this);
+                Log.d("GeoCoder", "House loctaion set to 0 0");
+            }
 
         } catch (NullPointerException e){
             Toast.makeText(NewHouseActivity.this, "Please fill out all the forms", Toast.LENGTH_LONG).show();

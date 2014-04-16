@@ -12,10 +12,17 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class GPSservice extends Service implements LocationListener {
 
     private final Context mContext;
+
+    public Double HouseLat;
+    public Double HouseLong;
 
     // flag for GPS status
     boolean isGPSEnabled = false;
@@ -74,13 +81,14 @@ public class GPSservice extends Service implements LocationListener {
                         location = locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
+                            Log.d("Set new location", "lat -- " + location.getLatitude());
+                            this.latitude = location.getLatitude();
+                            this.longitude = location.getLongitude();
                         }
                     }
                 }
                 // if GPS Enabled get lat/long using GPS Services
-                if (isGPSEnabled) {
+                else if (isGPSEnabled) {
                     if (location == null) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
@@ -91,8 +99,9 @@ public class GPSservice extends Service implements LocationListener {
                             location = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
+                                Log.d("Set new location", "lat -- " + location.getLatitude());
+                                this.latitude = location.getLatitude();
+                                this.longitude = location.getLongitude();
                             }
                         }
                     }
@@ -122,7 +131,7 @@ public class GPSservice extends Service implements LocationListener {
      * */
     public double getLatitude(){
         if(location != null){
-            latitude = location.getLatitude();
+        //    latitude = location.getLatitude();
         }
 
         // return latitude
@@ -134,7 +143,7 @@ public class GPSservice extends Service implements LocationListener {
      * */
     public double getLongitude(){
         if(location != null){
-            longitude = location.getLongitude();
+           longitude = location.getLongitude();
         }
 
         // return longitude
@@ -181,19 +190,41 @@ public class GPSservice extends Service implements LocationListener {
         alertDialog.show();
     }
 
-    @Override
+
     public void onLocationChanged(Location location) {
         Log.d("GPS", "NEW LOCATION BRO");
-        parse.updateLocation(getLatitude(), getLongitude());
+        getLocation();
+        // Check house location and new location to compare
+        ParseBase parse = new ParseBase(mContext);
+        parse.getHouse(GPSservice.this);
 
+    }
 
-        /**
-         * If new location
-         *
-         * check if home
-         * if it differes update parse
-         *
-         */
+    public void onGetHouseSuccess(HomeBaseHouse house)
+    {
+
+        float[] results = new float[3];
+        Log.d("Distancce Between", this.getLatitude() + " - " + house.getLatitude());
+        location.distanceBetween(this.getLatitude(), this.getLongitude(), house.getLatitude(), house.getLongitude(), results);
+        boolean wasHome = parse.getUserLocation();
+        Log.d("User Local", String.valueOf(wasHome));
+        //home
+        boolean nowHome = false;
+        Log.d("Distancce Between", String.valueOf(results[0]) + " - " + String.valueOf(results[1]) + " - " + String.valueOf(results[2]));
+        if(results[0] <= 30) {
+            nowHome = true;
+        }
+        if (nowHome != wasHome) {
+            Log.d("Updating parse", "user at new location");
+            parse.updateLocation(nowHome);
+            Log.d("Updated parse", "Switching Boolean isHome");
+        }
+
+    }
+
+    public void onGetHouseFailure(String e)
+    {
+        Log.d("Get House", "I couldn't get house");
     }
 
     @Override

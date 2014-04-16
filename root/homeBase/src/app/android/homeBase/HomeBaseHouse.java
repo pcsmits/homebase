@@ -11,19 +11,21 @@ public class HomeBaseHouse {
     private String city;
     private String state;
     private int zipCode;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
     private String id;
     private String admin;
     private List<String> members;
 
-    public HomeBaseHouse(String housename, String address, String city, String state, String admin, List<String> members, int zipCode)
+    public HomeBaseHouse(String housename, String address, String city, String state, int zipCode, String admin, List<String> members, double lat, double lng)
     {
         this.housename = housename;
         this.address = address;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
+        this.latitude = lat;
+        this.longitude = lng;
         this.admin = admin;
         this.members = members;
 
@@ -95,20 +97,22 @@ public class HomeBaseHouse {
         this.zipCode = zipCode;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
 
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
+
+
 }
