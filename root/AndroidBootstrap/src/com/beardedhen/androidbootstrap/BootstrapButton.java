@@ -221,9 +221,9 @@ public class BootstrapButton extends FrameLayout {
 		}
 		
 		if(size.equals("small")){
-			fontSize = 12.0f;
-			paddingA = (int) (5 *scale + 0.5f);;
-			paddingB = (int) (10 *scale + 0.5f);;
+			fontSize = 15.0f;
+			paddingA = (int) (3 *scale + 0.5f);;
+			paddingB = (int) (6 *scale + 0.5f);;
 		}
 		
 		if(size.equals("xsmall")){

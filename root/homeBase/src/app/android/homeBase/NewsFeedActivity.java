@@ -104,6 +104,9 @@ public class NewsFeedActivity extends HomeBaseActivity {
             layout.addView(myButton);
             String text = alerts.get(i).getDescription();
             myButton.setText(text);
+
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
+            header.setText(alerts.get(i).getTitle());
         }
     }
 
@@ -124,6 +127,9 @@ public class NewsFeedActivity extends HomeBaseActivity {
                 layout.addView(myButton);
                 String text = alerts.get(i).getDescription();
                 myButton.setText(text);
+
+                BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
+                header.setText(alerts.get(i).getTitle());
             }
         }
     }
