@@ -43,7 +43,7 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:layout_weight="1"
+                        android:layout_weight="0.8"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_margin="0dp">
@@ -51,7 +51,7 @@
                     <com.beardedhen.androidbootstrap.BootstrapButton
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
-                        android:text="@string/chores_viewActive_button"
+                        android:text="All"
                         android:textAlignment="center"
                         bootstrapbutton:bb_roundedCorners="false"
                         bootstrapbutton:bb_size="default"
@@ -60,7 +60,9 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
+                        android:layout_alignParentStart="true"
+                        android:id="@id/chores_allFilter_button"
+                        android:onClick="onAllFilterClick">
                     </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>
@@ -74,7 +76,7 @@
                         <com.beardedhen.androidbootstrap.BootstrapButton
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:text="@string/chores_viewMine_button"
+                            android:text="Created"
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"
@@ -83,7 +85,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true">
+                            android:layout_alignParentStart="true"
+                            android:onClick="onCreatedFilterClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>
@@ -97,7 +100,7 @@
                         <com.beardedhen.androidbootstrap.BootstrapButton
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:text="@string/chores_viewClosed_button"
+                            android:text="Responsible"
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"
@@ -106,7 +109,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true">
+                            android:layout_alignParentStart="true"
+                            android:onClick="onResponsibleFilterClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>

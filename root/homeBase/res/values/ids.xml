@@ -13,6 +13,7 @@
     <item name="signup_signup_button" type="id"/>
 
     <item name="chores_choreContainer_button" type="id"/>
+    <item name="chores_allFilter_button" type="id"/>
     <item name="chore_info_header_button" type="id"/>
     <item name="chore_info_body_button" type="id"/>
     <item name="chore_info_creator_field" type="id"/>
