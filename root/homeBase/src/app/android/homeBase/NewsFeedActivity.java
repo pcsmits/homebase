@@ -14,22 +14,40 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class NewsFeedActivity extends HomeBaseActivity {
     public ParseBase parse;
-    public List<HomeBaseAlert> alerts;
+    public ArrayList<String> alertTitles;
     private LinearLayout globalLayout;
     private boolean expand = true;
+    private boolean startCalled = false;
     private int menuHeight;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newsfeed);
+
+        alertTitles = new ArrayList<String>();
 
         parse = new ParseBase(this);
         globalLayout = (LinearLayout)this.findViewById(R.id.newsfeed_menu_container);
         menuHeight = globalLayout.getLayoutParams().height;
 
+        startCalled = true;
         parse.getAlerts(NewsFeedActivity.this);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        if (startCalled) {
+            startCalled = false;
+            return;
+        }
+
+        parse.refreshAlerts(this);
     }
 
     public void onMenuButtonClick(View view)
@@ -76,6 +94,8 @@ public class NewsFeedActivity extends HomeBaseActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.newsfeed_newsfeedItem_container);
 
         for (int i = 0; i < alerts.size(); i++) {
+            alertTitles.add(alerts.get(i).getTitle());
+
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
 
@@ -85,5 +105,32 @@ public class NewsFeedActivity extends HomeBaseActivity {
             String text = alerts.get(i).getDescription();
             myButton.setText(text);
         }
+    }
+
+    @Override
+    public void onUpdateAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.newsfeed_newsfeedItem_container);
+
+        for (int i = 0; i < alerts.size(); i++) {
+            if (!alertTitles.contains(alerts.get(i).getTitle())) {
+                alertTitles.add(alerts.get(i).getTitle());
+
+                LayoutInflater inflater = LayoutInflater.from(this);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
+
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
+                buttonCont.removeView(myButton);
+                layout.addView(myButton);
+                String text = alerts.get(i).getDescription();
+                myButton.setText(text);
+            }
+        }
+    }
+
+    @Override
+    public void onUpdateAlertListFailure(String e)
+    {
+
     }
 }
