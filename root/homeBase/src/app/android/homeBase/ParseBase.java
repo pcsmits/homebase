@@ -599,13 +599,90 @@ public class ParseBase
 
     /***********************************************************************************************
      *  BILL METHODS
+     *
+     *  Kinda funk but only need to call create bill and updatebill
+     *  retreving and deleting can all be done through alert methods
      **********************************************************************************************/
     public HomeBaseBill buildBill(ParseObject bill)
     {
-        HomeBaseBill hbBill = (HomeBaseBill) buildAlert(bill);
-        hbBill.setAmount(bill.getDouble("amount"));
-        return hbBill;
+        String objectID = bill.getObjectId();
+        String title = bill.getString("title");
+        String type = bill.getString("type");
+        String description = bill.getString("description");
+        String creator = bill.getString("creator");
+        JSONArray responsibleArray = bill.getJSONArray("responsibleUsers");
+        JSONArray completedArray = bill.getJSONArray("completedUsers");
+        double amount = bill.getDouble("amount");
+
+        List<String> responsibleUsers = convertJSON(responsibleArray);
+        List<String> completedUsers = convertJSON(completedArray);
+
+        return new HomeBaseBill(title, objectID, type, amount, responsibleUsers, completedUsers, description, creator);
     }
 
+    public void createBill(String title, String description, List<String> responsibleUsers, double amount, String creatorID, final HomeBaseActivity caller)
+    {
+        JSONArray responsibleArray = new JSONArray(responsibleUsers);
+        JSONArray completedArray = new JSONArray();
+        final ParseObject bill = new ParseObject("Alert");
+        bill.put("title", title);
+        bill.put("description", description);
+        bill.put("creator", creatorID);
+        bill.put("type", "Bill");
+        bill.put("responsibleUsers", responsibleArray);
+        bill.put("completedUsers", completedArray);
+        bill.put("amount", amount);
+        bill.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    HomeBaseBill hbBill = buildBill(bill);
+                    caller.onCreateBillSuccess(hbBill);
+                } else {
+                    caller.onCreateBillFailure(e.getMessage());
+                }
+            }
+        });
+    }
+    public void updateBill(final HomeBaseBill bill, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("objectId", bill.getId());
+        query.getFirstInBackground(new GetCallback<ParseObject>()
+        {
+            @Override
+            public void done(final ParseObject parseBill, ParseException outerException)
+            {
+                if(outerException == null)
+                {
+                    parseBill.put("title", bill.getTitle());
+                    parseBill.put("type", bill.getType());
+                    parseBill.put("description", bill.getDescription());
+                    parseBill.put("creator", bill.getCreatorID());
+                    parseBill.put("amount", bill.getAmount());
 
+                    JSONArray responsibleArray = new JSONArray(bill.getResponsibleUsers());
+                    JSONArray completedArray = new JSONArray(bill.getCompletedUsers());
+                    parseBill.put("responsibleUsers", responsibleArray);
+                    parseBill.put("completedUsers", completedArray);
+
+                    parseBill.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException innerException) {
+                            if (innerException == null) {
+                                HomeBaseBill updated = buildBill(parseBill);
+                                caller.onUpdateBillSuccess(updated);
+                            } else {
+                                caller.onUpdateBillFailure(innerException.getMessage());
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    caller.onGetBillFailure(outerException.getMessage());
+                }
+            }
+        });
+    }
 }
