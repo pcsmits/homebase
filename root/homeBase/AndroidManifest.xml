@@ -80,6 +80,10 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name="app.android.homeBase.BillCreateActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name=".GPSActivity"
             android:label="@string/title_activity_activity_gps" >
         </activity>

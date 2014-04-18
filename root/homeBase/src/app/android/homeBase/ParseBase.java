@@ -485,6 +485,31 @@ public class ParseBase
         });
     }
 
+    public void createBill(String title, final String type, String description, Double amount, List<String> responsibleUsers, String creatorID, final HomeBaseActivity caller)
+    {
+        JSONArray responsibleArray = new JSONArray(responsibleUsers);
+        JSONArray completedArray = new JSONArray();
+        final ParseObject alert = new ParseObject("Alert");
+        alert.put("title", title);
+        alert.put("type", type);
+        alert.put("description", description);
+        alert.put("creator", creatorID);
+        alert.put("responsibleUsers", responsibleArray);
+        alert.put("completedUsers", completedArray);
+        alert.put("amount", amount);
+        alert.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    HomeBaseAlert hbAlert = buildAlert(alert, type);
+                    caller.onCreateAlertSuccess(hbAlert);
+                } else {
+                    caller.onCreateAlertFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
     public void getAlert(String objectID, final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");

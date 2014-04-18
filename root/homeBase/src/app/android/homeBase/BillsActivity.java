@@ -66,6 +66,12 @@ public class BillsActivity extends HomeBaseActivity {
         startActivity(intent);*/
     }
 
+    public void onBillAddClick(View view)
+    {
+        Intent intent = new Intent(BillsActivity.this, BillCreateActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onGetBillsFailure(String e)
     {
