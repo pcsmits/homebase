@@ -152,7 +152,7 @@ public class ParseBase
     {
         //get user's house
         ParseQuery<ParseObject> houseQuery = ParseQuery.getQuery("House");
-        houseQuery.whereEqualTo("admin", getCurrentUser().getObjectId());
+        houseQuery.whereEqualTo("members", getCurrentUser().getObjectId());
         houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseHouse, ParseException e) {
@@ -316,12 +316,13 @@ public class ParseBase
         //get the current user, then the user part of that house
 
         ParseQuery<ParseObject> houseQuery = ParseQuery.getQuery("House");
-        houseQuery.whereEqualTo("admin", getCurrentUser().getObjectId());
+        houseQuery.whereEqualTo("members", getCurrentUser().getObjectId());
         houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseHouse, ParseException e) {
                 if (e == null) {
                     String housename = parseHouse.getString("housename");
+                    Log.d("HOUSE", "house found " + housename);
                     String address = parseHouse.getString("address");
                     String city = parseHouse.getString("city");
                     String state = parseHouse.getString("state");
