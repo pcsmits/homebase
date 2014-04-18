@@ -17,6 +17,9 @@ public class HomeBaseAlert {
     private List<String> responsibleUsers;
     private List<String> completedUsers;
 
+    // Bill specific
+    private Double amount;
+
     public HomeBaseAlert()
     {
 
@@ -93,6 +96,15 @@ public class HomeBaseAlert {
 
     public String getDescription() {
         return description;
+    }
+
+    //Bill specific
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
 }
