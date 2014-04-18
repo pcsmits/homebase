@@ -16,6 +16,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -141,6 +142,42 @@ public class ParseBase
                 else
                 {
                     onLoginSuccess(caller, context, parseUser, e);
+                }
+            }
+        });
+
+    }
+
+    public void getUsersOfHouse(final HomeBaseActivity caller)
+    {
+        //get user's house
+        ParseQuery<ParseObject> houseQuery = ParseQuery.getQuery("House");
+        houseQuery.whereEqualTo("admin", getCurrentUser().getObjectId());
+        houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseHouse, ParseException e) {
+                if (e == null) {
+                    List<String> members = convertJSON(parseHouse.getJSONArray("members"));
+
+                    //with members, check if home
+
+                    for (int i = 0; i < members.size(); i++) {
+                        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+                        userQuery.whereEqualTo("objectId", members.get(i).toString());
+                        userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+                            @Override
+                            public void done(ParseUser user, ParseException e) {
+                                if (e == null) {
+                                    caller.onGetHomeUsersSuccess(user.getUsername(), user.getBoolean("isHome"));
+                                } else {
+                                    caller.onGetHomeUsersFailure();
+                                }
+                            }
+                        });
+                    }
+                    caller.onReturnUsersSuccess();
+                } else {
+                    caller.onReturnUsersFailure();
                 }
             }
         });

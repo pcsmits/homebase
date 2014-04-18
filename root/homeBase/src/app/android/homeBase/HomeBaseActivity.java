@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import com.parse.*;
@@ -42,6 +43,24 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     public void onCheckUserError(ParseException e)
     {
+
+    }
+
+    public void onGetHomeUsersSuccess(String user, Boolean home)
+    {
+
+
+    }
+    public void onGetHomeUsersFailure()
+    {
+
+    }
+
+    public void onReturnUsersSuccess()
+    {
+
+    }
+    public void onReturnUsersFailure() {
 
     }
 
