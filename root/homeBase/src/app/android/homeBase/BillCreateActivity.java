@@ -22,6 +22,7 @@ public class BillCreateActivity extends HomeBaseActivity {
     public ParseBase parse;
     private BootstrapEditText headerBar;
     private BootstrapEditText infoContainer;
+    private BootstrapEditText dollarAmountField;
     private BootstrapButton creatorField;
     private final String k_alertType = "Bill";
 
@@ -71,6 +72,8 @@ public class BillCreateActivity extends HomeBaseActivity {
 
         creatorField = (BootstrapButton) this.findViewById(R.id.billCreate_creator_field);
         creatorField.setText(parse.getCurrentUser().getUsername());
+
+        dollarAmountField = (BootstrapEditText) this.findViewById(R.id.billCreate_dollars_field);
     }
 
     public void onBillCreateSubmitClick(View view)
@@ -78,9 +81,10 @@ public class BillCreateActivity extends HomeBaseActivity {
         String title = headerBar.getText().toString();
         String type = k_alertType;
         String desc = infoContainer.getText().toString();
+        Double amount = Double.parseDouble(dollarAmountField.getText().toString());
         String creator = parse.getCurrentUser().getUsername();
         List<String> responsibleUsers = new LinkedList<String>();
-        parse.createAlert(title,type, desc, responsibleUsers, creator, BillCreateActivity.this);
+        parse.createBill(title, type, desc, amount, responsibleUsers, creator, BillCreateActivity.this);
     }
 
     public void onBillCreateCancelClick(View view)
@@ -91,7 +95,7 @@ public class BillCreateActivity extends HomeBaseActivity {
     @Override
     public void onCreateAlertSuccess(HomeBaseAlert alert)
     {
-        Toast.makeText(BillCreateActivity.this, alert.getTitle() + ": " + alert.getDescription(), Toast.LENGTH_LONG).show();
+        Toast.makeText(BillCreateActivity.this, alert.getTitle() + ": " + alert.getDescription() + ": " + alert.getAmount(), Toast.LENGTH_LONG).show();
     }
 
     @Override
