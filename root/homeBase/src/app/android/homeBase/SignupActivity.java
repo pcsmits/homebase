@@ -18,6 +18,9 @@ import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * This activity class handles the signup "flow" for the application
  * It is started (usually) from the login activity. It's main purpose is to validate the user input
@@ -30,9 +33,11 @@ public class SignupActivity extends HomeBaseActivity
         super.onCreate(savedInstanceState);
         final ParseBase parse = new ParseBase(this);
         setContentView(R.layout.activity_signup);
+        final EmailValidator emailVal = new EmailValidator();
 
         //Get references to the three edit texts
         final BootstrapEditText usernameEditText = (BootstrapEditText) findViewById(R.id.signup_username_etext);
+        final BootstrapEditText emailEditText = (BootstrapEditText) findViewById(R.id.signup_email_etext);
         final BootstrapEditText passwordEditText = (BootstrapEditText) findViewById(R.id.signup_password_etext);
         final BootstrapEditText passwordVerEditText = (BootstrapEditText) findViewById(R.id.signup_passwordV_etext);
 
@@ -62,6 +67,35 @@ public class SignupActivity extends HomeBaseActivity
                 }
             }
         });
+
+        emailEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    String email = emailEditText.getText().toString();
+                    if (!email.isEmpty() && emailVal.validate(email)) {
+                        CheckBox emailCheckBox = (CheckBox) findViewById(R.id.email_checkbox);
+                        emailCheckBox.setChecked(true);
+                    }
+                }
+                return false;
+            }
+        });
+
+        emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                // When the edittext loses focus
+                if (!hasFocus) {
+                    String email = emailEditText.getText().toString();
+                    if (!email.isEmpty() && emailVal.validate(email)) {
+                        CheckBox emailCheckBox = (CheckBox) findViewById(R.id.email_checkbox);
+                        emailCheckBox.setChecked(true);
+                    }
+                }
+            }
+        });
+
 
         // Same idea for password, but now jsut check for a reasonable size password
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -221,5 +255,33 @@ public class SignupActivity extends HomeBaseActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+}
+
+class EmailValidator {
+
+    private Pattern pattern;
+    private Matcher matcher;
+
+    private static final String EMAIL_PATTERN =
+            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+    public EmailValidator() {
+        pattern = Pattern.compile(EMAIL_PATTERN);
+    }
+
+    /**
+     * Validate hex with regular expression
+     *
+     * @param hex
+     *            hex for validation
+     * @return true valid hex, false invalid hex
+     */
+    public boolean validate(final String hex) {
+
+        matcher = pattern.matcher(hex);
+        return matcher.matches();
+
     }
 }
