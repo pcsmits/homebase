@@ -158,7 +158,7 @@ public class ParseBase
             public void done(ParseObject parseHouse, ParseException e) {
                 if (e == null) {
                     List<String> members = convertJSON(parseHouse.getJSONArray("members"));
-
+                    //Log.d(members);
                     //with members, check if home
 
                     for (int i = 0; i < members.size(); i++) {

@@ -22,22 +22,22 @@ public class GPSActivity extends HomeBaseActivity {
         setContentView(R.layout.activity_gps);
 
         //get users
+        parse = new ParseBase();
         parse.getUsersOfHouse(GPSActivity.this);
     }
 
     @Override
     public void onGetHomeUsersSuccess(String user, Boolean home)
     {
-        Log.d("Found User","Success");
+       Log.d("Found User","Success");
        HomeBaseUserStatus userStatus = new HomeBaseUserStatus(user, home);
-        stats.add(userStatus);
+       stats.add(userStatus);
     }
 
     @Override
     public void onGetHomeUsersFailure()
     {
         Log.d("Found User","FAILURE");
-
     }
 
     @Override
@@ -48,7 +48,7 @@ public class GPSActivity extends HomeBaseActivity {
 
     @Override
     public void onReturnUsersSuccess() {
-        Log.d("Found all users","Success");
+        Log.d("Found all users", String.valueOf(stats.size()));
         for (int i = 0; i < stats.size(); i++){
             Log.d(stats.get(i).username, "is user Home? " +stats.get(i).isHome.toString());
         }
