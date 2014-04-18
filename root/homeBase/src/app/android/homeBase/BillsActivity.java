@@ -32,7 +32,7 @@ public class BillsActivity extends HomeBaseActivity {
         billContainers = new ArrayList<BootstrapButton>();
         billDescriptions = new HashMap<BootstrapButton, HomeBaseBill>();
 
-        parse.getUnpaidBillsByUserID(ParseUser.getCurrentUser().getObjectId(), BillsActivity.this);
+        //parse.getUnpaidBillsByUserID(ParseUser.getCurrentUser().getObjectId(), BillsActivity.this);
 
     }
 
