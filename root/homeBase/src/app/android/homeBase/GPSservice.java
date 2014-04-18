@@ -211,12 +211,11 @@ public class GPSservice extends Service implements LocationListener {
         Log.d("User Local", String.valueOf(wasHome));
         //home
         boolean nowHome = false;
-        Log.d("Distancce Between", String.valueOf(results[0]) + " - " + String.valueOf(results[1]) + " - " + String.valueOf(results[2]));
+        Log.d("Distancce Between", String.valueOf(results[0]));
         if(results[0] <= 30) {
             nowHome = true;
         }
         if (nowHome != wasHome) {
-            Log.d("Updating parse", "user at new location");
             parse.updateLocation(nowHome);
             Log.d("Updated parse", "Switching Boolean isHome");
         }
