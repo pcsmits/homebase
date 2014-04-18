@@ -41,6 +41,9 @@ public class ParseBase
     {
         //TODO maybe store these keys in xml
         Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
+        if (!ApplicationManager.tryGetInstance()) {
+            ApplicationManager.createInstance(context);
+        }
     }
 
     /********************************************************************************************************
@@ -156,29 +159,62 @@ public class ParseBase
         houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseHouse, ParseException e) {
-                if (e == null) {
-                    List<String> members = convertJSON(parseHouse.getJSONArray("members"));
-                    Log.d("MEMBERS", String.valueOf(members.size()));
-                    //with members, check if home
+            if (e == null) {
+                List<String> members = convertJSON(parseHouse.getJSONArray("members"));
+                Log.d("MEMBERS", String.valueOf(members.size()));
+                //with members, check if home
 
-                    for (int i = 0; i < members.size(); i++) {
-                        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-                        userQuery.whereEqualTo("objectId", members.get(i).toString());
-                        userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
-                            @Override
-                            public void done(ParseUser user, ParseException e) {
-                                if (e == null) {
-                                    caller.onGetHomeUsersSuccess(user.getUsername(), user.getBoolean("isHome"));
-                                } else {
-                                    caller.onGetHomeUsersFailure();
-                                }
+                for (int i = 0; i < members.size(); i++) {
+                    ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+                    userQuery.whereEqualTo("objectId", members.get(i).toString());
+                    userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+                        @Override
+                        public void done(ParseUser user, ParseException e) {
+                            if (e == null) {
+                                caller.onGetHomeUsersSuccess(user.getUsername(), user.getBoolean("isHome"));
+                            } else {
+                                caller.onGetHomeUsersFailure();
                             }
-                        });
-                    }
-                    caller.onReturnUsersSuccess();
-                } else {
-                    caller.onReturnUsersFailure();
+                        }
+                    });
                 }
+                caller.onReturnUsersSuccess();
+            } else {
+                caller.onReturnUsersFailure();
+            }
+            }
+        });
+
+    }
+
+    public void getUsersOfHouse(final ApplicationManager caller)
+    {
+        //get user's house
+        ParseQuery<ParseObject> houseQuery = ParseQuery.getQuery("House");
+        houseQuery.whereEqualTo("members", getCurrentUser().getObjectId());
+        houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseHouse, ParseException e) {
+            if (e == null) {
+                List<String> members = convertJSON(parseHouse.getJSONArray("members"));
+                Log.d("MEMBERS", String.valueOf(members.size()));
+                //with members, check if home
+
+                for (int i = 0; i < members.size(); i++) {
+                    ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+                    userQuery.whereEqualTo("objectId", members.get(i).toString());
+                    userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+                        @Override
+                        public void done(ParseUser user, ParseException e) {
+                            if (e == null) {
+                                caller.onGetHomeUsersSuccess(user.getUsername());
+                            } else {
+                                caller.onGetHomeUsersFailure();
+                            }
+                        }
+                    });
+                }
+            }
             }
         });
 

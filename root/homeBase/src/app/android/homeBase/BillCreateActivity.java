@@ -15,8 +15,10 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class BillCreateActivity extends HomeBaseActivity {
     public ParseBase parse;
@@ -24,6 +26,11 @@ public class BillCreateActivity extends HomeBaseActivity {
     private BootstrapEditText infoContainer;
     private BootstrapEditText dollarAmountField;
     private BootstrapButton creatorField;
+
+    private ArrayList<String> userNames;
+    private HashMap<String, BootstrapButton> responsibleUsers;
+    private HashMap<BootstrapButton, Boolean> selectedResponsibleUsers;
+
     private final String k_alertType = "Bill";
 
     @Override
@@ -61,11 +68,20 @@ public class BillCreateActivity extends HomeBaseActivity {
         infoContainer.setLayoutParams(rlp);
 
         //set up "responsible for" options
-        for (int i = 0; i < 2; i++) {
+
+        userNames = ApplicationManager.getInstance().getHomeUsers();
+        responsibleUsers = new HashMap<String, BootstrapButton>();
+        selectedResponsibleUsers = new HashMap<BootstrapButton, Boolean>();
+
+        for (int i = 0; i < userNames.size(); i++) {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout template = (LinearLayout) inflater.inflate(R.layout.user_select_template, null, false);
             RelativeLayout btnContainer = (RelativeLayout) template.findViewById(R.id.userSelection_template_container);
             template.removeView(btnContainer);
+            BootstrapButton userBtn = (BootstrapButton)btnContainer.findViewById(R.id.userSelection_button);
+            userBtn.setText(userNames.get(i));
+            responsibleUsers.put(userNames.get(i), userBtn);
+            selectedResponsibleUsers.put(userBtn, false);
             LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.billCreate_responsible_container);
             responsibleContainer.addView(btnContainer);
         }
@@ -76,14 +92,39 @@ public class BillCreateActivity extends HomeBaseActivity {
         dollarAmountField = (BootstrapEditText) this.findViewById(R.id.billCreate_dollars_field);
     }
 
+    public void onUserSelected(View view)
+    {
+        BootstrapButton button = (BootstrapButton)view;
+        if (!selectedResponsibleUsers.get(button)) {
+            button.setBootstrapType("info");
+            selectedResponsibleUsers.put(button, true);
+        } else {
+            button.setBootstrapType("default");
+            selectedResponsibleUsers.put(button, false);
+        }
+    }
+
     public void onBillCreateSubmitClick(View view)
     {
         String title = headerBar.getText().toString();
         String type = k_alertType;
         String desc = infoContainer.getText().toString();
-        Double amount = Double.parseDouble(dollarAmountField.getText().toString());
+        String dollarAmountStr = "0";
+        if (!dollarAmountField.getText().toString().equals("")) {
+            dollarAmountStr = dollarAmountField.getText().toString();
+        }
+
+        Double amount = Double.parseDouble(dollarAmountStr);
         String creator = parse.getCurrentUser().getUsername();
         List<String> responsibleUsers = new LinkedList<String>();
+
+        for(String user : userNames) {
+            BootstrapButton userButton = this.responsibleUsers.get(user);
+            if (selectedResponsibleUsers.get(userButton)) {
+                responsibleUsers.add(user);
+            }
+        }
+
         parse.createBill(title, type, desc, amount, responsibleUsers, creator, BillCreateActivity.this);
     }
 

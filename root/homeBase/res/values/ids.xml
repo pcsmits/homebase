@@ -26,6 +26,7 @@
     <item name="chore_create_creator_field" type="id"/>
 
     <item name="userSelection_template_container" type="id"/>
+    <item name="userSelection_button" type="id"/>
 
     <item name="bills_billContainer_button" type="id"/>
     <item name="bills_allFilter_button" type="id"/>
