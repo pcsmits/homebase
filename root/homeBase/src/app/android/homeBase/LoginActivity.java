@@ -2,15 +2,17 @@ package app.android.homeBase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
-import com.parse.ParseUser;
+
 
 /**
  * This activity is the default launcher activity for the app
@@ -32,6 +34,10 @@ public class LoginActivity extends HomeBaseActivity{
         // activity here
         if(parse.userLoggedIn())
         {
+            Log.d("Logged in User", parse.getCurrentUser().getUsername());
+            //if(!isMyServiceRunning()) {
+            GPSservice gps = new GPSservice(LoginActivity.this);
+            //}
             if(parse.getCurrentUser().has("house")) {
                 Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
                 startActivity(startFeed);
@@ -91,7 +97,9 @@ public class LoginActivity extends HomeBaseActivity{
     public void onLoginSuccess()
     {
         Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
+        //if(!isMyServiceRunning()) {
         GPSservice gps = new GPSservice(LoginActivity.this);
+        //}
         startActivity(startFeed);
     }
 
@@ -120,4 +128,16 @@ public class LoginActivity extends HomeBaseActivity{
         startActivity(intent);
     }
 
+    private boolean isMyServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(LoginActivity.ACTIVITY_SERVICE);
+        for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            Log.d("SERVICE", service.service.getClassName());
+            if (GPSservice.class.getName().equals(service.service.getClassName())) {
+                Log.d("Found Service"," Don't start new one");
+                return true;
+            }
+        }
+        Log.d("Did Not Find Service"," Start new one");
+        return false;
+    }
 }

@@ -42,6 +42,8 @@
     <item name="bill_info_container_button" type="id"/>
     <item name="bill_container_button" type="id"/>
 
+    <item name="GPSuser_container" type="id"/>
+    <item name="GPSuser_location_button" type="id"/>
 
     <item name="newsfeed_menu_container" type="id"/>
     <item name="newsfeed_newsfeedItem_container" type="id"/>
