@@ -44,6 +44,21 @@
                 />
 
             <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:id="@id/signup_email_etext"
+                android:layout_width="258dp"
+                android:layout_height="50dp"
+                bootstrapbutton:be_roundedCorners="true"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:hint="@string/login_email_hint"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                />
+
+            <com.beardedhen.androidbootstrap.BootstrapEditText
                 android:id="@id/signup_password_etext"
                 android:layout_width="258dp"
                 android:layout_height="50dp"
@@ -88,15 +103,25 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="191dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="43dp">
+                android:layout_marginTop="180dp"
+                android:layout_alignParentTop="true">
 
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/username_checkbox"
+                    android:checked="false"
+                    android:clickable="false"
+                    />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="42dp"></RelativeLayout>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/email_checkbox"
                     android:checked="false"
                     android:clickable="false"
                     />
@@ -124,7 +149,6 @@
                     android:checked="false"
                     android:clickable="false"
                     />
-
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

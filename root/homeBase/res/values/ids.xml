@@ -7,6 +7,7 @@
     <item name="login_test_button" type="id"/>
 
     <item name="signup_username_etext" type="id"/>
+    <item name="signup_email_etext" type="id"/>
     <item name="signup_password_etext" type="id"/>
     <item name="signup_passwordV_etext" type="id"/>
     <item name="signup_progressbar" type="id"/>
