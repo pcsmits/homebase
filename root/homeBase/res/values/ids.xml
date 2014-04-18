@@ -28,12 +28,23 @@
 
     <item name="userSelection_template_container" type="id"/>
 
-    <item name="bills_choreContainer_button" type="id"/>
+    <item name="bills_billContainer_button" type="id"/>
+    <item name="bills_allFilter_button" type="id"/>
+
+    <item name="billCreate_responsible_container" type="id"/>
+    <item name="billCreate_body_field" type="id"/>
+    <item name="billCreate_creator_field" type="id"/>
+    <item name="billCreate_header_field" type="id"/>
+    <item name="billCreate_dollars_field" type="id"/>
+    <item name="billCreate_cents_field" type="id"/>
+
     <item name="bill_info_header_button" type="id"/>
     <item name="bill_info_body_button" type="id"/>
     <item name="bill_info_container_button" type="id"/>
     <item name="bill_container_button" type="id"/>
 
+    <item name="GPSuser_container" type="id"/>
+    <item name="GPSuser_location_button" type="id"/>
 
     <item name="newsfeed_menu_container" type="id"/>
     <item name="newsfeed_newsfeedItem_container" type="id"/>

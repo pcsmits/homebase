@@ -14,10 +14,14 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.parse.ParseUser;
 
 public class BillsActivity extends HomeBaseActivity {
-    ArrayList<BootstrapButton> billContainers;
-    HashMap<BootstrapButton, HomeBaseBill> billDescriptions;
-    ParseBase parse;
-    LinearLayout layout;
+    private ParseBase parse;
+    private ArrayList<BootstrapButton> billContainers;
+    private ArrayList<String> billTitles;
+    private HashMap<BootstrapButton, HomeBaseAlert> billDescriptions;
+    private LinearLayout layout;
+    private boolean startCalled = false;
+
+    private BootstrapButton selectedFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,21 +30,59 @@ public class BillsActivity extends HomeBaseActivity {
         parse = new ParseBase(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chores);
+        setContentView(R.layout.activity_bills);
 
-        layout = (LinearLayout) findViewById(R.id.chores_choreContainer_button);
+        layout = (LinearLayout) findViewById(R.id.bills_billContainer_button);
         billContainers = new ArrayList<BootstrapButton>();
-        billDescriptions = new HashMap<BootstrapButton, HomeBaseBill>();
+        billTitles = new ArrayList<String>();
+        billDescriptions = new HashMap<BootstrapButton, HomeBaseAlert>();
 
-        //parse.getUnpaidBillsByUserID(ParseUser.getCurrentUser().getObjectId(), BillsActivity.this);
+        startCalled = true;
+        selectedFilter = (BootstrapButton) findViewById(R.id.bills_allFilter_button);
+        selectedFilter.setEnabled(false);
+
+        parse.getAlerts(this, "Bill");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (startCalled) {
+            startCalled = false;
+            return;
+        }
+
+        parse.refreshAlerts(this, "Bill");
+    }
+
+    public void onBillContainerClick(View view)
+    {
+        /*BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.bill_container_button);
+        thisButton.setText("Clicked");
+        Intent intent = new Intent(BillsActivity.this, ChoreInfoActivity.class);
+        intent.putExtra("title", billDescriptions.get(thisButton).getTitle());
+        intent.putExtra("info", billDescriptions.get(thisButton).getDescription());
+        startActivity(intent);*/
+    }
+
+    public void onBillAddClick(View view)
+    {
+        Intent intent = new Intent(BillsActivity.this, BillCreateActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onGetBillsFailure(String e)
+    {
 
     }
 
     @Override
-    public void onGetBillsSuccess(List<HomeBaseBill> bills)
+    public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
         // Fetch all the bills from parse
-        for (HomeBaseBill bill : bills)
+        for (HomeBaseAlert alert : alerts)
         {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.bill_container, null, false);
@@ -48,25 +90,42 @@ public class BillsActivity extends HomeBaseActivity {
             BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.bill_container_button);
             buttonCont.removeView(myButton);
             layout.addView(myButton);
-            String text = "Bill: "+bill.getAmount();
-            myButton.setText(text);
+            String text = alert.getDescription();
+            myButton.setText(text + " Amount: " + alert.getAmount());
             billContainers.add(myButton);
-            billDescriptions.put(myButton, bill);
+            billDescriptions.put(myButton, alert);
         }
     }
 
-    public void onChoreContainerClick(View view)
+    @Override
+    public void onGetAlertListByTypeFailure(String e)
     {
-        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.bill_container_button);
-        thisButton.setText("Clicked");
-        Intent intent = new Intent(BillsActivity.this, ChoreInfoActivity.class);
-        intent.putExtra("title", billDescriptions.get(thisButton).getTitle());
-        intent.putExtra("info", billDescriptions.get(thisButton).getDescription());
-        startActivity(intent);
+
     }
 
     @Override
-    public void onGetBillsFailure(String e)
+    public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+        for (int i = 0; i < alerts.size(); i++) {
+            if (!billTitles.contains(alerts.get(i).getTitle())) {
+                LayoutInflater inflater = LayoutInflater.from(this);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
+
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_test_button);
+                buttonCont.removeView(myButton);
+                layout.addView(myButton);
+                String text = alerts.get(i).getTitle();
+                myButton.setText(text + " Amount: " + alerts.get(i).getAmount());
+                billContainers.add(myButton);
+                String title = text;
+                billTitles.add(title);
+                billDescriptions.put(myButton, alerts.get(i));
+            }
+        }
+    }
+
+    @Override
+    public void onUpdateAlertListByTypeFailure(String e)
     {
 
     }

@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import com.parse.*;
@@ -44,6 +45,24 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     public void onCheckUserError(ParseException e)
     {
+
+    }
+
+    public void onGetHomeUsersSuccess(String user, Boolean home)
+    {
+
+
+    }
+    public void onGetHomeUsersFailure()
+    {
+
+    }
+
+    public void onReturnUsersSuccess()
+    {
+
+    }
+    public void onReturnUsersFailure() {
 
     }
 
@@ -182,25 +201,6 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
-    // Deprecated
-    public void onGetBillSuccess(HomeBaseBill bill)
-    {
-
-    }
-
-    // Deprecated
-    public void onGetBillsSuccess(List<HomeBaseBill> bills)
-    {
-
-    }
-
-    // Deprecated
-    public void onGetBillFailure(String e)
-    {
-
-    }
-
-    // Deprecated
     public void onGetBillsFailure(String e)
     {
 

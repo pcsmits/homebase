@@ -78,7 +78,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
     public void onBillsButtonClick(View view)
     {
-        Intent intent = new Intent(NewsFeedActivity.this, ChoresActivity.class);
+        Intent intent = new Intent(NewsFeedActivity.this, BillsActivity.class);
         startActivity(intent);
     }
 
