@@ -10,24 +10,27 @@ public class HomeBaseAlert {
 
     // These can only be set on creation
     private String title;
-    private final String id;
+    private String id;
     private String type;
     private String description;
-    private String ownerID;
     private String creatorID;
-    private List<String> seen;
-    //TODO private Picture picture;
+    private List<String> responsibleUsers;
+    private List<String> completedUsers;
 
-    public HomeBaseAlert(String title, String id, String type, List<String> seen, String description, String ownerID, String creatorID)
+    public HomeBaseAlert()
+    {
+
+    }
+
+    public HomeBaseAlert(String title, String id, String type, List<String> responsibleUsers, List<String> completedUsers, String description, String creatorID)
     {
         this.title = title;
         this.id = id;
         this.type = type;
-        this.seen = seen;
         this.description = description;
-        this.ownerID = ownerID;
-        this.creatorID = ownerID;
-
+        this.creatorID = creatorID;
+        this.responsibleUsers = responsibleUsers;
+        this.completedUsers = completedUsers;
     }
 
     public String getTitle() {
@@ -46,24 +49,12 @@ public class HomeBaseAlert {
         this.description = description;
     }
 
-    public String getOwnerID() {
-        return ownerID;
-    }
-
-    public void setOwnerID(String ownerID) {
-        this.ownerID = ownerID;
-    }
-
     public String getCreatorID() {
         return creatorID;
     }
 
     public void setCreatorID(String creatorID) {
         this.creatorID = creatorID;
-    }
-
-    public void setSeen(List<String> seen) {
-        this.seen = seen;
     }
 
     public String getId() {
@@ -74,12 +65,30 @@ public class HomeBaseAlert {
         return type;
     }
 
-    public List<String> getSeen() {
-        return seen;
+    public List<String> getResponsibleUsers() {
+        return responsibleUsers;
     }
 
-    public void addSeen(String user) {
-        this.seen.add(user);
+    public List<String> getCompletedUsers() {
+        return completedUsers;
+    }
+
+    public void addResponsibleUser(String userID)
+    {
+        this.responsibleUsers.add(userID);
+    }
+
+    public boolean clearResponsibility(String userID)
+    {
+        if(this.responsibleUsers.contains(userID))
+        {
+            this.responsibleUsers.remove(userID);
+            this.completedUsers.add(userID);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public String getDescription() {
