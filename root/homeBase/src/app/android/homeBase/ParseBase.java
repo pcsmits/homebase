@@ -396,11 +396,9 @@ public class ParseBase
     /***********************************************************************************************
      *  ALERT METHODS
      **********************************************************************************************/
-    private HomeBaseAlert buildAlert(ParseObject alert)
-    {
+    private HomeBaseAlert buildAlert(ParseObject alert, String type) {
         String objectID = alert.getObjectId();
         String title = alert.getString("title");
-        String type = alert.getString("type");
         String description = alert.getString("description");
         String creator = alert.getString("creator");
         JSONArray responsibleArray = alert.getJSONArray("responsibleUsers");
@@ -408,10 +406,22 @@ public class ParseBase
         List<String> responsibleUsers = convertJSON(responsibleArray);
         List<String> completedUsers = convertJSON(completedArray);
 
+        if (type.equals("Default") || type.equals("Chore")) {
+            return new HomeBaseAlert(title, objectID, type, responsibleUsers, completedUsers, description, creator);
+        } else if (type.equals("Bill")) {
+            return buildBill(alert, new HomeBaseAlert(title, objectID, type, responsibleUsers, completedUsers, description, creator));
+        }
+
         return new HomeBaseAlert(title, objectID, type, responsibleUsers, completedUsers, description, creator);
     }
 
-    public void createAlert(String title, String type, String description, List<String> responsibleUsers, String creatorID, final HomeBaseActivity caller)
+    private HomeBaseAlert buildBill(ParseObject alert, HomeBaseAlert alertBase) {
+        Double amount = alert.getDouble("amount");
+        alertBase.setAmount(amount);
+        return alertBase;
+    }
+
+    public void createAlert(String title, final String type, String description, List<String> responsibleUsers, String creatorID, final HomeBaseActivity caller)
     {
         JSONArray responsibleArray = new JSONArray(responsibleUsers);
         JSONArray completedArray = new JSONArray();
@@ -426,7 +436,7 @@ public class ParseBase
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    HomeBaseAlert hbAlert = buildAlert(alert);
+                    HomeBaseAlert hbAlert = buildAlert(alert, type);
                     caller.onCreateAlertSuccess(hbAlert);
                 } else {
                     caller.onCreateAlertFailure(e.getMessage());
@@ -444,7 +454,7 @@ public class ParseBase
             public void done(ParseObject parseObject, ParseException e) {
                 if(e == null)
                 {
-                    HomeBaseAlert hbAlert = buildAlert(parseObject);
+                    HomeBaseAlert hbAlert = buildAlert(parseObject, "Default");
                     caller.onGetAlertSuccess(hbAlert);
                 }
                 else
@@ -464,7 +474,7 @@ public class ParseBase
                 if (e == null) {
                     ArrayList<HomeBaseAlert> alertList = new ArrayList<HomeBaseAlert>();
                     for (int i = 0; i < objects.size(); i++) {
-                        HomeBaseAlert alert = buildAlert(objects.get(i));
+                        HomeBaseAlert alert = buildAlert(objects.get(i), "Default");
                         alertList.add(alert);
                     }
                     caller.onGetAlertListSuccess(alertList);
@@ -475,7 +485,7 @@ public class ParseBase
         });
     }
 
-    public void getAlerts(final HomeBaseActivity caller, String type)
+    public void getAlerts(final HomeBaseActivity caller, final String type)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
         query.whereEqualTo("type", type);
@@ -485,7 +495,7 @@ public class ParseBase
                 if (e == null) {
                     ArrayList<HomeBaseAlert> alertList = new ArrayList<HomeBaseAlert>();
                     for (int i = 0; i < objects.size(); i++) {
-                        HomeBaseAlert alert = buildAlert(objects.get(i));
+                        HomeBaseAlert alert = buildAlert(objects.get(i), type);
                         alertList.add(alert);
                     }
                     caller.onGetAlertListByTypeSuccess(alertList);
@@ -505,7 +515,7 @@ public class ParseBase
                 if (e == null) {
                     ArrayList<HomeBaseAlert> alertList = new ArrayList<HomeBaseAlert>();
                     for (int i = 0; i < objects.size(); i++) {
-                        HomeBaseAlert alert = buildAlert(objects.get(i));
+                        HomeBaseAlert alert = buildAlert(objects.get(i), "Default");
                         alertList.add(alert);
                     }
                     caller.onUpdateAlertListSuccess(alertList);
@@ -516,7 +526,7 @@ public class ParseBase
         });
     }
 
-    public void refreshAlerts(final HomeBaseActivity caller, String type)
+    public void refreshAlerts(final HomeBaseActivity caller, final String type)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
         query.whereEqualTo("type", type);
@@ -526,53 +536,12 @@ public class ParseBase
                 if (e == null) {
                     ArrayList<HomeBaseAlert> alertList = new ArrayList<HomeBaseAlert>();
                     for (int i = 0; i < objects.size(); i++) {
-                        HomeBaseAlert alert = buildAlert(objects.get(i));
+                        HomeBaseAlert alert = buildAlert(objects.get(i), type);
                         alertList.add(alert);
                     }
                     caller.onUpdateAlertListByTypeSuccess(alertList);
                 } else {
                     caller.onUpdateAlertListByTypeFailure(e.getMessage());
-                }
-            }
-        });
-    }
-
-    public void updateAlert(final HomeBaseAlert alert, final HomeBaseActivity caller)
-    {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
-        query.whereEqualTo("objectId", alert.getId());
-        query.getFirstInBackground(new GetCallback<ParseObject>()
-        {
-            @Override
-            public void done(final ParseObject parseAlert, ParseException outerException)
-            {
-                if(outerException == null)
-                {
-                    parseAlert.put("title", alert.getTitle());
-                    parseAlert.put("type", alert.getType());
-                    parseAlert.put("description", alert.getDescription());
-                    parseAlert.put("creator", alert.getCreatorID());
-
-                    JSONArray responsibleArray = new JSONArray(alert.getResponsibleUsers());
-                    JSONArray completedArray = new JSONArray(alert.getCompletedUsers());
-                    parseAlert.put("responsibleUsers", responsibleArray);
-                    parseAlert.put("completedUsers", completedArray);
-
-                    parseAlert.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException innerException) {
-                            if (innerException == null) {
-                                HomeBaseAlert updated = buildAlert(parseAlert);
-                                caller.onUpdateAlertSuccess(updated);
-                            } else {
-                                caller.onUpdateAlertFailure(innerException.getMessage());
-                            }
-                        }
-                    });
-                }
-                else
-                {
-                    caller.onGetAlertFailure(outerException.getMessage());
                 }
             }
         });
@@ -592,95 +561,6 @@ public class ParseBase
                 else
                 {
                     caller.onDeleteAlertFailure(e.getMessage());
-                }
-            }
-        });
-    }
-
-    /***********************************************************************************************
-     *  BILL METHODS
-     *
-     *  Kinda funk but only need to call create bill and updatebill
-     *  retreving and deleting can all be done through alert methods
-     **********************************************************************************************/
-    public HomeBaseBill buildBill(ParseObject bill)
-    {
-        String objectID = bill.getObjectId();
-        String title = bill.getString("title");
-        String type = bill.getString("type");
-        String description = bill.getString("description");
-        String creator = bill.getString("creator");
-        JSONArray responsibleArray = bill.getJSONArray("responsibleUsers");
-        JSONArray completedArray = bill.getJSONArray("completedUsers");
-        double amount = bill.getDouble("amount");
-
-        List<String> responsibleUsers = convertJSON(responsibleArray);
-        List<String> completedUsers = convertJSON(completedArray);
-
-        return new HomeBaseBill(title, objectID, type, amount, responsibleUsers, completedUsers, description, creator);
-    }
-
-    public void createBill(String title, String description, List<String> responsibleUsers, double amount, String creatorID, final HomeBaseActivity caller)
-    {
-        JSONArray responsibleArray = new JSONArray(responsibleUsers);
-        JSONArray completedArray = new JSONArray();
-        final ParseObject bill = new ParseObject("Alert");
-        bill.put("title", title);
-        bill.put("description", description);
-        bill.put("creator", creatorID);
-        bill.put("type", "Bill");
-        bill.put("responsibleUsers", responsibleArray);
-        bill.put("completedUsers", completedArray);
-        bill.put("amount", amount);
-        bill.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    HomeBaseBill hbBill = buildBill(bill);
-                    caller.onCreateBillSuccess(hbBill);
-                } else {
-                    caller.onCreateBillFailure(e.getMessage());
-                }
-            }
-        });
-    }
-    public void updateBill(final HomeBaseBill bill, final HomeBaseActivity caller)
-    {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
-        query.whereEqualTo("objectId", bill.getId());
-        query.getFirstInBackground(new GetCallback<ParseObject>()
-        {
-            @Override
-            public void done(final ParseObject parseBill, ParseException outerException)
-            {
-                if(outerException == null)
-                {
-                    parseBill.put("title", bill.getTitle());
-                    parseBill.put("type", bill.getType());
-                    parseBill.put("description", bill.getDescription());
-                    parseBill.put("creator", bill.getCreatorID());
-                    parseBill.put("amount", bill.getAmount());
-
-                    JSONArray responsibleArray = new JSONArray(bill.getResponsibleUsers());
-                    JSONArray completedArray = new JSONArray(bill.getCompletedUsers());
-                    parseBill.put("responsibleUsers", responsibleArray);
-                    parseBill.put("completedUsers", completedArray);
-
-                    parseBill.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException innerException) {
-                            if (innerException == null) {
-                                HomeBaseBill updated = buildBill(parseBill);
-                                caller.onUpdateBillSuccess(updated);
-                            } else {
-                                caller.onUpdateBillFailure(innerException.getMessage());
-                            }
-                        }
-                    });
-                }
-                else
-                {
-                    caller.onGetBillFailure(outerException.getMessage());
                 }
             }
         });

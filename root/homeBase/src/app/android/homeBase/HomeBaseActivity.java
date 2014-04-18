@@ -182,25 +182,6 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
-    // Deprecated
-    public void onGetBillSuccess(HomeBaseBill bill)
-    {
-
-    }
-
-    // Deprecated
-    public void onGetBillsSuccess(List<HomeBaseBill> bills)
-    {
-
-    }
-
-    // Deprecated
-    public void onGetBillFailure(String e)
-    {
-
-    }
-
-    // Deprecated
     public void onGetBillsFailure(String e)
     {
 
