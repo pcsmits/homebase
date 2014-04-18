@@ -12,7 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
-import com.parse.ParseUser;
+
 
 /**
  * This activity is the default launcher activity for the app
@@ -132,9 +132,7 @@ public class LoginActivity extends HomeBaseActivity{
         ActivityManager manager = (ActivityManager) getSystemService(LoginActivity.ACTIVITY_SERVICE);
         for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             Log.d("SERVICE", service.service.getClassName());
-           // if (GPSservice.class.getName().equals(service.service.getClassName())) {
-            String test = new String("com.android.location.fused.FusedLocationService");
-            if (test.equals(service.service.getClassName())) {
+            if (GPSservice.class.getName().equals(service.service.getClassName())) {
                 Log.d("Found Service"," Don't start new one");
                 return true;
             }
