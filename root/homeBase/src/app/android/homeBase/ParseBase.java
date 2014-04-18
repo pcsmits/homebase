@@ -168,7 +168,9 @@ public class ParseBase
                             @Override
                             public void done(ParseUser user, ParseException e) {
                                 if (e == null) {
-                                    caller.onGetHomeUsersSuccess(user.getUsername(), user.getBoolean("isHome"));
+                                    if (!user.getObjectId().equals(getCurrentUser().getObjectId())){
+                                        caller.onGetHomeUsersSuccess(user.getUsername(), user.getBoolean("isHome"));
+                                    }
                                 } else {
                                     caller.onGetHomeUsersFailure();
                                 }
