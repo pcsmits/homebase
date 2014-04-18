@@ -38,7 +38,7 @@ public class LoginActivity extends HomeBaseActivity{
             //if(!isMyServiceRunning()) {
             GPSservice gps = new GPSservice(LoginActivity.this);
             //}
-            if(ParseUser.getCurrentUser().has("house")) {
+            if(parse.getCurrentUser().has("house")) {
                 Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
                 startActivity(startFeed);
             }

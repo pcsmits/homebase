@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class ChoreCreateActivity extends HomeBaseActivity {
     public ParseBase parse;
     private BootstrapEditText headerBar;
@@ -76,8 +79,8 @@ public class ChoreCreateActivity extends HomeBaseActivity {
         String type = k_alertType;
         String desc = infoContainer.getText().toString();
         String creator = parse.getCurrentUser().getUsername();
-        String owner = "Parker";
-        parse.createAlert(title,type, desc, creator, owner, ChoreCreateActivity.this);
+        List<String> responsibleUsers = new LinkedList<String>();
+        parse.createAlert(title,type, desc, responsibleUsers, creator, ChoreCreateActivity.this);
     }
 
     public void onChoreCreateCancelClick(View view)

@@ -3,6 +3,8 @@ package app.android.homeBase;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -169,6 +171,16 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    public void onUpdateAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+
+    }
+
+    public void onUpdateAlertListFailure(String e)
+    {
+
+    }
+
     public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
 
@@ -189,21 +201,25 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    // Deprecated
     public void onGetBillSuccess(HomeBaseBill bill)
     {
 
     }
 
+    // Deprecated
     public void onGetBillsSuccess(List<HomeBaseBill> bills)
     {
 
     }
 
+    // Deprecated
     public void onGetBillFailure(String e)
     {
 
     }
 
+    // Deprecated
     public void onGetBillsFailure(String e)
     {
 
@@ -229,11 +245,13 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    // Deprecated
     public void onDeleteBillSuccess()
     {
 
     }
 
+    // Deprecated
     public void onDeleteBillFailure(String e)
     {
 

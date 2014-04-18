@@ -49,7 +49,10 @@ public class BillTestActivity extends HomeBaseActivity {
 
     public void billCreateOnClick(View v)
     {
-        parse.createBill("test", 100.0, "A Test Bill", "Kyle", "Parker", BillTestActivity.this);
+        List<String> responsibleUsers = new LinkedList<String>();
+        responsibleUsers.add("Parker");
+        responsibleUsers.add("Emanuel");
+        parse.createBill("test bill", "a test bill", responsibleUsers, 10.0, ParseUser.getCurrentUser().getObjectId(), BillTestActivity.this );
     }
 
     public void onCreateBillSuccess(HomeBaseBill bill)
@@ -64,31 +67,28 @@ public class BillTestActivity extends HomeBaseActivity {
 
     public void billGetOnClick(View v)
     {
-        parse.getBill(testBill.getId(), BillTestActivity.this);
+        parse.getAlert(testBill.getId(), BillTestActivity.this);
     }
 
-    public void onGetBillSuccess(HomeBaseBill bill)
+    public void onGetAlertSuccess(HomeBaseBill bill)
     {
         Toast.makeText(BillTestActivity.this, bill.getId()+" vs "+testBill.getId(), Toast.LENGTH_LONG).show();
     }
-    public void onGetBillFailure(String e)
+    public void onGetAlertFailure(String e)
     {
         Toast.makeText(BillTestActivity.this, e, Toast.LENGTH_LONG).show();
     }
 
     public void billUpdateOnClick(View v)
     {
-        List<String> us = new LinkedList<String>();
-        us.add("Kyle");
-        us.add("Parker");
-        us.add("Emanuel");
-        testBill.setToPay(us);
-        parse.updateBill(testBill, BillTestActivity.this);
+        if(testBill.clearResponsibility("Parker")) {
+            parse.updateBill(testBill, BillTestActivity.this);
+        }
     }
 
     public void onUpdateBillSuccess(HomeBaseBill bill)
     {
-        Toast.makeText(BillTestActivity.this, testBill.getToPay().get(0), Toast.LENGTH_LONG).show();
+        Toast.makeText(BillTestActivity.this, testBill.getResponsibleUsers().get(0), Toast.LENGTH_LONG).show();
     }
     public void onUpdateBillFailure(String e)
     {
@@ -97,14 +97,14 @@ public class BillTestActivity extends HomeBaseActivity {
 
     public void billDeleteOnClick(View v)
     {
-        parse.deleteBill(testBill, BillTestActivity.this);
+        parse.deleteAlert(testBill, BillTestActivity.this);
     }
 
-    public void onDeleteBillSuccess()
+    public void onDeleteAlertSuccess()
     {
         Toast.makeText(BillTestActivity.this, "DEAD", Toast.LENGTH_LONG).show();
     }
-    public void onDeleteBillFailure(String e)
+    public void onDeleteAlertFailure(String e)
     {
         Toast.makeText(BillTestActivity.this, e, Toast.LENGTH_LONG).show();
     }
