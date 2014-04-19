@@ -76,11 +76,12 @@ public class ParseBase
         return ParseUser.getCurrentUser();
     }
 
-    public void addUser(final String username, final String password, final HomeBaseActivity caller)
+    public void addUser(final String username, final String password, final String email, final HomeBaseActivity caller)
     {
         final ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
+        user.setEmail(email);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
