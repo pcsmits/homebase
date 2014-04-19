@@ -21,6 +21,8 @@
             bootstrapbutton:bb_type="gray"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:id="@id/userSelection_button"
+            android:onClick="onUserSelected"
             >
         </com.beardedhen.androidbootstrap.BootstrapButton>
     </RelativeLayout>
