@@ -41,10 +41,12 @@ public class LoginActivity extends HomeBaseActivity{
             if(parse.getCurrentUser().has("house")) {
                 Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
                 startActivity(startFeed);
+                finish();
             }
             else {
                 Intent startNewhouse = new Intent(LoginActivity.this, NewHouseActivity.class);
                 startActivity(startNewhouse);
+                finish();
             }
         }
         animTranslate = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
@@ -85,7 +87,6 @@ public class LoginActivity extends HomeBaseActivity{
         if(!username.isEmpty() && !password.isEmpty())
         {
             parse.loginUser(username, password, v.getContext(), this);
-            //ToDo if house found save to disk
         }
         else
         {
@@ -101,6 +102,7 @@ public class LoginActivity extends HomeBaseActivity{
         GPSservice gps = new GPSservice(LoginActivity.this);
         //}
         startActivity(startFeed);
+        finish();
     }
 
     @Override
