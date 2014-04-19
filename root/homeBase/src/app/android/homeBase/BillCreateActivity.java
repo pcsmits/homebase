@@ -1,6 +1,7 @@
 package app.android.homeBase;
 
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -137,6 +140,25 @@ public class BillCreateActivity extends HomeBaseActivity {
     public void onCreateAlertSuccess(HomeBaseAlert alert)
     {
         Toast.makeText(BillCreateActivity.this, alert.getTitle() + ": " + alert.getDescription() + ": " + alert.getAmount(), Toast.LENGTH_LONG).show();
+        int numUsers = alert.getResponsibleUsers().size();
+        double splitAmount = (alert.getAmount() / numUsers );
+
+        Intent email = new Intent(Intent.ACTION_SEND);
+        email.setType("message/rfc822");
+
+        //for(String user : alert.getResponsibleUsers()) {
+        //    //TODO GET EMAILS
+        //}
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{"smits2010@gmail.com","rosuemanuel@gmail.com"});
+        email.putExtra(Intent.EXTRA_CC, new String[]{"request@square.com"});
+        email.putExtra(Intent.EXTRA_SUBJECT, "$"+splitAmount);
+        email.putExtra(Intent.EXTRA_TEXT, alert.getTitle()+"\n"+alert.getDescription());
+        try {
+            startActivity(Intent.createChooser(email, "Send mail..."));
+            finish();
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(BillCreateActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
