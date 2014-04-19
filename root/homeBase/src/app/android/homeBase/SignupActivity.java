@@ -306,6 +306,5 @@ class EmailValidator {
     {
         matcher = pattern.matcher(hex);
         return matcher.matches();
-
     }
 }
