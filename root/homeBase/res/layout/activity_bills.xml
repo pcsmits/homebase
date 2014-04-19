@@ -60,7 +60,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true">
+                            android:layout_alignParentStart="true"
+                            android:onClick="onAllFilterClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>
@@ -83,7 +84,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true">
+                            android:layout_alignParentStart="true"
+                            android:onClick="onCreatedFilterClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>

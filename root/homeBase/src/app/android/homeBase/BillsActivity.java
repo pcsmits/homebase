@@ -72,10 +72,40 @@ public class BillsActivity extends HomeBaseActivity {
         startActivity(intent);
     }
 
-    @Override
-    public void onGetBillsFailure(String e)
+    public void onAllFilterClick(View view)
     {
+        selectedFilter.setEnabled(true);
 
+        BootstrapButton clicked = (BootstrapButton) view;
+        clicked.setBootstrapButtonEnabled(false);
+
+        selectedFilter = clicked;
+
+        layout.removeAllViews();
+        for(int i = 0; i < billContainers.size(); i++) {
+            BootstrapButton billContainer = billContainers.get(i);
+            if (billDescriptions.get(billContainer).getCreatorID() != parse.getCurrentUser().getUsername()) {
+                layout.addView(billContainer);
+            }
+        }
+    }
+
+    public void onCreatedFilterClick(View view)
+    {
+        selectedFilter.setEnabled(true);
+
+        BootstrapButton clicked = (BootstrapButton) view;
+        clicked.setBootstrapButtonEnabled(false);
+
+        selectedFilter = clicked;
+
+        layout.removeAllViews();
+        for(int i = 0; i < billContainers.size(); i++) {
+            BootstrapButton billContainer = billContainers.get(i);
+            if (billDescriptions.get(billContainer).getCreatorID().equals(parse.getCurrentUser().getUsername().toString())) {
+                layout.addView(billContainer);
+            }
+        }
     }
 
     @Override

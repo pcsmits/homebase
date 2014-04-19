@@ -68,7 +68,6 @@ public class BillCreateActivity extends HomeBaseActivity {
         infoContainer.setLayoutParams(rlp);
 
         //set up "responsible for" options
-
         userNames = ApplicationManager.getInstance().getHomeUsers();
         responsibleUsers = new HashMap<String, BootstrapButton>();
         selectedResponsibleUsers = new HashMap<BootstrapButton, Boolean>();
