@@ -191,6 +191,9 @@ public class ParseBase
     {
         //get user's house
         ParseQuery<ParseObject> houseQuery = ParseQuery.getQuery("House");
+        if (getCurrentUser() == null) {
+            return;
+        }
         houseQuery.whereEqualTo("members", getCurrentUser().getObjectId());
         houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
@@ -470,11 +473,12 @@ public class ParseBase
     /***********************************************************************************************
      *  ALERT METHODS
      **********************************************************************************************/
-    private HomeBaseAlert buildAlert(ParseObject alert, String type) {
+    private HomeBaseAlert buildAlert(ParseObject alert, String passedType) {
         String objectID = alert.getObjectId();
         String title = alert.getString("title");
         String description = alert.getString("description");
         String creator = alert.getString("creator");
+        String type = alert.getString("type");
         JSONArray responsibleArray = alert.getJSONArray("responsibleUsers");
         JSONArray completedArray = alert.getJSONArray("completedUsers");
         List<String> responsibleUsers = convertJSON(responsibleArray);
