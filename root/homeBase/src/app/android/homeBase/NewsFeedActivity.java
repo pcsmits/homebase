@@ -3,12 +3,12 @@ package app.android.homeBase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
@@ -107,6 +107,10 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
             BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
             header.setText(alerts.get(i).getTitle());
+            Log.d("Type: ", alerts.get(i).getType());
+            if (alerts.get(i).getType().equals("Bill")) {
+                header.setBootstrapType("warning");
+            }
         }
     }
 
@@ -130,6 +134,9 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
                 BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
                 header.setText(alerts.get(i).getTitle());
+                if (alerts.get(i).getType().equals("Bill")) {
+                    header.setBootstrapType("warning");
+                }
             }
         }
     }

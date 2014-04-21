@@ -120,7 +120,6 @@ public class ChoresActivity extends HomeBaseActivity {
         }
     }
 
-
     public void onResponsibleFilterClick(View view)
     {
 

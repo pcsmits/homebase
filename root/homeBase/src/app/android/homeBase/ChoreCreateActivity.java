@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +25,11 @@ public class ChoreCreateActivity extends HomeBaseActivity {
     private BootstrapEditText headerBar;
     private BootstrapEditText infoContainer;
     private BootstrapButton ownerField;
+
+    private ArrayList<String> userNames;
+    private HashMap<String, BootstrapButton> responsibleUsers;
+    private HashMap<BootstrapButton, Boolean> selectedResponsibleUsers;
+
     private final String k_alertType = "Chore";
 
     @Override
@@ -60,17 +67,38 @@ public class ChoreCreateActivity extends HomeBaseActivity {
         infoContainer.setLayoutParams(rlp);
 
         //set up "responsible for" options
-        for (int i = 0; i < 2; i++) {
+        userNames = ApplicationManager.getInstance().getHomeUsers();
+        responsibleUsers = new HashMap<String, BootstrapButton>();
+        selectedResponsibleUsers = new HashMap<BootstrapButton, Boolean>();
+
+
+        for (int i = 0; i < userNames.size(); i++) {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout template = (LinearLayout) inflater.inflate(R.layout.user_select_template, null, false);
             RelativeLayout btnContainer = (RelativeLayout) template.findViewById(R.id.userSelection_template_container);
             template.removeView(btnContainer);
+            BootstrapButton userBtn = (BootstrapButton)btnContainer.findViewById(R.id.userSelection_button);
+            userBtn.setText(userNames.get(i));
+            responsibleUsers.put(userNames.get(i), userBtn);
+            selectedResponsibleUsers.put(userBtn, false);
             LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.chore_create_responsible_container);
             responsibleContainer.addView(btnContainer);
         }
 
         ownerField = (BootstrapButton) this.findViewById(R.id.chore_create_creator_field);
         ownerField.setText(parse.getCurrentUser().getUsername());
+    }
+
+    public void onUserSelected(View view)
+    {
+        BootstrapButton button = (BootstrapButton)view;
+        if (!selectedResponsibleUsers.get(button)) {
+            button.setBootstrapType("info");
+            selectedResponsibleUsers.put(button, true);
+        } else {
+            button.setBootstrapType("default");
+            selectedResponsibleUsers.put(button, false);
+        }
     }
 
     public void onChoreCreateSubmitClick(View view)
@@ -80,6 +108,14 @@ public class ChoreCreateActivity extends HomeBaseActivity {
         String desc = infoContainer.getText().toString();
         String creator = parse.getCurrentUser().getUsername();
         List<String> responsibleUsers = new LinkedList<String>();
+
+        for(String user : userNames) {
+            BootstrapButton userButton = this.responsibleUsers.get(user);
+            if (selectedResponsibleUsers.get(userButton)) {
+                responsibleUsers.add(user);
+            }
+        }
+
         parse.createAlert(title,type, desc, responsibleUsers, creator, ChoreCreateActivity.this);
     }
 
