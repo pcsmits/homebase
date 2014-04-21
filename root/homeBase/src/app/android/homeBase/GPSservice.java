@@ -14,8 +14,6 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 public class GPSservice extends Service implements LocationListener {
 
@@ -41,7 +39,8 @@ public class GPSservice extends Service implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 10 * 1; // 1 minute
+   // private static final long MIN_TIME_BW_UPDATES = 1000 * 10 * 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 10 ; // 1 minute
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -69,6 +68,7 @@ public class GPSservice extends Service implements LocationListener {
 
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
+                Log.d("NO NETWORK", "Da FUQ?");
             } else {
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
@@ -131,10 +131,11 @@ public class GPSservice extends Service implements LocationListener {
      * */
     public double getLatitude(){
         if(location != null){
-        //    latitude = location.getLatitude();
+            latitude = location.getLatitude();
+        } else {
+            Log.d("Get Location", "location obj not found");
         }
 
-        // return latitude
         return latitude;
     }
 
@@ -146,7 +147,6 @@ public class GPSservice extends Service implements LocationListener {
            longitude = location.getLongitude();
         }
 
-        // return longitude
         return longitude;
     }
 
@@ -192,8 +192,9 @@ public class GPSservice extends Service implements LocationListener {
 
 
     public void onLocationChanged(Location location) {
-        Log.d("GPS", "NEW LOCATION BRO");
-        getLocation();
+        Log.d("GPS", "Location Changed " + location.getLatitude() + " - " + location.getLongitude());
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
         // Check house location and new location to compare
         ParseBase parse = new ParseBase(mContext);
         parse.getHouse(GPSservice.this);
@@ -204,18 +205,17 @@ public class GPSservice extends Service implements LocationListener {
     {
 
         float[] results = new float[3];
-        Log.d("Distancce Between", this.getLatitude() + " - " + house.getLatitude());
-        location.distanceBetween(this.getLatitude(), this.getLongitude(), house.getLatitude(), house.getLongitude(), results);
+        Log.d("Distancce Between", this.latitude + " - " + house.getLatitude());
+        location.distanceBetween(this.latitude, this.longitude, house.getLatitude(), house.getLongitude(), results);
         boolean wasHome = parse.getUserLocation();
         Log.d("User Local", String.valueOf(wasHome));
         //home
         boolean nowHome = false;
-        Log.d("Distancce Between", String.valueOf(results[0]) + " - " + String.valueOf(results[1]) + " - " + String.valueOf(results[2]));
+        Log.d("Distancce Between", String.valueOf(results[0]));
         if(results[0] <= 30) {
             nowHome = true;
         }
         if (nowHome != wasHome) {
-            Log.d("Updating parse", "user at new location");
             parse.updateLocation(nowHome);
             Log.d("Updated parse", "Switching Boolean isHome");
         }

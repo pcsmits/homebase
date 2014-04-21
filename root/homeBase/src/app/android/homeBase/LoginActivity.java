@@ -2,15 +2,18 @@ package app.android.homeBase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.parse.ParseUser;
+
 
 /**
  * This activity is the default launcher activity for the app
@@ -32,13 +35,19 @@ public class LoginActivity extends HomeBaseActivity{
         // activity here
         if(parse.userLoggedIn())
         {
-            if(ParseUser.getCurrentUser().has("house")) {
+            Log.d("Logged in User", parse.getCurrentUser().getUsername());
+            //if(!isMyServiceRunning()) {
+            GPSservice gps = new GPSservice(LoginActivity.this);
+            //}
+            if(parse.getCurrentUser().has("house")) {
                 Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
                 startActivity(startFeed);
+                finish();
             }
             else {
                 Intent startNewhouse = new Intent(LoginActivity.this, NewHouseActivity.class);
                 startActivity(startNewhouse);
+                finish();
             }
         }
         animTranslate = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
@@ -117,5 +126,18 @@ public class LoginActivity extends HomeBaseActivity{
         Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(intent);//TODO is this okay here??
         GPSservice gps = new GPSservice(LoginActivity.this);
+    }
+
+    private boolean isMyServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(LoginActivity.ACTIVITY_SERVICE);
+        for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            Log.d("SERVICE", service.service.getClassName());
+            if (GPSservice.class.getName().equals(service.service.getClassName())) {
+                Log.d("Found Service"," Don't start new one");
+                return true;
+            }
+        }
+        Log.d("Did Not Find Service"," Start new one");
+        return false;
     }
 }

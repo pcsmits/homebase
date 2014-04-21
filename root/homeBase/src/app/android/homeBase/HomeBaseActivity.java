@@ -3,7 +3,10 @@ package app.android.homeBase;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import com.parse.*;
@@ -42,6 +45,24 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     public void onCheckUserError(ParseException e)
     {
+
+    }
+
+    public void onGetHomeUsersSuccess(String user, Boolean home)
+    {
+
+
+    }
+    public void onGetHomeUsersFailure()
+    {
+
+    }
+
+    public void onReturnUsersSuccess()
+    {
+
+    }
+    public void onReturnUsersFailure() {
 
     }
 
@@ -150,6 +171,16 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    public void onUpdateAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
+    {
+
+    }
+
+    public void onUpdateAlertListFailure(String e)
+    {
+
+    }
+
     public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
 
@@ -166,21 +197,6 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     }
 
     public void onUpdateAlertListByTypeFailure(String e)
-    {
-
-    }
-
-    public void onGetBillSuccess(HomeBaseBill bill)
-    {
-
-    }
-
-    public void onGetBillsSuccess(List<HomeBaseBill> bills)
-    {
-
-    }
-
-    public void onGetBillFailure(String e)
     {
 
     }
@@ -210,11 +226,13 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    // Deprecated
     public void onDeleteBillSuccess()
     {
 
     }
 
+    // Deprecated
     public void onDeleteBillFailure(String e)
     {
 

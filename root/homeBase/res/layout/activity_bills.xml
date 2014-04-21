@@ -48,6 +48,7 @@
                         android:layout_margin="0dp">
 
                         <com.beardedhen.androidbootstrap.BootstrapButton
+                            android:id="@id/bills_allFilter_button"
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
                             android:text="@string/bills_viewActive_button"
@@ -59,7 +60,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true">
+                            android:layout_alignParentStart="true"
+                            android:onClick="onAllFilterClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>
@@ -82,7 +84,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true">
+                            android:layout_alignParentStart="true"
+                            android:onClick="onCreatedFilterClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>
@@ -129,7 +132,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true">
+                            android:layout_alignParentStart="true"
+                            android:onClick="onBillAddClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>
@@ -137,14 +141,18 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@id/bills_choreContainer_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="0.59"
-                android:weightSum="1">
-            </LinearLayout>
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <LinearLayout
+                    android:id="@id/bills_billContainer_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="0.59"
+                    android:weightSum="1">
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

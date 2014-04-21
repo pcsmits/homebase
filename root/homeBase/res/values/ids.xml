@@ -7,12 +7,14 @@
     <item name="login_test_button" type="id"/>
 
     <item name="signup_username_etext" type="id"/>
+    <item name="signup_email_etext" type="id"/>
     <item name="signup_password_etext" type="id"/>
     <item name="signup_passwordV_etext" type="id"/>
     <item name="signup_progressbar" type="id"/>
     <item name="signup_signup_button" type="id"/>
 
     <item name="chores_choreContainer_button" type="id"/>
+    <item name="chores_allFilter_button" type="id"/>
     <item name="chore_info_header_button" type="id"/>
     <item name="chore_info_body_button" type="id"/>
     <item name="chore_info_creator_field" type="id"/>
@@ -25,17 +27,30 @@
     <item name="chore_create_creator_field" type="id"/>
 
     <item name="userSelection_template_container" type="id"/>
+    <item name="userSelection_button" type="id"/>
 
-    <item name="bills_choreContainer_button" type="id"/>
+    <item name="bills_billContainer_button" type="id"/>
+    <item name="bills_allFilter_button" type="id"/>
+
+    <item name="billCreate_responsible_container" type="id"/>
+    <item name="billCreate_body_field" type="id"/>
+    <item name="billCreate_creator_field" type="id"/>
+    <item name="billCreate_header_field" type="id"/>
+    <item name="billCreate_dollars_field" type="id"/>
+    <item name="billCreate_cents_field" type="id"/>
+
     <item name="bill_info_header_button" type="id"/>
     <item name="bill_info_body_button" type="id"/>
     <item name="bill_info_container_button" type="id"/>
     <item name="bill_container_button" type="id"/>
 
+    <item name="GPSuser_container" type="id"/>
+    <item name="GPSuser_location_button" type="id"/>
 
     <item name="newsfeed_menu_container" type="id"/>
     <item name="newsfeed_newsfeedItem_container" type="id"/>
     <item name="newsfeed_template_button" type="id"/>
+    <item name="newsfeed_template_button_header" type="id"/>
 
     <item name="newhouse_code_etext" type="id"/>
     <item name="newhouse_newhouse_text" type="id"/>

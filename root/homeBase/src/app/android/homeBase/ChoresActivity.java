@@ -20,6 +20,8 @@ public class ChoresActivity extends HomeBaseActivity {
     private LinearLayout layout;
     private boolean startCalled = false;
 
+    private BootstrapButton selectedFilter;
+
     class ChoreInfo {
         public String title;
         public String information;
@@ -44,7 +46,11 @@ public class ChoresActivity extends HomeBaseActivity {
         choreDescriptions = new HashMap<BootstrapButton, ChoreInfo>();
 
         startCalled = true;
+        selectedFilter = (BootstrapButton) findViewById(R.id.chores_allFilter_button);
+        selectedFilter.setEnabled(false);
+
         parse.getAlerts(this, "Chore");
+
     }
 
     @Override
@@ -56,11 +62,6 @@ public class ChoresActivity extends HomeBaseActivity {
             return;
         }
 
-        /*for(int i = 0; i < choreContainers.size(); i++) {
-            layout.removeView(choreContainers.get(i));
-        }*/
-
-        //choreContainers.clear();
         parse.refreshAlerts(this, "Chore");
     }
 
@@ -79,6 +80,49 @@ public class ChoresActivity extends HomeBaseActivity {
     {
         Intent intent = new Intent(ChoresActivity.this, ChoreCreateActivity.class);
         startActivity(intent);
+    }
+
+
+    public void onAllFilterClick(View view)
+    {
+        selectedFilter.setEnabled(true);
+
+        BootstrapButton clicked = (BootstrapButton) view;
+        clicked.setBootstrapButtonEnabled(false);
+
+        selectedFilter = clicked;
+
+        layout.removeAllViews();
+        for(int i = 0; i < choreContainers.size(); i++) {
+            BootstrapButton choreContainer = choreContainers.get(i);
+            if (choreDescriptions.get(choreContainer).creator != parse.getCurrentUser().getUsername()) {
+                layout.addView(choreContainer);
+            }
+        }
+    }
+
+
+    public void onCreatedFilterClick(View view)
+    {
+        selectedFilter.setEnabled(true);
+
+        BootstrapButton clicked = (BootstrapButton) view;
+        clicked.setBootstrapButtonEnabled(false);
+
+        selectedFilter = clicked;
+
+        layout.removeAllViews();
+        for(int i = 0; i < choreContainers.size(); i++) {
+            BootstrapButton choreContainer = choreContainers.get(i);
+            if (choreDescriptions.get(choreContainer).creator.equals(parse.getCurrentUser().getUsername().toString())) {
+                layout.addView(choreContainer);
+            }
+        }
+    }
+
+    public void onResponsibleFilterClick(View view)
+    {
+
     }
 
     @Override
