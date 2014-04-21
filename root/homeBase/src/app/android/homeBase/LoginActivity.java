@@ -79,7 +79,6 @@ public class LoginActivity extends HomeBaseActivity{
         if(!username.isEmpty() && !password.isEmpty())
         {
             parse.loginUser(username, password, v.getContext(), this);
-            //ToDo if house found save to disk
         }
         else
         {
@@ -90,16 +89,22 @@ public class LoginActivity extends HomeBaseActivity{
     @Override
     public void onLoginSuccess()
     {
-        Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
+        //TODO is this okay here??
         GPSservice gps = new GPSservice(LoginActivity.this);
-        startActivity(startFeed);
+        if(ParseUser.getCurrentUser().has("house")) {
+            Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
+            startActivity(startFeed);
+        } else {
+            Intent startNewHouse = new Intent(LoginActivity.this, NewHouseActivity.class);
+            startActivity(startNewHouse);
+        }
+        finish();
     }
 
     @Override
-    public void onLoginError()
+    public void onLoginError(String e)
     {
-        //Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
-        //startActivity(intent);
+        Toast.makeText(LoginActivity.this, e, Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -110,14 +115,7 @@ public class LoginActivity extends HomeBaseActivity{
     public void onSignUpClick(View view)
     {
         Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-        startActivity(intent);
+        startActivity(intent);//TODO is this okay here??
+        GPSservice gps = new GPSservice(LoginActivity.this);
     }
-
-    public void onTestButtonClick(View view)
-    {
-        //view.startAnimation(animTranslate);
-        Intent intent = new Intent(LoginActivity.this, NewsFeedActivity.class);
-        startActivity(intent);
-    }
-
 }

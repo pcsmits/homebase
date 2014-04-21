@@ -134,29 +134,21 @@ public class ParseBase
             @Override
             public void done(ParseUser parseUser, ParseException e) {
                 // Make sure we get a valid user back!
-                if(e != null || parseUser == null)
-                {
-                    onLoginError(caller, context, parseUser, e);
+                if(e != null || parseUser == null) {
+                    if (e != null) {
+                        caller.onLoginError(e.getMessage());
+                    } else {
+                        caller.onLoginError("No account found");
+                    }
                 }
                 else
                 {
-                    onLoginSuccess(caller, context, parseUser, e);
+                    caller.onLoginSuccess();
                 }
             }
         });
 
     }
-
-    private void onLoginError(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
-
-        caller.onLoginError();
-    }
-
-    private void onLoginSuccess(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
-        //Toast.makeText(context, "login worked!", Toast.LENGTH_LONG).show();
-        caller.onLoginSuccess();
-    }
-
 
     /******************************************************************************************************
      *

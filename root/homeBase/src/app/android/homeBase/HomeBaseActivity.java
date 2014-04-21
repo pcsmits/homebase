@@ -15,7 +15,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
-    public void onLoginError()
+    public void onLoginError(String e)
     {
 
     }
