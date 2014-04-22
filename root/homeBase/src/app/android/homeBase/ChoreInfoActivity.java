@@ -24,6 +24,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
     private String creator;
 
     private List <String> responsibleUsers;
+    private List <String> completedUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
         setContentView(R.layout.activity_chore_info);
         parse = new ParseBase(this);
         responsibleUsers = new ArrayList<String>();
+        completedUsers = new ArrayList<String>();
 
         Bundle extras = getIntent().getExtras();
         title = "";
@@ -76,6 +78,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
         BootstrapButton creatorField = (BootstrapButton) this.findViewById(R.id.chore_info_creator_field);
 
         parse.getAlertResponsibleUsers(creator, title, this);
+        parse.getAlertCompletedUsers(creator, title, this);
 
         creatorField.setText(creator);
         headerBar.setText(title);
@@ -92,8 +95,12 @@ public class ChoreInfoActivity extends HomeBaseActivity {
     public void onChoreInfoConfirmClick(View view)
     {
         String currUser = parse.getCurrentUser().getUsername();
-        responsibleUsers.remove(currUser);
-        parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, responsibleUsers, this);
+        boolean removed = responsibleUsers.remove(currUser);
+        if (removed) {
+            completedUsers.add(currUser);
+        }
+
+        parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, completedUsers, this);
     }
 
     public void onChoreInfoCancelClick(View view)
@@ -118,6 +125,18 @@ public class ChoreInfoActivity extends HomeBaseActivity {
 
     @Override
     public void onGetAlertResponsibleUsersFailure(String e) {
+
+    }
+
+    @Override
+    public void onGetAlertCompletedUsersSuccess(List<String> completedUsers) {
+        for (int i = 0; i < completedUsers.size(); i++) {
+            this.completedUsers.add(completedUsers.get(i));
+        }
+    }
+
+    @Override
+    public void onGetAlertCompletedUsersFailure(String e) {
 
     }
 }
