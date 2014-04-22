@@ -201,6 +201,15 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    public void onGetAlertResponsibleUsersSuccess(List<String> responsibleUsers) {
+
+    }
+
+    public void onGetAlertResponsibleUsersFailure(String e)
+    {
+
+    }
+
     public void onGetUserEmailsSuccess(List<String> emails)
     {
 

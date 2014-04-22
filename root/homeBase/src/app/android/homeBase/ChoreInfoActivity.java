@@ -24,7 +24,6 @@ public class ChoreInfoActivity extends HomeBaseActivity {
     private String creator;
 
     private List <String> responsibleUsers;
-    private ArrayList<String> userNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,17 +74,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
 
         BootstrapButton creatorField = (BootstrapButton) this.findViewById(R.id.chore_info_creator_field);
 
-        userNames = ApplicationManager.getInstance().getHomeUsers();
-        for (int i = 0; i < userNames.size(); i++) {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout template = (LinearLayout) inflater.inflate(R.layout.user_select_template, null, false);
-            RelativeLayout btnContainer = (RelativeLayout) template.findViewById(R.id.userSelection_template_container);
-            template.removeView(btnContainer);
-            BootstrapButton userBtn = (BootstrapButton)btnContainer.findViewById(R.id.userSelection_button);
-            userBtn.setText(userNames.get(i));
-            LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.chore_info_responsible_container);
-            responsibleContainer.addView(btnContainer);
-        }
+        parse.getAlertResponsibleUsers(creator, title, this);
 
         creatorField.setText(creator);
         headerBar.setText(title);
@@ -113,5 +102,24 @@ public class ChoreInfoActivity extends HomeBaseActivity {
     public void onChoreInfoCancelClick(View view)
     {
         onBackPressed();
+    }
+
+    @Override
+    public void onGetAlertResponsibleUsersSuccess(List<String> responsibleUsers) {
+        for (int i = 0; i < responsibleUsers.size(); i++) {
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout template = (LinearLayout) inflater.inflate(R.layout.user_select_template, null, false);
+            RelativeLayout btnContainer = (RelativeLayout) template.findViewById(R.id.userSelection_template_container);
+            template.removeView(btnContainer);
+            BootstrapButton userBtn = (BootstrapButton)btnContainer.findViewById(R.id.userSelection_button);
+            userBtn.setText(responsibleUsers.get(i));
+            LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.chore_info_responsible_container);
+            responsibleContainer.addView(btnContainer);
+        }
+    }
+
+    @Override
+    public void onGetAlertResponsibleUsersFailure(String e) {
+
     }
 }

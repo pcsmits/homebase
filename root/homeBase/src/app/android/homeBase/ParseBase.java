@@ -696,4 +696,23 @@ public class ParseBase
             }
         });
     }
+
+    public void getAlertResponsibleUsers(final String creatorID, final String title, final HomeBaseActivity caller) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("creator", creatorID);
+        query.whereEqualTo("title", title);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    JSONArray responsibleArray = objects.get(0).getJSONArray("responsibleUsers");
+                    List<String> responsibleUsers = convertJSON(responsibleArray);
+                    Log.d("resp user", responsibleUsers.get(0));
+                    caller.onGetAlertResponsibleUsersSuccess(responsibleUsers);
+                } else {
+                    caller.onGetAlertResponsibleUsersFailure(e.toString());
+                }
+            }
+        });
+    }
 }
