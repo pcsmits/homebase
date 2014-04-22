@@ -1,6 +1,5 @@
 package app.android.homeBase;
 
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -35,6 +34,8 @@ public class BillCreateActivity extends HomeBaseActivity {
     private HashMap<BootstrapButton, Boolean> selectedResponsibleUsers;
 
     private final String k_alertType = "Bill";
+
+    private HomeBaseAlert createdAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,25 +140,43 @@ public class BillCreateActivity extends HomeBaseActivity {
     public void onCreateAlertSuccess(HomeBaseAlert alert)
     {
         Toast.makeText(BillCreateActivity.this, alert.getTitle() + ": " + alert.getDescription() + ": " + alert.getAmount(), Toast.LENGTH_LONG).show();
-        int numUsers = alert.getResponsibleUsers().size();
-        double splitAmount = (alert.getAmount() / numUsers );
+        createdAlert = alert;
+        parse.getUserEmails(BillCreateActivity.this, createdAlert.getResponsibleUsers());
+    }
+
+    @Override
+    public void onGetUserEmailsSuccess(List<String> emails)
+    {
+        int numUsers = createdAlert.getResponsibleUsers().size();
+        double splitAmount = (createdAlert.getAmount() / numUsers );
 
         Intent email = new Intent(Intent.ACTION_SEND);
         email.setType("message/rfc822");
 
-        //for(String user : alert.getResponsibleUsers()) {
-        //    //TODO GET EMAILS
-        //}
-        email.putExtra(Intent.EXTRA_EMAIL, new String[]{"smits2010@gmail.com","rosuemanuel@gmail.com"});
+        String[] emailsArr = new String[emails.size()];
+        int counter = 0;
+        for(String emailAddress : emails)
+        {
+            emailsArr[counter] = emailAddress;
+        }
+
+        email.putExtra(Intent.EXTRA_EMAIL,emailsArr);
         email.putExtra(Intent.EXTRA_CC, new String[]{"request@square.com"});
         email.putExtra(Intent.EXTRA_SUBJECT, "$"+splitAmount);
-        email.putExtra(Intent.EXTRA_TEXT, alert.getTitle()+"\n"+alert.getDescription());
+        email.putExtra(Intent.EXTRA_TEXT, createdAlert.getTitle()+"\n"+createdAlert.getDescription());
         try {
             startActivity(Intent.createChooser(email, "Send mail..."));
             finish();
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(BillCreateActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
         }
+        finish();
+    }
+
+    @Override
+    public void onGetUserEmailsFailure(String e)
+    {
+        Toast.makeText(BillCreateActivity.this, e, Toast.LENGTH_LONG).show();
     }
 
     @Override
