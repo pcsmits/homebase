@@ -85,6 +85,17 @@ public class ChoreInfoActivity extends HomeBaseActivity {
         body.setText(info);
     }
 
+    void DecideViewOptions(boolean responsible) {
+        BootstrapButton btn = (BootstrapButton) this.findViewById(R.id.choreInfo_confirm_button);
+        if (creator.equals(parse.getCurrentUser().getUsername())) {
+            btn.setText("Close Issue");
+        } else if (responsible) {
+            btn.setText("Mark Completed");
+        } else {
+            btn.setEnabled(false);
+        }
+    }
+
     @Override
     public void onBackPressed()
     {
@@ -110,6 +121,9 @@ public class ChoreInfoActivity extends HomeBaseActivity {
 
     @Override
     public void onGetAlertResponsibleUsersSuccess(List<String> responsibleUsers) {
+        String currUser = parse.getCurrentUser().getUsername();
+        boolean currentUserIsResponsible = false;
+
         for (int i = 0; i < responsibleUsers.size(); i++) {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout template = (LinearLayout) inflater.inflate(R.layout.user_select_template, null, false);
@@ -120,7 +134,10 @@ public class ChoreInfoActivity extends HomeBaseActivity {
             LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.chore_info_responsible_container);
             responsibleContainer.addView(btnContainer);
             this.responsibleUsers.add(responsibleUsers.get(i));
+            if (responsibleUsers.get(i).equals(currUser)) currentUserIsResponsible = true;
         }
+
+        DecideViewOptions(currentUserIsResponsible);
     }
 
     @Override
