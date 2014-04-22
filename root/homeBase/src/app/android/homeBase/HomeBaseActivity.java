@@ -201,6 +201,16 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    public void onGetUserEmailsSuccess(List<String> emails)
+    {
+
+    }
+
+    public void onGetUserEmailsFailure(String e)
+    {
+
+    }
+
     public void onGetBillsFailure(String e)
     {
 
