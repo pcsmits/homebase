@@ -42,15 +42,13 @@ public class LoginActivity extends HomeBaseActivity{
             if(parse.getCurrentUser().has("house")) {
                 Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
                 startActivity(startFeed);
-                finish();
             }
             else {
                 Intent startNewhouse = new Intent(LoginActivity.this, NewHouseActivity.class);
                 startActivity(startNewhouse);
-                finish();
             }
+            finish();
         }
-        animTranslate = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
     }
 
     @Override
@@ -124,8 +122,8 @@ public class LoginActivity extends HomeBaseActivity{
     public void onSignUpClick(View view)
     {
         Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-        startActivity(intent);//TODO is this okay here??
-        GPSservice gps = new GPSservice(LoginActivity.this);
+        startActivity(intent);
+        finish();
     }
 
     private boolean isMyServiceRunning() {
