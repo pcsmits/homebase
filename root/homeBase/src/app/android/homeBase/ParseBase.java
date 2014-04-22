@@ -678,9 +678,10 @@ public class ParseBase
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    objects.get(0).put("responsibleUsers", responsibleUsers);
-                    objects.get(0).put("completedUsers", completedUsers);
-                    objects.get(0).saveInBackground(new SaveCallback() {
+                    ParseObject updateable = objects.get(0);
+                    updateable.put("responsibleUsers", responsibleUsers);
+                    updateable.put("completedUsers", completedUsers);
+                    updateable.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                         if (e == null) {

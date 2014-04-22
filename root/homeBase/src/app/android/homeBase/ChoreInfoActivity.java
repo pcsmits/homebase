@@ -31,6 +31,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_chore_info);
         parse = new ParseBase(this);
+        responsibleUsers = new ArrayList<String>();
 
         Bundle extras = getIntent().getExtras();
         title = "";
@@ -88,14 +89,10 @@ public class ChoreInfoActivity extends HomeBaseActivity {
         overridePendingTransition(R.anim.anim_in_back, R.anim.anim_out_back);
     }
 
-    public void onChoreContainerClick(View view)
-    {
-        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.login_test_button);
-        thisButton.setText("Clicked");
-    }
-
     public void onChoreInfoConfirmClick(View view)
     {
+        String currUser = parse.getCurrentUser().getUsername();
+        responsibleUsers.remove(currUser);
         parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, responsibleUsers, this);
     }
 
@@ -115,6 +112,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
             userBtn.setText(responsibleUsers.get(i));
             LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.chore_info_responsible_container);
             responsibleContainer.addView(btnContainer);
+            this.responsibleUsers.add(responsibleUsers.get(i));
         }
     }
 
