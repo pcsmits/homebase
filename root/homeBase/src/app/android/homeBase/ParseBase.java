@@ -201,26 +201,26 @@ public class ParseBase
         houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseHouse, ParseException e) {
-            if (e == null) {
-                List<String> members = convertJSON(parseHouse.getJSONArray("members"));
-                Log.d("MEMBERS", String.valueOf(members.size()));
-                //with members, check if home
+                if (e == null) {
+                    List<String> members = convertJSON(parseHouse.getJSONArray("members"));
+                    Log.d("MEMBERS", String.valueOf(members.size()));
+                    //with members, check if home
 
-                for (int i = 0; i < members.size(); i++) {
-                    ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-                    userQuery.whereEqualTo("objectId", members.get(i).toString());
-                    userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
-                        @Override
-                        public void done(ParseUser user, ParseException e) {
-                            if (e == null) {
-                                caller.onGetHomeUsersSuccess(user.getUsername());
-                            } else {
-                                caller.onGetHomeUsersFailure();
+                    for (int i = 0; i < members.size(); i++) {
+                        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+                        userQuery.whereEqualTo("objectId", members.get(i).toString());
+                        userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+                            @Override
+                            public void done(ParseUser user, ParseException e) {
+                                if (e == null) {
+                                    caller.onGetHomeUsersSuccess(user.getUsername());
+                                } else {
+                                    caller.onGetHomeUsersFailure();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-            }
             }
         });
     }
@@ -664,6 +664,34 @@ public class ParseBase
                     caller.onDeleteAlertSuccess();
                 } else {
                     caller.onDeleteAlertFailure(e.getMessage());
+                }
+            }
+        });
+    }
+    
+    //eventually, need to update alert by objectID - but this requires storing object ID across activities
+    public void updateAlertResponsibleUsers(final String creatorID, final String title, final List<String> responsibleUsers, final List<String> completedUsers, final HomeBaseActivity caller) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("creator", creatorID);
+        query.whereEqualTo("title", title);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    objects.get(0).put("responsibleUsers", responsibleUsers);
+                    objects.get(0).put("completedUsers", completedUsers);
+                    objects.get(0).saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                        if (e == null) {
+                            //call completion
+                        } else {
+                            //call error
+                        }
+                        }
+                    });
+                } else {
+                    //call error
                 }
             }
         });

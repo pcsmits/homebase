@@ -168,7 +168,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:onClick="onChoreInfoSubmitClick">
+                android:id="@id/choreInfo_confirm_button"
+                android:onClick="onChoreInfoConfirmClick">
             </com.beardedhen.androidbootstrap.BootstrapButton>
         </RelativeLayout>
         <RelativeLayout
@@ -190,6 +191,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:id="@id/choreInfo_cancel_button"
                 android:onClick="onChoreInfoCancelClick">
             </com.beardedhen.androidbootstrap.BootstrapButton>
         </RelativeLayout>

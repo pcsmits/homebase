@@ -2,7 +2,6 @@ package app.android.homeBase;
 
 
 import android.content.res.Resources;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,21 +10,29 @@ import android.view.Display;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import java.util.List;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
-public class ChoreInfoActivity extends ActionBarActivity {
+public class ChoreInfoActivity extends HomeBaseActivity {
+    ParseBase parse;
+    String title;
+    String info;
+    String creator;
+
+    List <String> responsibleUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_chore_info);
+        parse = new ParseBase(this);
 
         Bundle extras = getIntent().getExtras();
-        String title = "";
-        String info = "";
-        String creator = "";
+        title = "";
+        info = "";
+        creator = "";
         if (extras != null) {
             title = extras.getString("title");
             info = extras.getString("info");
@@ -90,5 +97,16 @@ public class ChoreInfoActivity extends ActionBarActivity {
     {
         BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.login_test_button);
         thisButton.setText("Clicked");
+    }
+
+    public void onChoreInfoConfirmClick(View view)
+    {
+        parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, responsibleUsers, this);
+    }
+
+    public void onChoreInfoCancelClick(View view)
+    {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_in_back, R.anim.anim_out_back);
     }
 }
