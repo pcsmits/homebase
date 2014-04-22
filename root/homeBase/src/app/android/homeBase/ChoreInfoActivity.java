@@ -10,17 +10,21 @@ import android.view.Display;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class ChoreInfoActivity extends HomeBaseActivity {
-    ParseBase parse;
-    String title;
-    String info;
-    String creator;
+    private ParseBase parse;
+    private String title;
+    private String info;
+    private String creator;
 
-    List <String> responsibleUsers;
+    private List <String> responsibleUsers;
+    private ArrayList<String> userNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +73,19 @@ public class ChoreInfoActivity extends HomeBaseActivity {
         infoContainer.setLayoutParams(rlp);
         BootstrapButton body = (BootstrapButton) this.findViewById(R.id.chore_info_body_button);
 
-        //set up "responsible for" options
-        for (int i = 0; i < 2; i++) {
+        BootstrapButton creatorField = (BootstrapButton) this.findViewById(R.id.chore_info_creator_field);
+
+        userNames = ApplicationManager.getInstance().getHomeUsers();
+        for (int i = 0; i < userNames.size(); i++) {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout template = (LinearLayout) inflater.inflate(R.layout.user_select_template, null, false);
             RelativeLayout btnContainer = (RelativeLayout) template.findViewById(R.id.userSelection_template_container);
             template.removeView(btnContainer);
+            BootstrapButton userBtn = (BootstrapButton)btnContainer.findViewById(R.id.userSelection_button);
+            userBtn.setText(userNames.get(i));
             LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.chore_info_responsible_container);
             responsibleContainer.addView(btnContainer);
         }
-
-        BootstrapButton creatorField = (BootstrapButton) this.findViewById(R.id.chore_info_creator_field);
 
         creatorField.setText(creator);
         headerBar.setText(title);
@@ -106,7 +112,6 @@ public class ChoreInfoActivity extends HomeBaseActivity {
 
     public void onChoreInfoCancelClick(View view)
     {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.anim_in_back, R.anim.anim_out_back);
+        onBackPressed();
     }
 }
