@@ -1,6 +1,5 @@
 package app.android.homeBase;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +18,6 @@ public class NewsFeedActivity extends HomeBaseActivity {
     private boolean expand = true;
     private boolean startCalled = false;
     private int menuHeight;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

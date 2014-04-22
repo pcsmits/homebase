@@ -18,7 +18,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
-    public void onLoginError()
+    public void onLoginError(String e)
     {
 
     }
@@ -197,6 +197,16 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     }
 
     public void onUpdateAlertListByTypeFailure(String e)
+    {
+
+    }
+
+    public void onGetUserEmailsSuccess(List<String> emails)
+    {
+
+    }
+
+    public void onGetUserEmailsFailure(String e)
     {
 
     }

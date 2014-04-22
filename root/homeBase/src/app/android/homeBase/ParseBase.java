@@ -79,11 +79,12 @@ public class ParseBase
         return ParseUser.getCurrentUser();
     }
 
-    public void addUser(final String username, final String password, final HomeBaseActivity caller)
+    public void addUser(final String username, final String password, final String email, final HomeBaseActivity caller)
     {
         final ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
+        user.setEmail(email);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
@@ -138,19 +139,21 @@ public class ParseBase
             @Override
             public void done(ParseUser parseUser, ParseException e) {
                 // Make sure we get a valid user back!
-                if(e != null || parseUser == null)
-                {
-                    onLoginError(caller, context, parseUser, e);
+                if(e != null || parseUser == null) {
+                    if (e != null) {
+                        caller.onLoginError(e.getMessage());
+                    } else {
+                        caller.onLoginError("No account found");
+                    }
                 }
                 else
                 {
-                    onLoginSuccess(caller, context, parseUser, e);
+                    caller.onLoginSuccess();
                 }
             }
         });
 
     }
-
     public void getUsersOfHouse(final HomeBaseActivity caller)
     {
         //get user's house
@@ -220,23 +223,38 @@ public class ParseBase
             }
             }
         });
-
     }
 
-    private void onLoginError(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
-
-        caller.onLoginError();
-    }
-
-    private void onLoginSuccess(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
-        //Toast.makeText(context, "login worked!", Toast.LENGTH_LONG).show();
-        caller.onLoginSuccess();
+    public void getUserEmails(final HomeBaseActivity caller, List<String> users)
+    {
+        final List<String> emails = new LinkedList<String>();
+        for(String username : users)
+        {
+            ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+            userQuery.whereEqualTo("username", username);
+            userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+                @Override
+                public void done(ParseUser parseUser, ParseException e) {
+                    if(parseUser != null && e == null && parseUser.has("email")){
+                        emails.add(parseUser.getString("email"));
+                    } else if(e != null ) {
+                        caller.onGetUserEmailsFailure(e.getMessage());
+                    }
+                }
+            });
+        }
+        if(emails.size() != users.size())
+        {
+            caller.onGetUserEmailsFailure("Could not find emails for some users");
+        } else {
+            caller.onGetUserEmailsSuccess(emails);
+        }
     }
 
 
     /******************************************************************************************************
      *
-     * GPS Events and Wrappersbfor Parse
+     * GPS Events and Wrappers for Parse
      ********************************************************************************************************/
 
     public void updateLocation(boolean home) {
@@ -300,22 +318,16 @@ public class ParseBase
     {
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.whereEqualTo("username", adminUsername);
-        userQuery.getFirstInBackground(new GetCallback<ParseUser>()
-        {
+        userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
-            public void done(ParseUser parseUser, ParseException e)
-            {
-                if (e == null)
-                {
+            public void done(ParseUser parseUser, ParseException e) {
+                if (e == null) {
                     ParseQuery<ParseObject> houseQuery = ParseQuery.getQuery("House");
                     houseQuery.whereEqualTo("admin", parseUser.getObjectId());
-                    houseQuery.getFirstInBackground(new GetCallback<ParseObject>()
-                    {
+                    houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                         @Override
-                        public void done(ParseObject parseHouse, ParseException e)
-                        {
-                            if (e == null)
-                            {
+                        public void done(ParseObject parseHouse, ParseException e) {
+                            if (e == null) {
                                 String housename = parseHouse.getString("housename");
                                 String address = parseHouse.getString("address");
                                 String city = parseHouse.getString("city");
@@ -333,17 +345,13 @@ public class ParseBase
                                 house.setLongitude(longitude);
                                 house.setId(id);
                                 caller.onGetHouseSuccess(house);
-                            }
-                            else
-                            {
+                            } else {
                                 caller.onGetHouseFailure("Could not fetch house information, please try again");
                             }
                         }
                     });
-                }
-                else
-                {
-                    caller.onGetHouseFailure("Could not find a house associated with admin: "+adminUsername);
+                } else {
+                    caller.onGetHouseFailure("Could not find a house associated with admin: " + adminUsername);
                 }
             }
         });
@@ -389,17 +397,15 @@ public class ParseBase
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
         query.whereEqualTo("objectId", house.getId());
-        query.getFirstInBackground(new GetCallback<ParseObject>()
-        {
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseHouse, ParseException e) {
-                if (e == null)
-                {
+                if (e == null) {
                     String housename = parseHouse.getString("housename");
                     String address = parseHouse.getString("address");
                     String city = parseHouse.getString("city");
                     String state = parseHouse.getString("state");
-                    int zipcode  = parseHouse.getInt("zipcode");
+                    int zipcode = parseHouse.getInt("zipcode");
                     int lat = parseHouse.getInt("latitude");
                     int longitude = parseHouse.getInt("longitude");
                     String admin = parseHouse.getString("admin");
@@ -413,9 +419,7 @@ public class ParseBase
                     house.setId(id);
 
                     caller.onGetHouseSuccess(house);
-                }
-                else
-                {
+                } else {
                     caller.onGetHouseFailure("Could not fetch house information, please try again");
                 }
             }
@@ -655,14 +659,10 @@ public class ParseBase
         ParseObject deleteAlert = ParseObject.createWithoutData("Alert", alert.getId());
         deleteAlert.deleteInBackground(new DeleteCallback() {
             @Override
-            public void done(ParseException e)
-            {
-                if(e == null)
-                {
+            public void done(ParseException e) {
+                if (e == null) {
                     caller.onDeleteAlertSuccess();
-                }
-                else
-                {
+                } else {
                     caller.onDeleteAlertFailure(e.getMessage());
                 }
             }

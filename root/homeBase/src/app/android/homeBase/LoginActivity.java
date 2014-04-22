@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
+import com.parse.ParseUser;
 
 
 /**
@@ -46,8 +47,8 @@ public class LoginActivity extends HomeBaseActivity{
                 Intent startNewhouse = new Intent(LoginActivity.this, NewHouseActivity.class);
                 startActivity(startNewhouse);
             }
+            finish();
         }
-        animTranslate = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
     }
 
     @Override
@@ -85,7 +86,6 @@ public class LoginActivity extends HomeBaseActivity{
         if(!username.isEmpty() && !password.isEmpty())
         {
             parse.loginUser(username, password, v.getContext(), this);
-            //ToDo if house found save to disk
         }
         else
         {
@@ -96,18 +96,22 @@ public class LoginActivity extends HomeBaseActivity{
     @Override
     public void onLoginSuccess()
     {
-        Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
-        //if(!isMyServiceRunning()) {
+        //TODO is this okay here??
         GPSservice gps = new GPSservice(LoginActivity.this);
-        //}
-        startActivity(startFeed);
+        if(ParseUser.getCurrentUser().has("house")) {
+            Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
+            startActivity(startFeed);
+        } else {
+            Intent startNewHouse = new Intent(LoginActivity.this, NewHouseActivity.class);
+            startActivity(startNewHouse);
+        }
+        finish();
     }
 
     @Override
-    public void onLoginError()
+    public void onLoginError(String e)
     {
-        //Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
-        //startActivity(intent);
+        Toast.makeText(LoginActivity.this, e, Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -119,13 +123,7 @@ public class LoginActivity extends HomeBaseActivity{
     {
         Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(intent);
-    }
-
-    public void onTestButtonClick(View view)
-    {
-        //view.startAnimation(animTranslate);
-        Intent intent = new Intent(LoginActivity.this, NewsFeedActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     private boolean isMyServiceRunning() {

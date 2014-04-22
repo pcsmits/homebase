@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.text.AndroidCharacter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
@@ -23,7 +26,7 @@ public class NewHouseActivity extends HomeBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_house);
-        parse = new ParseBase();
+        parse = new ParseBase(this);
     }
 
     @Override
@@ -55,33 +58,44 @@ public class NewHouseActivity extends HomeBaseActivity {
         checkList.add(houseNameET);
 
         EditText houseAddressET = (EditText) findViewById(R.id.newhouse_address_etext);
-        checkList.add(houseNameET);
+        checkList.add(houseAddressET);
 
         EditText houseCityET = (EditText) findViewById(R.id.newhouse_city_etext);
-        checkList.add(houseNameET);
+        checkList.add(houseCityET);
 
         EditText houseStateET = (EditText) findViewById(R.id.newhouse_state_etext);
-        checkList.add(houseNameET);
+        checkList.add(houseStateET);
 
         EditText houseZipET = (EditText) findViewById(R.id.newhouse_zipcode_etext);
-        checkList.add(houseNameET);
-
-        for(EditText item : checkList)
-        {
-            if(item.length() == 0)
-            {
-                Toast.makeText(NewHouseActivity.this, "Please fill out the "+item.getHint()+" field", Toast.LENGTH_LONG).show();
-                return;
-            }
-        }
+        checkList.add(houseZipET);
 
         try
         {
+            // Make sure all fields filled out
+            for(EditText item : checkList)
+            {
+                if(item.getText().toString().length() == 0)
+                {
+                    Toast.makeText(NewHouseActivity.this, "Please fill out the "+item.getHint()+" field", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+
             String name = houseNameET.getText().toString();
             String address = houseAddressET.getText().toString();
             String city = houseCityET.getText().toString();
             String state = houseStateET.getText().toString();
             String zip = houseZipET.getText().toString();
+
+            // Validate Zipcode
+            for(char character : zip.toCharArray())
+            {
+                if(!java.lang.Character.isDigit(character))
+                {
+                    Toast.makeText(NewHouseActivity.this, "Please Enter a Valid zipcode", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
             int zipcode = Integer.parseInt(zip);
 
             // Find latitude and longitude
@@ -153,8 +167,21 @@ public class NewHouseActivity extends HomeBaseActivity {
     public void onUpdateHouseSuccess(HomeBaseHouse house)
     {
         ParseUser.getCurrentUser().put("house", house.getId());
-        Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
-        startActivity(startFeed);
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null)
+                {
+                    Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
+                    startActivity(startFeed);
+                    finish();
+                }
+                else {
+                    Toast.makeText(NewHouseActivity.this, "Error: Could not update user", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -167,8 +194,20 @@ public class NewHouseActivity extends HomeBaseActivity {
     public void onCreateHouseSuccess(HomeBaseHouse house)
     {
         ParseUser.getCurrentUser().put("house", house.getId());
-        Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
-        startActivity(startFeed);
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+           public void done(ParseException e) {
+                if(e == null)
+                {
+                    Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
+                    startActivity(startFeed);
+                    finish();
+                }
+                else {
+                    Toast.makeText(NewHouseActivity.this, "Error: Could not update user", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
