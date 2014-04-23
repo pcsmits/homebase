@@ -59,7 +59,7 @@ public class ChoreCreateActivity extends HomeBaseActivity {
             statusBarHeight = resources.getDimensionPixelSize(resourceId);
         }
 
-        int height = ((size.y - headerBar.getLayoutParams().height * 3) - navBarHeight - statusBarHeight);
+        int height = ((size.y - headerBar.getLayoutParams().height * 2) - navBarHeight - statusBarHeight);
 
         infoContainer = (BootstrapEditText) this.findViewById(R.id.chore_create_body_field);
         ViewGroup.LayoutParams rlp = infoContainer.getLayoutParams();
