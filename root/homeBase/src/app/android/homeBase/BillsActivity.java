@@ -56,7 +56,7 @@ public class BillsActivity extends HomeBaseActivity {
         parse.refreshAlerts(this, "Bill");
     }
 
-    public void onBillContainerClick(View view)
+    public void onChoreContainerClick(View view)
     {
         /*BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.bill_container_button);
         thisButton.setText("Clicked");
