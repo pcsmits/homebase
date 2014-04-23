@@ -1,17 +1,15 @@
 package app.android.homeBase;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.beardedhen.androidbootstrap.BootstrapButton;
-import com.parse.ParseUser;
 
 public class BillsActivity extends HomeBaseActivity {
     private ParseBase parse;
@@ -115,9 +113,9 @@ public class BillsActivity extends HomeBaseActivity {
         for (HomeBaseAlert alert : alerts)
         {
             LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.choreContainer_container);
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
             buttonCont.removeView(myButton);
             layout.addView(myButton);
             String text = alert.getDescription();
@@ -139,9 +137,9 @@ public class BillsActivity extends HomeBaseActivity {
         for (int i = 0; i < alerts.size(); i++) {
             if (!billTitles.contains(alerts.get(i).getTitle())) {
                 LayoutInflater inflater = LayoutInflater.from(this);
-                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
-                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.choreContainer_container);
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
                 buttonCont.removeView(myButton);
                 layout.addView(myButton);
                 String text = alerts.get(i).getTitle();

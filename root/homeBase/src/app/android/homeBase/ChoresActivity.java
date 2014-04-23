@@ -2,7 +2,7 @@ package app.android.homeBase;
 
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.os.Bundle;
@@ -67,7 +67,7 @@ public class ChoresActivity extends HomeBaseActivity {
 
     public void onChoreContainerClick(View view)
     {
-        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.choreContainer_container);
+        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.alertContainer_container);
 
         Intent intent = new Intent(ChoresActivity.this, ChoreInfoActivity.class);
         intent.putExtra("title", choreDescriptions.get(thisButton).title);
@@ -132,10 +132,10 @@ public class ChoresActivity extends HomeBaseActivity {
         //for creating bootstrap buttons programatically from xml frameworks
         for (int i = 0; i < alerts.size(); i++) {
             LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.choreContainer_container);
-            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.choreContainer_header);
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
 
             buttonCont.removeView(myButton);
             layout.addView(myButton);
@@ -166,10 +166,10 @@ public class ChoresActivity extends HomeBaseActivity {
         for (int i = 0; i < alerts.size(); i++) {
             if (!choreTitles.contains(alerts.get(i).getTitle())) {
                 LayoutInflater inflater = LayoutInflater.from(this);
-                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
-                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.choreContainer_container);
-                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.choreContainer_header);
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
 
                 buttonCont.removeView(myButton);
                 layout.addView(myButton);

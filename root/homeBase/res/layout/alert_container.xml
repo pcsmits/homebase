@@ -20,7 +20,7 @@
             bootstrapbutton:bb_size="default"
             bootstrapbutton:bb_type="gray"
             bootstrapbutton:bb_text_alignment="center"
-            android:id="@id/choreContainer_container"
+            android:id="@id/alertContainer_container"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:onClick="onChoreContainerClick">
@@ -39,7 +39,7 @@
                 bootstrapbutton:bb_type="chore"
                 bootstrapbutton:bb_text_alignment="center"
                 android:enabled="false"
-                android:id="@id/choreContainer_header"
+                android:id="@id/alertContainer_header"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 >
