@@ -224,6 +224,11 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    public void onGetUserEmailsDone()
+    {
+
+    }
+
     public void onGetUserEmailsFailure(String e)
     {
 
