@@ -107,7 +107,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
             header.setText(alerts.get(i).getTitle());
             Log.d("Type: ", alerts.get(i).getType());
             if (alerts.get(i).getType().equals("Bill")) {
-                header.setBootstrapType("warning");
+                header.setBootstrapType("bill");
             }
         }
     }
@@ -133,7 +133,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
                 BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
                 header.setText(alerts.get(i).getTitle());
                 if (alerts.get(i).getType().equals("Bill")) {
-                    header.setBootstrapType("warning");
+                    header.setBootstrapType("bill");
                 }
             }
         }

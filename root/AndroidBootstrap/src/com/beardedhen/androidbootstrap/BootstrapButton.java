@@ -50,6 +50,8 @@ public class BootstrapButton extends FrameLayout {
 		bbuttonTypeMap.put("danger", BootstrapTypes.DANGER);
         bbuttonTypeMap.put("gray", BootstrapTypes.GRAY);
 		bbuttonTypeMap.put("inverse", BootstrapTypes.INVERSE);
+        bbuttonTypeMap.put("bill", BootstrapTypes.BILL);
+        bbuttonTypeMap.put("chore", BootstrapTypes.CHORE);
 		
 		bbuttonTypeMapRounded = new HashMap<String, BootstrapTypes>();
 		
@@ -61,6 +63,8 @@ public class BootstrapButton extends FrameLayout {
 		bbuttonTypeMapRounded.put("danger", BootstrapTypes.DANGER_ROUNDED);
         bbuttonTypeMapRounded.put("gray", BootstrapTypes.GRAY_ROUNDED);
 		bbuttonTypeMapRounded.put("inverse", BootstrapTypes.INVERSE_ROUNDED);
+        bbuttonTypeMapRounded.put("bill", BootstrapTypes.BILL_ROUNDED);
+        bbuttonTypeMapRounded.put("chore", BootstrapTypes.CHORE_ROUNDED);
 		
 		
 		faMap = FontAwesome.getFaMap();
@@ -93,6 +97,8 @@ public class BootstrapButton extends FrameLayout {
 		DANGER(R.drawable.bbuton_danger, R.color.white),
         GRAY(R.drawable.bbuton_gray, R.color.black),
 		INVERSE(R.drawable.bbuton_inverse, R.color.white),
+        BILL(R.drawable.bbuton_bills, R.color.white),
+        CHORE(R.drawable.bbuton_chores, R.color.white),
 		
 		DEFAULT_ROUNDED(R.drawable.bbuton_default_rounded, R.color.black),
 		PRIMARY_ROUNDED(R.drawable.bbuton_primary_rounded, R.color.white),
@@ -101,7 +107,9 @@ public class BootstrapButton extends FrameLayout {
 		WARNING_ROUNDED(R.drawable.bbuton_warning_rounded, R.color.white),
 		DANGER_ROUNDED(R.drawable.bbuton_danger_rounded, R.color.white),
         GRAY_ROUNDED(R.drawable.bbuton_gray_rounded, R.color.black),
-		INVERSE_ROUNDED(R.drawable.bbuton_inverse_rounded, R.color.white);
+		INVERSE_ROUNDED(R.drawable.bbuton_inverse_rounded, R.color.white),
+        BILL_ROUNDED(R.drawable.bbuton_bills_rounded, R.color.white),
+        CHORE_ROUNDED(R.drawable.bbuton_chores_rounded, R.color.white);
 
 		private int backgroundDrawable;
 		private int textColour;
