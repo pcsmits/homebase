@@ -39,7 +39,6 @@ public class ParseBase
     // TODO figue out if this should be a singleton or not
     public ParseBase(Context context)
     {
-        //TODO maybe store these keys in xml
         Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
         if (!ApplicationManager.tryGetInstance()) {
             ApplicationManager.createInstance(context);
