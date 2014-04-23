@@ -36,7 +36,7 @@ public class BillCreateActivity extends HomeBaseActivity {
     private final String k_alertType = "Bill";
 
     private HomeBaseAlert createdAlert;
-    private List<String> emails = new LinkedList<String>();
+    private HashMap<String, ParseUser> usersObjects;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,7 @@ public class BillCreateActivity extends HomeBaseActivity {
 
         //set up "responsible for" options
         userNames = ApplicationManager.getInstance().getHomeUsers();
+        usersObjects = ApplicationManager.getInstance().usersObjects;
         responsibleUsers = new HashMap<String, BootstrapButton>();
         selectedResponsibleUsers = new HashMap<BootstrapButton, Boolean>();
 
@@ -140,28 +141,22 @@ public class BillCreateActivity extends HomeBaseActivity {
     @Override
     public void onCreateAlertSuccess(HomeBaseAlert alert)
     {
-        Toast.makeText(BillCreateActivity.this, alert.getTitle() + ": " + alert.getDescription() + ": " + alert.getAmount(), Toast.LENGTH_LONG).show();
         createdAlert = alert;
-        parse.getUserEmails(BillCreateActivity.this, createdAlert.getResponsibleUsers());
-    }
-
-    @Override
-    public void onGetUserEmailsDone()
-    {
         int numUsers = createdAlert.getResponsibleUsers().size();
         double splitAmount = (createdAlert.getAmount() / numUsers );
 
         Intent email = new Intent(Intent.ACTION_SEND);
         email.setType("message/rfc822");
 
-        String[] emailsArr = new String[emails.size()];
+        String[] emailsArr = new String[createdAlert.getResponsibleUsers().size()];
         int counter = 0;
-        for(String emailAddress : emails)
+        for(String user : createdAlert.getResponsibleUsers())
         {
-            emailsArr[counter] = emailAddress;
+           emailsArr[counter] = usersObjects.get(user).getEmail();
+           counter++;
         }
 
-        email.putExtra(Intent.EXTRA_EMAIL,emailsArr);
+        email.putExtra(Intent.EXTRA_EMAIL, emailsArr);
         email.putExtra(Intent.EXTRA_CC, new String[]{"request@square.com"});
         email.putExtra(Intent.EXTRA_SUBJECT, "$"+splitAmount);
         email.putExtra(Intent.EXTRA_TEXT, createdAlert.getTitle()+"\n"+createdAlert.getDescription());
@@ -173,14 +168,6 @@ public class BillCreateActivity extends HomeBaseActivity {
         }
         finish();
     }
-
-    @Override
-    public void onGetUserEmailsFailure(String e)
-    {
-        Toast.makeText(BillCreateActivity.this, e, Toast.LENGTH_LONG).show();
-    }
-
-
 
     @Override
     public void onCreateAlertFailure(String e)
