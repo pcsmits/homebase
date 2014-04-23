@@ -116,10 +116,19 @@ public class BillsActivity extends HomeBaseActivity {
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
             BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+
             buttonCont.removeView(myButton);
             layout.addView(myButton);
-            String text = alert.getDescription();
-            myButton.setText(text + " Amount: " + alert.getAmount());
+
+            String title = alert.getTitle();
+            String information = alert.getDescription() + " [" + alert.getAmount() + "]";
+            String creator = alert.getCreatorID();
+
+            headerBar.setText(title);
+            headerBar.setBootstrapType("bill");
+            myButton.setText(information);
+
             billContainers.add(myButton);
             billDescriptions.put(myButton, alert);
         }
@@ -134,20 +143,27 @@ public class BillsActivity extends HomeBaseActivity {
     @Override
     public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
-        for (int i = 0; i < alerts.size(); i++) {
-            if (!billTitles.contains(alerts.get(i).getTitle())) {
+        for (HomeBaseAlert alert: alerts) {
+            if (!billTitles.contains(alert.getTitle())) {
                 LayoutInflater inflater = LayoutInflater.from(this);
                 LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
                 BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+
                 buttonCont.removeView(myButton);
                 layout.addView(myButton);
-                String text = alerts.get(i).getTitle();
-                myButton.setText(text + " Amount: " + alerts.get(i).getAmount());
+
+                String title = alert.getTitle();
+                String information = alert.getDescription() + " [" + alert.getAmount() + "]";
+                String creator = alert.getCreatorID();
+
+                headerBar.setText(title);
+                headerBar.setBootstrapType("bill");
+                myButton.setText(information);
+
                 billContainers.add(myButton);
-                String title = text;
-                billTitles.add(title);
-                billDescriptions.put(myButton, alerts.get(i));
+                billDescriptions.put(myButton, alert);
             }
         }
     }
