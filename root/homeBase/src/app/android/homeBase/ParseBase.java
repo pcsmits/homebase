@@ -39,7 +39,6 @@ public class ParseBase
     // TODO figue out if this should be a singleton or not
     public ParseBase(Context context)
     {
-        //TODO maybe store these keys in xml
         Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
         if (!ApplicationManager.tryGetInstance()) {
             ApplicationManager.createInstance(context);
@@ -196,65 +195,22 @@ public class ParseBase
 
     public void getUsersOfHouse(final ApplicationManager caller)
     {
-        //get user's house
-        ParseQuery<ParseObject> houseQuery = ParseQuery.getQuery("House");
         if (getCurrentUser() == null) {
             return;
         }
-        houseQuery.whereEqualTo("members", getCurrentUser().getObjectId());
-        houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseHouse, ParseException e) {
-                if (e == null) {
-                    List<String> members = convertJSON(parseHouse.getJSONArray("members"));
-                    Log.d("MEMBERS", String.valueOf(members.size()));
-                    //with members, check if home
 
-                    for (int i = 0; i < members.size(); i++) {
-                        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-                        userQuery.whereEqualTo("objectId", members.get(i).toString());
-                        userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
-                            @Override
-                            public void done(ParseUser user, ParseException e) {
-                                if (e == null) {
-                                    caller.onGetHomeUsersSuccess(user.getUsername());
-                                } else {
-                                    caller.onGetHomeUsersFailure();
-                                }
-                            }
-                        });
-                    }
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.whereEqualTo("house", getCurrentHouseID());
+        userQuery.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> parseUsers, ParseException e) {
+                if(e == null)
+                {
+                    caller.onGetHomeUsersSuccess(parseUsers);
                 }
             }
         });
     }
-
-    public void getUserEmails(final HomeBaseActivity caller, List<String> users)
-    {
-        final List<String> emails = new LinkedList<String>();
-        for(String username : users)
-        {
-            ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-            userQuery.whereEqualTo("username", username);
-            userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
-                @Override
-                public void done(ParseUser parseUser, ParseException e) {
-                    if(parseUser != null && e == null && parseUser.has("email")){
-                        emails.add(parseUser.getString("email"));
-                    } else if(e != null ) {
-                        caller.onGetUserEmailsFailure(e.getMessage());
-                    }
-                }
-            });
-        }
-        if(emails.size() != users.size())
-        {
-            caller.onGetUserEmailsFailure("Could not find emails for some users");
-        } else {
-            caller.onGetUserEmailsSuccess(emails);
-        }
-    }
-
 
     /******************************************************************************************************
      *
