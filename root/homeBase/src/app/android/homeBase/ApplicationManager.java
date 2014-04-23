@@ -2,7 +2,12 @@ package app.android.homeBase;
 
 import android.content.Context;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import android.util.Log;
+
+import com.parse.ParseUser;
 
 public class ApplicationManager {
 
@@ -12,13 +17,14 @@ public class ApplicationManager {
 
     public ArrayList<String> users;
     public ParseBase parse;
+    public HashMap<String, ParseUser> usersObjects = new HashMap<String, ParseUser>();
 
     public static boolean tryGetInstance() {
         return (instance != null);
     }
 
     public static ApplicationManager getInstance() {
-        if (instance == null) throw new RuntimeException("Reference to AppliationManager was null");
+        if (instance == null) throw new RuntimeException("Reference to Application Manager was null");
         return instance;
     }
 
@@ -35,6 +41,7 @@ public class ApplicationManager {
         this.users = new ArrayList<String>();
         parse = new ParseBase();
         parse.getUsersOfHouse(this);
+
     }
 
     public void debugHomeUsers()
@@ -49,9 +56,13 @@ public class ApplicationManager {
         return users;
     }
 
-    public void onGetHomeUsersSuccess(String user)
+    public void onGetHomeUsersSuccess(List<ParseUser> parseUsers)
     {
-        users.add(user);
+        for(ParseUser user : parseUsers)
+        {
+            users.add(user.getUsername());
+            usersObjects.put(user.getUsername(), user);
+        }
     }
 
     public void onGetHomeUsersFailure()
