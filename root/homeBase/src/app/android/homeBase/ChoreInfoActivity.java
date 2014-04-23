@@ -67,7 +67,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
             statusBarHeight = resources.getDimensionPixelSize(resourceId);
         }
 
-        int height = (int)((size.y - headerBar.getLayoutParams().height * 3) - navBarHeight - statusBarHeight);
+        int height = (int)((size.y - headerBar.getLayoutParams().height * 2) - navBarHeight - statusBarHeight);
 
         BootstrapButton infoContainer = (BootstrapButton) this.findViewById(R.id.chore_info_body_button);
         ViewGroup.LayoutParams rlp = infoContainer.getLayoutParams();
