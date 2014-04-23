@@ -79,6 +79,10 @@ public class ParseBase
         return ParseUser.getCurrentUser();
     }
 
+    public String getCurrentHouseID() {
+        return this.getCurrentUser().get("house").toString();
+    }
+
     public void addUser(final String username, final String password, final String email, final HomeBaseActivity caller)
     {
         final ParseUser user = new ParseUser();
@@ -514,6 +518,7 @@ public class ParseBase
         alert.put("creator", creatorID);
         alert.put("responsibleUsers", responsibleArray);
         alert.put("completedUsers", completedArray);
+        alert.put("house", this.getCurrentHouseID());
         alert.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -539,6 +544,7 @@ public class ParseBase
         alert.put("responsibleUsers", responsibleArray);
         alert.put("completedUsers", completedArray);
         alert.put("amount", amount);
+        alert.put("house", this.getCurrentHouseID());
         alert.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -555,6 +561,7 @@ public class ParseBase
     public void getAlert(String objectID, final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("objectId", objectID);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
@@ -575,6 +582,7 @@ public class ParseBase
     public void getAlerts(final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -595,6 +603,7 @@ public class ParseBase
     public void getAlerts(final HomeBaseActivity caller, final String type)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("type", type);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -616,6 +625,7 @@ public class ParseBase
     public void refreshAlerts(final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -636,6 +646,7 @@ public class ParseBase
     public void refreshAlerts(final HomeBaseActivity caller, final String type)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("type", type);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -672,6 +683,7 @@ public class ParseBase
     //eventually, need to update alert by objectID - but this requires storing object ID across activities
     public void updateAlertResponsibleUsers(final String creatorID, final String title, final List<String> responsibleUsers, final List<String> completedUsers, final HomeBaseActivity caller) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("creator", creatorID);
         query.whereEqualTo("title", title);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -700,6 +712,7 @@ public class ParseBase
 
     public void getAlertResponsibleUsers(final String creatorID, final String title, final HomeBaseActivity caller) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("creator", creatorID);
         query.whereEqualTo("title", title);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -718,6 +731,7 @@ public class ParseBase
     
     public void getAlertCompletedUsers(final String creatorID, final String title, final HomeBaseActivity caller) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("creator", creatorID);
         query.whereEqualTo("title", title);
 
