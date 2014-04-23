@@ -18,6 +18,7 @@ public class ApplicationManager {
     public ArrayList<String> users;
     public ParseBase parse;
     public HashMap<String, ParseUser> usersObjects = new HashMap<String, ParseUser>();
+    public GPSservice gps;
 
     public static boolean tryGetInstance() {
         return (instance != null);
@@ -32,7 +33,12 @@ public class ApplicationManager {
         if (instance != null) {
             return instance;
         }
-        return instance = new ApplicationManager(context.getApplicationContext());
+
+
+        instance = new ApplicationManager(context.getApplicationContext());
+        instance.gps = new GPSservice(context);
+
+        return instance;
     }
 
     // notice the constructor is private

@@ -26,7 +26,7 @@ public class NewHouseActivity extends HomeBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_house);
-        parse = new ParseBase(this);
+        parse = new ParseBase(this, true);
     }
 
     @Override

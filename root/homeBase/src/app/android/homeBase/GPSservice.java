@@ -212,7 +212,7 @@ public class GPSservice extends Service implements LocationListener {
         //home
         boolean nowHome = false;
         Log.d("Distancce Between", String.valueOf(results[0]));
-        if(results[0] <= 30) {
+        if(results[0] <= 50) {
             nowHome = true;
         }
         if (nowHome != wasHome) {

@@ -29,7 +29,7 @@ public class LoginActivity extends HomeBaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        parse = new ParseBase(this);
+        parse = new ParseBase(this, true);
         setContentView(R.layout.activity_login);
 
         // activity here
@@ -37,7 +37,7 @@ public class LoginActivity extends HomeBaseActivity{
         {
             Log.d("Logged in User", parse.getCurrentUser().getUsername());
             //if(!isMyServiceRunning()) {
-            GPSservice gps = new GPSservice(LoginActivity.this);
+
             //}
             if(parse.getCurrentUser().has("house")) {
                 Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);

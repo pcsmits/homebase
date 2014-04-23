@@ -45,6 +45,11 @@ public class ParseBase
         }
     }
 
+    public ParseBase(Context context, boolean noApplicationManager)
+    {
+        Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
+    }
+
     /********************************************************************************************************
      *   GENERAL AND/OR PRIVATE METHODS
      **********************************************************************************************************/

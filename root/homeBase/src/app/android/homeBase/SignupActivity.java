@@ -38,7 +38,7 @@ public class SignupActivity extends HomeBaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        final ParseBase parse = new ParseBase(this);
+        final ParseBase parse = new ParseBase(this, false);
         setContentView(R.layout.activity_signup);
         progressSpinner = (ProgressBar) findViewById(R.id.signup_progressbar);
         final EmailValidator emailVal = new EmailValidator();
