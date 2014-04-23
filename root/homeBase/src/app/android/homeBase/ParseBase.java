@@ -247,14 +247,9 @@ public class ParseBase
                 }
             });
         }
-        if(emails.size() != users.size())
-        {
-            caller.onGetUserEmailsFailure("Could not find emails for some users");
-        } else {
-            caller.onGetUserEmailsSuccess(emails);
-        }
-    }
 
+        caller.onGetUserEmailsSuccess(emails);
+    }
 
     /******************************************************************************************************
      *

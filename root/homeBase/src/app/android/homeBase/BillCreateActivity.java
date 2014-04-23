@@ -36,6 +36,7 @@ public class BillCreateActivity extends HomeBaseActivity {
     private final String k_alertType = "Bill";
 
     private HomeBaseAlert createdAlert;
+    private List<String> emails = new LinkedList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +146,7 @@ public class BillCreateActivity extends HomeBaseActivity {
     }
 
     @Override
-    public void onGetUserEmailsSuccess(List<String> emails)
+    public void onGetUserEmailsDone()
     {
         int numUsers = createdAlert.getResponsibleUsers().size();
         double splitAmount = (createdAlert.getAmount() / numUsers );
@@ -178,6 +179,8 @@ public class BillCreateActivity extends HomeBaseActivity {
     {
         Toast.makeText(BillCreateActivity.this, e, Toast.LENGTH_LONG).show();
     }
+
+
 
     @Override
     public void onCreateAlertFailure(String e)
