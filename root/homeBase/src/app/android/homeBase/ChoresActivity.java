@@ -67,8 +67,8 @@ public class ChoresActivity extends HomeBaseActivity {
 
     public void onChoreContainerClick(View view)
     {
-        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.login_test_button);
-        thisButton.setText("Clicked");
+        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.choreContainer_container);
+
         Intent intent = new Intent(ChoresActivity.this, ChoreInfoActivity.class);
         intent.putExtra("title", choreDescriptions.get(thisButton).title);
         intent.putExtra("info", choreDescriptions.get(thisButton).information);
@@ -134,16 +134,22 @@ public class ChoresActivity extends HomeBaseActivity {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_test_button);
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.choreContainer_container);
+            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.choreContainer_header);
+
             buttonCont.removeView(myButton);
             layout.addView(myButton);
-            String text = alerts.get(i).getTitle();
-            myButton.setText(text);
-            choreContainers.add(myButton);
-            String title = text;
-            choreTitles.add(title);
+
+            String title = alerts.get(i).getTitle();
             String information = alerts.get(i).getDescription();
             String creator = alerts.get(i).getCreatorID();
+
+            headerBar.setText(title);
+            headerBar.setBootstrapType("chore");
+            myButton.setText(information);
+
+            choreContainers.add(myButton);
+            choreTitles.add(title);
             choreDescriptions.put(myButton, new ChoreInfo(title, information, creator));
         }
     }
@@ -162,16 +168,22 @@ public class ChoresActivity extends HomeBaseActivity {
                 LayoutInflater inflater = LayoutInflater.from(this);
                 LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
 
-                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_test_button);
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.choreContainer_container);
+                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.choreContainer_header);
+
                 buttonCont.removeView(myButton);
                 layout.addView(myButton);
-                String text = alerts.get(i).getTitle();
-                myButton.setText(text);
-                choreContainers.add(myButton);
-                String title = text;
-                choreTitles.add(title);
+
+                String title = alerts.get(i).getTitle();
                 String information = alerts.get(i).getDescription();
                 String creator = alerts.get(i).getCreatorID();
+
+                headerBar.setText(title);
+                headerBar.setBootstrapType("chore");
+                myButton.setText(information);
+
+                choreContainers.add(myButton);
+                choreTitles.add(title);
                 choreDescriptions.put(myButton, new ChoreInfo(title, information, creator));
             }
         }

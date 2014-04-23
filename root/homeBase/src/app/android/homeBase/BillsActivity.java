@@ -115,9 +115,9 @@ public class BillsActivity extends HomeBaseActivity {
         for (HomeBaseAlert alert : alerts)
         {
             LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.bill_container, null, false);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.bill_container_button);
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.choreContainer_container);
             buttonCont.removeView(myButton);
             layout.addView(myButton);
             String text = alert.getDescription();
@@ -141,7 +141,7 @@ public class BillsActivity extends HomeBaseActivity {
                 LayoutInflater inflater = LayoutInflater.from(this);
                 LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
 
-                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_test_button);
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.choreContainer_container);
                 buttonCont.removeView(myButton);
                 layout.addView(myButton);
                 String text = alerts.get(i).getTitle();
