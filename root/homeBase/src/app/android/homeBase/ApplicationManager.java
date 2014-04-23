@@ -41,7 +41,6 @@ public class ApplicationManager {
         this.users = new ArrayList<String>();
         parse = new ParseBase();
         parse.getUsersOfHouse(this);
-
     }
 
     public void debugHomeUsers()
