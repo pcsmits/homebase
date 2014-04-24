@@ -28,6 +28,7 @@ public class BillsActivity extends HomeBaseActivity {
         parse = new ParseBase(this);
 
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_bills);
 
         layout = (LinearLayout) findViewById(R.id.bills_billContainer_button);

@@ -41,6 +41,7 @@ public class BillCreateActivity extends HomeBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_bill_create);
         parse = new ParseBase(this);
 

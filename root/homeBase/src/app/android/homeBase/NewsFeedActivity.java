@@ -23,6 +23,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_newsfeed);
 
         alertTitles = new ArrayList<String>();

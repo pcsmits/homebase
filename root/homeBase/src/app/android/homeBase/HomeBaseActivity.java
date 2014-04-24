@@ -57,6 +57,13 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
         return false;
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_in_back, R.anim.anim_out_back);
+    }
+
     public void onLoginSuccess()
     {
 

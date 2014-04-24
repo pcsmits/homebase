@@ -29,6 +29,7 @@ public class LoginActivity extends HomeBaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         parse = new ParseBase(this, true);
         setContentView(R.layout.activity_login);
 
