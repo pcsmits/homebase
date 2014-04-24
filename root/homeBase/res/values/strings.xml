@@ -37,4 +37,11 @@
     <string name="newhouse_zipcode_hint">Zipcode</string>
     <string name="title_activity_activity_gps">ActivityGPS</string>
 
+    <string name="settings_change_username">Change Username</string>
+    <string name="settings_change_email">Change Email</string>
+    <string name="settings_log_out">Logout</string>
+    <string name="settings_delete_account">Delete Account</string>
+    <string name="settings_settings">Settings</string>
+
+
 </resources>
