@@ -47,7 +47,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
                 // if right to left sweep event on screen
                 if ((x1 + 150) < x2 && ((y2 - y1) < 10 || (y1 - y2) < 10 ))
                 {
-                    Toast.makeText(this, "Right to Left Swap Performed", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(this, "Right to Left Swap Performed", Toast.LENGTH_LONG).show();
                     onBackPressed();
                 }
 
