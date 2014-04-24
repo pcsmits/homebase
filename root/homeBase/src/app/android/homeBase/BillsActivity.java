@@ -26,8 +26,9 @@ public class BillsActivity extends HomeBaseActivity {
 
         // Init parse
         parse = new ParseBase(this);
-
         super.onCreate(savedInstanceState);
+        myIntent = getIntent();
+        myClassName = "BillsActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_bills);
 
@@ -68,6 +69,7 @@ public class BillsActivity extends HomeBaseActivity {
     public void onBillAddClick(View view)
     {
         Intent intent = new Intent(BillsActivity.this, BillCreateActivity.class);
+        intent.putExtra("caller", myClassName);
         startActivity(intent);
     }
 

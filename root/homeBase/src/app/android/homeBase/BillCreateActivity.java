@@ -38,9 +38,12 @@ public class BillCreateActivity extends HomeBaseActivity {
     private HomeBaseAlert createdAlert;
     private HashMap<String, ParseUser> usersObjects;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myIntent = getIntent();
+        myClassName = "BillCreateActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_bill_create);
         parse = new ParseBase(this);

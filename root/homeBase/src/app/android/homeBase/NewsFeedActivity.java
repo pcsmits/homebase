@@ -23,6 +23,8 @@ public class NewsFeedActivity extends HomeBaseActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        myIntent = getIntent();
+        myClassName = "NewsFeedActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_newsfeed);
 
@@ -72,18 +74,21 @@ public class NewsFeedActivity extends HomeBaseActivity {
     public void onChoresButtonClick(View view)
     {
         Intent intent = new Intent(NewsFeedActivity.this, ChoresActivity.class);
+        intent.putExtra("caller", myClassName);
         startActivity(intent);
     }
 
     public void onBillsButtonClick(View view)
     {
         Intent intent = new Intent(NewsFeedActivity.this, BillsActivity.class);
+        intent.putExtra("caller", myClassName);
         startActivity(intent);
     }
 
     public void onUsersHomeButtonClick(View view)
     {
         Intent intent = new Intent(NewsFeedActivity.this, GPSActivity.class);
+        intent.putExtra("caller", myClassName);
         startActivity(intent);
     }
 
@@ -144,5 +149,11 @@ public class NewsFeedActivity extends HomeBaseActivity {
     public void onUpdateAlertListFailure(String e)
     {
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressedEndpoint();
     }
 }

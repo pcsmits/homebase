@@ -41,6 +41,8 @@ public class ChoresActivity extends HomeBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myIntent = getIntent();
+        myClassName = "ChoresActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_chores);
         parse = new ParseBase(this);
@@ -76,6 +78,7 @@ public class ChoresActivity extends HomeBaseActivity {
         BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.alertContainer_container);
 
         Intent intent = new Intent(ChoresActivity.this, ChoreInfoActivity.class);
+        intent.putExtra("caller", myClassName);
         intent.putExtra("title", choreDescriptions.get(thisButton).title);
         intent.putExtra("info", choreDescriptions.get(thisButton).information);
         intent.putExtra("creator", choreDescriptions.get(thisButton).creator);
@@ -85,6 +88,7 @@ public class ChoresActivity extends HomeBaseActivity {
     public void onChoreAddClick(View view)
     {
         Intent intent = new Intent(ChoresActivity.this, ChoreCreateActivity.class);
+        intent.putExtra("caller", myClassName);
         startActivity(intent);
     }
 

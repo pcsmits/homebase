@@ -35,6 +35,8 @@ public class ChoreCreateActivity extends HomeBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myIntent = getIntent();
+        myClassName = "ChoreCreateActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_chore_create);
         parse = new ParseBase(this);

@@ -25,6 +25,8 @@ public class NewHouseActivity extends HomeBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myIntent = getIntent();
+        myClassName = "NewHouseActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_new_house);
         parse = new ParseBase(this, true);
@@ -174,6 +176,7 @@ public class NewHouseActivity extends HomeBaseActivity {
                 if(e == null)
                 {
                     Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
+                    startFeed.putExtra("caller", myClassName);
                     startActivity(startFeed);
                     finish();
                 }
@@ -201,6 +204,7 @@ public class NewHouseActivity extends HomeBaseActivity {
                 if(e == null)
                 {
                     Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
+                    startFeed.putExtra("caller", myClassName);
                     startActivity(startFeed);
                     finish();
                 }
