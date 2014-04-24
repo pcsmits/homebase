@@ -1,17 +1,61 @@
 package app.android.homeBase;
 
 import android.support.v7.app.ActionBarActivity;
-import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 import com.parse.*;
 
 public abstract class HomeBaseActivity extends ActionBarActivity{
+
+    float x1, x2, y1, y2;
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+
+
+        // Normal event dispatch to this container's children, ignore the return value
+        super.dispatchTouchEvent(ev);
+
+        // Always consume the event so it is not dispatched further up the chain
+        onTouchEvent(ev);
+        return true;
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent touchevent){
+
+        switch (touchevent.getAction())
+        {
+
+            // when user first touches the screen we get x and y coordinate
+            case MotionEvent.ACTION_DOWN:
+            {
+                x1 = touchevent.getX();
+                y1 = touchevent.getY();
+                break;
+            }
+            case MotionEvent.ACTION_UP:
+            {
+                x2 = touchevent.getX();
+                y2 = touchevent.getY();
+
+
+                // if right to left sweep event on screen
+                if ((x1 + 150) < x2 && ((y2 - y1) < 10 || (y1 - y2) < 10 ))
+                {
+                    Toast.makeText(this, "Right to Left Swap Performed", Toast.LENGTH_LONG).show();
+                    onBackPressed();
+                }
+
+                break;
+            }
+        }
+        return false;
+    }
 
     public void onLoginSuccess()
     {

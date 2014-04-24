@@ -2,6 +2,7 @@ package app.android.homeBase;
 
 
 import android.content.Intent;
+import android.support.v4.view.MotionEventCompat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,10 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.MotionEvent;
+import android.widget.Toast;
+import android.util.Log;
+
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
