@@ -2,6 +2,7 @@ package app.android.homeBase;
 
 
 import android.content.Intent;
+import android.support.v4.view.MotionEventCompat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,10 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.MotionEvent;
+import android.widget.Toast;
+import android.util.Log;
+
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
@@ -36,6 +41,9 @@ public class ChoresActivity extends HomeBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myIntent = getIntent();
+        myClassName = "ChoresActivity";
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_chores);
         parse = new ParseBase(this);
 
@@ -70,6 +78,7 @@ public class ChoresActivity extends HomeBaseActivity {
         BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.alertContainer_container);
 
         Intent intent = new Intent(ChoresActivity.this, ChoreInfoActivity.class);
+        intent.putExtra("caller", myClassName);
         intent.putExtra("title", choreDescriptions.get(thisButton).title);
         intent.putExtra("info", choreDescriptions.get(thisButton).information);
         intent.putExtra("creator", choreDescriptions.get(thisButton).creator);
@@ -79,6 +88,7 @@ public class ChoresActivity extends HomeBaseActivity {
     public void onChoreAddClick(View view)
     {
         Intent intent = new Intent(ChoresActivity.this, ChoreCreateActivity.class);
+        intent.putExtra("caller", myClassName);
         startActivity(intent);
     }
 

@@ -1,17 +1,120 @@
 package app.android.homeBase;
 
 import android.support.v7.app.ActionBarActivity;
-import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
+import android.content.Intent;
 
 import com.parse.*;
 
 public abstract class HomeBaseActivity extends ActionBarActivity{
+
+    protected float x1, x2, y1, y2;
+    protected Intent myIntent;
+    protected String myClassName;
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+
+
+        // Normal event dispatch to this container's children, ignore the return value
+        super.dispatchTouchEvent(ev);
+
+        // Always consume the event so it is not dispatched further up the chain
+        onTouchEvent(ev);
+        return true;
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent touchevent){
+
+        switch (touchevent.getAction())
+        {
+
+            // when user first touches the screen we get x and y coordinate
+            case MotionEvent.ACTION_DOWN:
+            {
+                x1 = touchevent.getX();
+                y1 = touchevent.getY();
+                break;
+            }
+            case MotionEvent.ACTION_UP:
+            {
+                x2 = touchevent.getX();
+                y2 = touchevent.getY();
+
+
+                // if right to left sweep event on screen
+                if ((x1 + 150) < x2 && ((y2 - y1) < 10 || (y1 - y2) < 10 ))
+                {
+                    //Toast.makeText(this, "Right to Left Swap Performed", Toast.LENGTH_LONG).show();
+                    onBackPressed();
+                }
+                
+                //if left to right sweep event on screen
+                if (x1 > (x2 + 150) && ((y2 - y1) < 10 || (y1 - y2) < 10 ))
+                {
+                    //Toast.makeText(this, "Right to Left Swap Performed", Toast.LENGTH_LONG).show();
+                    onForwardSwipe();
+                }
+
+                break;
+            }
+        }
+        return false;
+    }
+
+    public void onBackPressedEndpoint()
+    {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_in_back, R.anim.anim_out_back);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        addIntentToForwardQueue();
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_in_back, R.anim.anim_out_back);
+    }
+
+    public void onForwardSwipe() 
+    {
+        if (!ApplicationManager.tryGetInstance()) return;
+        if (ApplicationManager.getInstance().forwardIntentQueue.isEmpty()) return;
+        if (!ApplicationManager.getInstance().traversingForwardIntentQueue) {
+            ApplicationManager.getInstance().traversingForwardIntentQueue = true;
+        }
+
+        Intent popped = ApplicationManager.getInstance().forwardIntentQueue.pop();
+
+        String caller = popped.getStringExtra("caller");
+        if (caller == null) return;
+        if (!caller.equals(myClassName)) {
+            ApplicationManager.getInstance().forwardIntentQueue.clear();
+            ApplicationManager.getInstance().traversingForwardIntentQueue = false ;
+            return;
+        }
+
+        startActivity(popped);
+    }
+    
+    public void addIntentToForwardQueue()
+    {
+
+        if (myIntent == null) return;
+        if (!ApplicationManager.tryGetInstance()) return;
+
+        if (ApplicationManager.getInstance().traversingForwardIntentQueue) {
+            ApplicationManager.getInstance().forwardIntentQueue.clear();
+            ApplicationManager.getInstance().traversingForwardIntentQueue = false;
+        }
+
+        ApplicationManager.getInstance().forwardIntentQueue.push(myIntent);
+    }
 
     public void onLoginSuccess()
     {

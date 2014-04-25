@@ -29,6 +29,9 @@ public class LoginActivity extends HomeBaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myIntent = getIntent();
+        myClassName = "LoginActivity";
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         parse = new ParseBase(this, true);
         setContentView(R.layout.activity_login);
 
@@ -41,10 +44,12 @@ public class LoginActivity extends HomeBaseActivity{
             //}
             if(parse.getCurrentUser().has("house")) {
                 Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
+                startFeed.putExtra("caller", myClassName);
                 startActivity(startFeed);
             }
             else {
                 Intent startNewhouse = new Intent(LoginActivity.this, NewHouseActivity.class);
+                startNewhouse.putExtra("caller", myClassName);
                 startActivity(startNewhouse);
             }
             finish();

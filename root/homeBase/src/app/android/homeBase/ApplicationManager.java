@@ -1,8 +1,10 @@
 package app.android.homeBase;
 
 import android.content.Context;
+import android.content.Intent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.util.Log;
@@ -19,6 +21,14 @@ public class ApplicationManager {
     public ParseBase parse;
     public HashMap<String, ParseUser> usersObjects = new HashMap<String, ParseUser>();
     public GPSservice gps;
+
+    public LinkedList<Intent> forwardIntentQueue;
+    public boolean traversingForwardIntentQueue = false;
+
+    public class SavedIntent {
+        Intent intent;
+
+    }
 
     public static boolean tryGetInstance() {
         return (instance != null);
@@ -37,6 +47,7 @@ public class ApplicationManager {
 
         instance = new ApplicationManager(context.getApplicationContext());
         instance.gps = new GPSservice(context);
+        instance.forwardIntentQueue = new LinkedList<Intent>();
 
         return instance;
     }
