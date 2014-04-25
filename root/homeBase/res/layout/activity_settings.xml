@@ -14,26 +14,37 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="118dp">
            </RelativeLayout>
 
         <TextView
-            android:layout_width="387dp"
+            android:layout_width="91dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/settings_settings"
-            android:id="@+id/textView" />
+            android:id="@+id/textView"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="41dp"></RelativeLayout>
+
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="64dp">
 
             <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/settings_username_et"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="194dp" />
+                android:layout_marginRight="194dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="40dp" />
 
             <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="wrap_content"
@@ -44,11 +55,11 @@
                 bootstrapbutton:bb_type="primary"
                 bootstrapbutton:bb_text_alignment="center"
                 bootstrapbutton:bb_icon_right="fa-chevron-right"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="25dp"
-                android:layout_marginLeft="25dp">
+                android:layout_marginLeft="25dp"
+                android:onClick="onChangeUsernameClick"
+                >
                 </com.beardedhen.androidbootstrap.BootstrapButton>
             </RelativeLayout>
 
@@ -56,12 +67,16 @@
             android:layout_width="fill_parent"
             android:layout_height="76dp">
             <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/settings_email_et"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="194dp" />
+                android:layout_marginRight="194dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="40dp" />
 
             <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="wrap_content"
@@ -72,13 +87,12 @@
                 bootstrapbutton:bb_type="primary"
                 bootstrapbutton:bb_text_alignment="center"
                 bootstrapbutton:bb_icon_right="fa-chevron-right"
-                android:layout_marginLeft="32dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignLeft="@+id/settings_email_et"
-                android:layout_alignStart="@+id/settings_email_et"
-                android:layout_alignParentRight="true"
+                android:layout_marginLeft="159dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="25dp">
+                android:layout_marginRight="25dp"
+                android:onClick="onChangeEmailClick"
+                android:layout_alignLeft="@+id/settings_email_et"
+                android:layout_alignStart="@+id/settings_email_et">
                 </com.beardedhen.androidbootstrap.BootstrapButton>
         </RelativeLayout>
 
