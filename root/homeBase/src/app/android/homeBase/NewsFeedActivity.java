@@ -61,7 +61,8 @@ public class NewsFeedActivity extends HomeBaseActivity {
         a.setDuration(250);
 
         if (expand) {
-            a.setParams(lp.height, menuHeight + menuHeight * 4 ); //this will be times the number of modules we have
+            // Remember to set the container linear layout to height = (50)*modules
+            a.setParams(lp.height, menuHeight + menuHeight * 4); //this will be times the number of modules we have
         } else {
             a.setParams(lp.height, menuHeight);
         }

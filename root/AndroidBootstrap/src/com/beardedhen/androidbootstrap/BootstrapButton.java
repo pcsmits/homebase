@@ -52,6 +52,7 @@ public class BootstrapButton extends FrameLayout {
 		bbuttonTypeMap.put("inverse", BootstrapTypes.INVERSE);
         bbuttonTypeMap.put("bill", BootstrapTypes.BILL);
         bbuttonTypeMap.put("chore", BootstrapTypes.CHORE);
+        bbuttonTypeMap.put("setting", BootstrapTypes.SETTING);
 		
 		bbuttonTypeMapRounded = new HashMap<String, BootstrapTypes>();
 		
@@ -65,8 +66,8 @@ public class BootstrapButton extends FrameLayout {
 		bbuttonTypeMapRounded.put("inverse", BootstrapTypes.INVERSE_ROUNDED);
         bbuttonTypeMapRounded.put("bill", BootstrapTypes.BILL_ROUNDED);
         bbuttonTypeMapRounded.put("chore", BootstrapTypes.CHORE_ROUNDED);
-		
-		
+        bbuttonTypeMapRounded.put("setting", BootstrapTypes.SETTING_ROUNDED);
+
 		faMap = FontAwesome.getFaMap();
 		
 	}
@@ -99,8 +100,9 @@ public class BootstrapButton extends FrameLayout {
 		INVERSE(R.drawable.bbuton_inverse, R.color.white),
         BILL(R.drawable.bbuton_bills, R.color.white),
         CHORE(R.drawable.bbuton_chores, R.color.white),
-		
-		DEFAULT_ROUNDED(R.drawable.bbuton_default_rounded, R.color.black),
+        SETTING(R.drawable.bbutton_settings, R.color.white),
+
+        DEFAULT_ROUNDED(R.drawable.bbuton_default_rounded, R.color.black),
 		PRIMARY_ROUNDED(R.drawable.bbuton_primary_rounded, R.color.white),
 		SUCCESS_ROUNDED(R.drawable.bbuton_success_rounded, R.color.white),
 		INFO_ROUNDED(R.drawable.bbuton_info_rounded, R.color.white),
@@ -109,9 +111,10 @@ public class BootstrapButton extends FrameLayout {
         GRAY_ROUNDED(R.drawable.bbuton_gray_rounded, R.color.black),
 		INVERSE_ROUNDED(R.drawable.bbuton_inverse_rounded, R.color.white),
         BILL_ROUNDED(R.drawable.bbuton_bills_rounded, R.color.white),
-        CHORE_ROUNDED(R.drawable.bbuton_chores_rounded, R.color.white);
+        CHORE_ROUNDED(R.drawable.bbuton_chores_rounded, R.color.white),
+        SETTING_ROUNDED(R.drawable.bbutton_settings_rounded , R.color.white);
 
-		private int backgroundDrawable;
+        private int backgroundDrawable;
 		private int textColour;
 		
 		BootstrapTypes(int backgroundDrawable, int textColour)

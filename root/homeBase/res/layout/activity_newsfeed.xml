@@ -67,7 +67,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="200dp"
                     android:orientation="vertical" >
 
                     <RelativeLayout
@@ -154,7 +154,7 @@
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"
-                            bootstrapbutton:bb_type="bill"
+                            bootstrapbutton:bb_type="setting"
                             bootstrapbutton:bb_text_alignment="center"
                             bootstrapbutton:bb_icon_right="fa-chevron-right"
                             android:layout_gravity="center_horizontal"

@@ -42,6 +42,9 @@ public class SettingsActivity extends HomeBaseActivity {
         super.onCreate(savedInstanceState);
         parse = new ParseBase(this);
         currUser = parse.getCurrentUser();
+        myIntent = getIntent();
+        myClassName = "SettingsActivity";
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_settings);
 
         usernameEditText = (BootstrapEditText) findViewById(R.id.settings_username_et);
