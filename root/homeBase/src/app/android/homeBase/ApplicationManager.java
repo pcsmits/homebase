@@ -1,5 +1,6 @@
 package app.android.homeBase;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import java.util.ArrayList;
@@ -9,55 +10,62 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.PushService;
+import com.parse.SaveCallback;
 
-public class ApplicationManager {
-
-    private Context context;
-
-    private static ApplicationManager instance;
-
+public class ApplicationManager extends Application {
     public ArrayList<String> users;
     public ParseBase parse;
     public HashMap<String, ParseUser> usersObjects = new HashMap<String, ParseUser>();
     public GPSservice gps;
-
     public LinkedList<Intent> forwardIntentQueue;
     public boolean traversingForwardIntentQueue = false;
+    private ParseInstallation installation;
+    private static ApplicationManager instance;
+
+    public static ApplicationManager getInstance()
+    {
+        return instance;
+    }
+
+    @Override
+    public Context getApplicationContext()
+    {
+        return instance;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+        Parse.initialize(instance, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
+        instance.initialize();
+        instance.installation.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null)
+                {
+                    PushService.setDefaultPushCallback(instance, LoginActivity.class);
+                }
+            }
+        });
+    }
+
+    private void initialize()
+    {
+        instance.users = new ArrayList<String>();
+        instance.parse = new ParseBase();
+        instance.gps = new GPSservice(instance);
+        instance.forwardIntentQueue = new LinkedList<Intent>();
+        instance.installation = ParseInstallation.getCurrentInstallation();
+    }
 
     public class SavedIntent {
         Intent intent;
-
-    }
-
-    public static boolean tryGetInstance() {
-        return (instance != null);
-    }
-
-    public static ApplicationManager getInstance() {
-        if (instance == null) throw new RuntimeException("Reference to Application Manager was null");
-        return instance;
-    }
-
-    public static ApplicationManager createInstance(Context context) {
-        if (instance != null) {
-            return instance;
-        }
-
-
-        instance = new ApplicationManager(context.getApplicationContext());
-        instance.gps = new GPSservice(context);
-        instance.forwardIntentQueue = new LinkedList<Intent>();
-
-        return instance;
-    }
-
-    // notice the constructor is private
-    private ApplicationManager(Context context) {
-        this.context = context;
-        this.users = new ArrayList<String>();
-        parse = new ParseBase();
-        parse.getUsersOfHouse(this);
     }
 
     public void debugHomeUsers()
@@ -76,13 +84,23 @@ public class ApplicationManager {
     {
         for(ParseUser user : parseUsers)
         {
-            users.add(user.getUsername());
-            usersObjects.put(user.getUsername(), user);
+            instance.users.add(user.getUsername());
+            instance.usersObjects.put(user.getUsername(), user);
         }
     }
 
     public void onGetHomeUsersFailure()
     {
 
+    }
+
+    public void subscribeToHouseChannel(String houseID)
+    {
+        PushService.subscribe(instance, houseID, NewsFeedActivity.class);
+    }
+
+    public void initializeHouseData()
+    {
+        instance.parse.getUsersOfHouse(this);
     }
 }

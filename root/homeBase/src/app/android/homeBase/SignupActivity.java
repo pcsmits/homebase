@@ -33,12 +33,16 @@ public class SignupActivity extends HomeBaseActivity
 {
     private ProgressBar progressSpinner;
     private List<BootstrapEditText> editTexts;
+    private ApplicationManager mApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        final ParseBase parse = new ParseBase(this, false);
+        mApplication = ApplicationManager.getInstance();
+        myIntent = getIntent();
+        myClassName = "SignupActivity";
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_signup);
         progressSpinner = (ProgressBar) findViewById(R.id.signup_progressbar);
         final EmailValidator emailVal = new EmailValidator();
@@ -69,7 +73,7 @@ public class SignupActivity extends HomeBaseActivity
                 if (actionId == EditorInfo.IME_ACTION_DONE && !TextUtils.isEmpty(usernameEditText.getText())) {
                     String username = usernameEditText.getText().toString();
                     if (!username.isEmpty()) {
-                        parse.checkUserName(username, SignupActivity.this);
+                        mApplication.parse.checkUserName(username, SignupActivity.this);
                     }
                 }
                 return false;
@@ -84,7 +88,7 @@ public class SignupActivity extends HomeBaseActivity
                     String username = usernameEditText.getText().toString();
                     // If a username was submitted, verify that username isnt already in use on parse
                     if (!username.isEmpty()) {
-                        parse.checkUserName(username, SignupActivity.this);
+                        mApplication.parse.checkUserName(username, SignupActivity.this);
                     }
                 }
             }
@@ -220,7 +224,7 @@ public class SignupActivity extends HomeBaseActivity
                 progressSpinner.setIndeterminate(true);
 
                 // addUser will handle the intent firing upon succsessful signup
-                parse.addUser(usernameEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString(), SignupActivity.this);
+                mApplication.parse.addUser(usernameEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString(), SignupActivity.this);
             }
         });
     }

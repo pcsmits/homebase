@@ -14,6 +14,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     protected float x1, x2, y1, y2;
     protected Intent myIntent;
     protected String myClassName;
+    private ApplicationManager mApplication;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -83,19 +84,18 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     public void onForwardSwipe() 
     {
-        if (!ApplicationManager.tryGetInstance()) return;
-        if (ApplicationManager.getInstance().forwardIntentQueue.isEmpty()) return;
-        if (!ApplicationManager.getInstance().traversingForwardIntentQueue) {
-            ApplicationManager.getInstance().traversingForwardIntentQueue = true;
+        if (mApplication.forwardIntentQueue.isEmpty()) return;
+        if (!mApplication.traversingForwardIntentQueue) {
+            mApplication.traversingForwardIntentQueue = true;
         }
 
-        Intent popped = ApplicationManager.getInstance().forwardIntentQueue.pop();
+        Intent popped = mApplication.forwardIntentQueue.pop();
 
         String caller = popped.getStringExtra("caller");
         if (caller == null) return;
         if (!caller.equals(myClassName)) {
-            ApplicationManager.getInstance().forwardIntentQueue.clear();
-            ApplicationManager.getInstance().traversingForwardIntentQueue = false ;
+            mApplication.forwardIntentQueue.clear();
+            mApplication.traversingForwardIntentQueue = false ;
             return;
         }
 
@@ -106,14 +106,18 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     {
 
         if (myIntent == null) return;
-        if (!ApplicationManager.tryGetInstance()) return;
 
-        if (ApplicationManager.getInstance().traversingForwardIntentQueue) {
-            ApplicationManager.getInstance().forwardIntentQueue.clear();
-            ApplicationManager.getInstance().traversingForwardIntentQueue = false;
+        if (mApplication.traversingForwardIntentQueue) {
+            mApplication.forwardIntentQueue.clear();
+            mApplication.traversingForwardIntentQueue = false;
         }
 
-        ApplicationManager.getInstance().forwardIntentQueue.push(myIntent);
+        mApplication.forwardIntentQueue.push(myIntent);
+    }
+
+    public void clearIntentForwardQueue()
+    {
+        mApplication.forwardIntentQueue.clear();
     }
 
     public void onLoginSuccess()

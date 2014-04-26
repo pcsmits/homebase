@@ -22,17 +22,18 @@ public class ChoreInfoActivity extends HomeBaseActivity {
     private String info;
     private String creator;
 
+    private ApplicationManager mApplication;
     private List <String> responsibleUsers;
     private List <String> completedUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApplication = ApplicationManager.getInstance();
         myIntent = getIntent();
         myClassName = "ChoreInfoActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_chore_info);
-        parse = new ParseBase(this);
         responsibleUsers = new ArrayList<String>();
         completedUsers = new ArrayList<String>();
 

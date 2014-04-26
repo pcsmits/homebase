@@ -1,5 +1,6 @@
 package app.android.homeBase;
 
+import android.app.Application;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,7 +13,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.PushService;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -21,15 +24,15 @@ import java.io.IOException;
 import java.util.Locale;
 
 public class NewHouseActivity extends HomeBaseActivity {
-    public ParseBase parse;
+    private ApplicationManager mApplication;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myIntent = getIntent();
-        myClassName = "NewHouseActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_new_house);
-        parse = new ParseBase(this, true);
+        myIntent = getIntent();
+        myClassName = "NewHouseActivity";
+        mApplication = ApplicationManager.getInstance();
     }
 
     @Override
@@ -120,10 +123,10 @@ public class NewHouseActivity extends HomeBaseActivity {
                 String gpsString = lat + " - " +lng;
                 Log.d("GeoCoder", gpsString);
 
-                parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), lat, lng, NewHouseActivity.this);
+                mApplication.parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), lat, lng, NewHouseActivity.this);
             } else {
                 Log.d("GeoCoder", "Not present");
-                parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), 0, 0, NewHouseActivity.this);
+                mApplication.parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), 0, 0, NewHouseActivity.this);
                 Log.d("GeoCoder", "House loctaion set to 0 0");
             }
 
@@ -141,7 +144,7 @@ public class NewHouseActivity extends HomeBaseActivity {
             String code = houseCodeET.getText().toString();
             if(code.length() != 0)
             {
-                parse.getHouse(code, NewHouseActivity.this);
+                mApplication.parse.getHouse(code, NewHouseActivity.this);
             }
             else
             {
@@ -157,7 +160,7 @@ public class NewHouseActivity extends HomeBaseActivity {
     public void onGetHouseSuccess(HomeBaseHouse house)
     {
         house.getMembers().add(ParseUser.getCurrentUser().getObjectId());
-        parse.updateHouse(house, NewHouseActivity.this);
+        mApplication.parse.updateHouse(house, NewHouseActivity.this);
     }
 
     @Override
@@ -167,7 +170,7 @@ public class NewHouseActivity extends HomeBaseActivity {
     }
 
     @Override
-    public void onUpdateHouseSuccess(HomeBaseHouse house)
+    public void onUpdateHouseSuccess(final HomeBaseHouse house)
     {
         ParseUser.getCurrentUser().put("house", house.getId());
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
@@ -175,6 +178,8 @@ public class NewHouseActivity extends HomeBaseActivity {
             public void done(ParseException e) {
                 if(e == null)
                 {
+                    mApplication.initializeHouseData();
+                    mApplication.subscribeToHouseChannel(house.getId());
                     Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
                     startFeed.putExtra("caller", myClassName);
                     startActivity(startFeed);
@@ -195,7 +200,7 @@ public class NewHouseActivity extends HomeBaseActivity {
     }
 
     @Override
-    public void onCreateHouseSuccess(HomeBaseHouse house)
+    public void onCreateHouseSuccess(final HomeBaseHouse house)
     {
         ParseUser.getCurrentUser().put("house", house.getId());
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
@@ -203,6 +208,8 @@ public class NewHouseActivity extends HomeBaseActivity {
            public void done(ParseException e) {
                 if(e == null)
                 {
+                    mApplication.initializeHouseData();
+                    mApplication.subscribeToHouseChannel(house.getId());
                     Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
                     startFeed.putExtra("caller", myClassName);
                     startActivity(startFeed);
