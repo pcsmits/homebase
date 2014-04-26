@@ -1,18 +1,30 @@
 package app.android.homeBase;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.parse.DeleteCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.Timer;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,13 +71,14 @@ public class SettingsActivity extends HomeBaseActivity {
                         @Override
                         public void done(ParseException e) {
                             Toast.makeText(SettingsActivity.this, "Email updated successfully", Toast.LENGTH_SHORT).show();
+                            updateOldEmail();
                         }
                     });
                 } else {
                     Toast.makeText(SettingsActivity.this, "Please enter a valid email!", Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(SettingsActivity.this, "New email matches old email!", Toast.LENGTH_LONG).show();
+                Toast.makeText(SettingsActivity.this, "New email matches current email!", Toast.LENGTH_LONG).show();
             }
         } catch (NullPointerException e) {
             //Do something useful
@@ -80,7 +93,7 @@ public class SettingsActivity extends HomeBaseActivity {
             {
                 parse.checkUserName(newUsername, SettingsActivity.this);
             } else {
-                Toast.makeText(SettingsActivity.this, "New username matches old username", Toast.LENGTH_LONG).show();
+                Toast.makeText(SettingsActivity.this, "New username matches current username", Toast.LENGTH_LONG).show();
             }
         } catch (NullPointerException e){
             //Maybe empty edit texts should be empty string
@@ -97,10 +110,26 @@ public class SettingsActivity extends HomeBaseActivity {
             @Override
             public void done(ParseException e) {
                 Toast.makeText(SettingsActivity.this, "Username updated successfully", Toast.LENGTH_SHORT).show();
+                updateOldUsername();
             }
         });
     }
 
+    @Override
+    public void onCheckUserFailure()
+    {
+        Toast.makeText(SettingsActivity.this, "That username is taken", Toast.LENGTH_SHORT).show();
+    }
+
+    public void updateOldUsername()
+    {
+        oldUsername = currUser.getUsername();
+    }
+
+    public void updateOldEmail()
+    {
+        oldEmail = currUser.getEmail();
+    }
 
     public void onLogoutClick(View v)
     {
@@ -113,7 +142,7 @@ public class SettingsActivity extends HomeBaseActivity {
     public void onDeleteAccountClick(View v)
     {
         new AlertDialog.Builder(this)
-                .setTitle("Delete Accout")
+                .setTitle("Delete Account")
                 .setMessage("Are you sure you want to delete your account?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -121,14 +150,15 @@ public class SettingsActivity extends HomeBaseActivity {
                         currUser.deleteInBackground(new DeleteCallback() {
                             @Override
                             public void done(ParseException e) {
-                                if(e == null)
-                                {
+                                if (e == null) {
                                     Toast.makeText(SettingsActivity.this, "Account Deleted :(", Toast.LENGTH_LONG).show();
+                                    ParseQuery.clearAllCachedResults();
+                                    ParseUser.logOut();
                                     Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);
                                     startActivity(loginIntent);
                                     finish();
                                 } else {
-                                    Toast.makeText(SettingsActivity.this, "Error: "+e.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(SettingsActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             }
                         });

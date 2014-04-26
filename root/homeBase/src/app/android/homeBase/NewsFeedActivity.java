@@ -95,6 +95,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
     public void onSettingsButtonClick(View view)
     {
         Intent intent = new Intent(NewsFeedActivity.this, SettingsActivity.class);
+        intent.putExtra("caller", myClassName);
         startActivity(intent);
     }
 
