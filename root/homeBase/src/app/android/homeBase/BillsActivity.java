@@ -103,7 +103,7 @@ public class BillsActivity extends HomeBaseActivity {
         layout.removeAllViews();
         for(int i = 0; i < billContainers.size(); i++) {
             BootstrapButton billContainer = billContainers.get(i);
-            if (billDescriptions.get(billContainer).getCreatorID().equals(mApplication.parse.getCurrentUser().getUsername().toString())) {
+            if (billDescriptions.get(billContainer).getCreatorID().equals(mApplication.parse.getCurrentUser().getUsername())) {
                 layout.addView(billContainer);
             }
         }
@@ -125,7 +125,7 @@ public class BillsActivity extends HomeBaseActivity {
             layout.addView(myButton);
 
             String title = alert.getTitle();
-            String information = alert.getDescription() + " [" + alert.getAmount() + "]";
+            String information = alert.getDescription() + " [$" + alert.getAmount() + "]";
             String creator = alert.getCreatorID();
 
             headerBar.setText(title);
@@ -134,6 +134,7 @@ public class BillsActivity extends HomeBaseActivity {
 
             billContainers.add(myButton);
             billDescriptions.put(myButton, alert);
+            billTitles.add(alert.getTitle());
         }
     }
 
@@ -167,6 +168,7 @@ public class BillsActivity extends HomeBaseActivity {
 
                 billContainers.add(myButton);
                 billDescriptions.put(myButton, alert);
+                billTitles.add(alert.getTitle());
             }
         }
     }
