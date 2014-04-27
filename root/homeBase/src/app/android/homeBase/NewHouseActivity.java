@@ -106,20 +106,21 @@ public class NewHouseActivity extends HomeBaseActivity {
 
             // Find latitude and longitude
             Geocoder gc = new Geocoder(NewHouseActivity.this, Locale.getDefault());
-
+            List<Address> list = null;
             ParseUser curr = ParseUser.getCurrentUser();
-            if (gc.isPresent()) {
-                List<Address> list = null;
+            if (Geocoder.isPresent()) {
                 try {
                     list = gc.getFromLocationName(address + ", " + zip, 1);
                 } catch (IOException E) {
                     Log.d("GeoCoder", "Not a proper address");
                 }
-
-                Address fullAddress = list.get(0);
-
-                double lat = fullAddress.getLatitude();
-                double lng = fullAddress.getLongitude();
+                double lat = 0;
+                double lng = 0;
+                if(list != null && list.size() != 0) {
+                    Address fullAddress = list.get(0);
+                    lat = fullAddress.getLatitude();
+                    lng = fullAddress.getLongitude();
+                }
                 String gpsString = lat + " - " +lng;
                 Log.d("GeoCoder", gpsString);
 
@@ -178,7 +179,7 @@ public class NewHouseActivity extends HomeBaseActivity {
             public void done(ParseException e) {
                 if(e == null)
                 {
-                    mApplication.initializeHouseData();
+                    mApplication.upsertHouseData();
                     mApplication.subscribeToHouseChannel(house.getId());
                     Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
                     startFeed.putExtra("caller", myClassName);
@@ -208,7 +209,7 @@ public class NewHouseActivity extends HomeBaseActivity {
            public void done(ParseException e) {
                 if(e == null)
                 {
-                    mApplication.initializeHouseData();
+                    mApplication.upsertHouseData();
                     mApplication.subscribeToHouseChannel(house.getId());
                     Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
                     startFeed.putExtra("caller", myClassName);
