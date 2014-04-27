@@ -14,7 +14,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     protected float x1, x2, y1, y2;
     protected Intent myIntent;
     protected String myClassName;
-    private ApplicationManager mApplication;
+    private ApplicationManager mApplication = ApplicationManager.getInstance();
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
