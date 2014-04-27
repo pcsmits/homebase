@@ -84,8 +84,10 @@ public class ApplicationManager extends Application {
     {
         for(ParseUser user : parseUsers)
         {
-            instance.users.add(user.getUsername());
-            instance.usersObjects.put(user.getUsername(), user);
+            if(!instance.users.contains(user.getUsername())) {
+                instance.users.add(user.getUsername());
+                instance.usersObjects.put(user.getUsername(), user);
+            }
         }
     }
 
@@ -96,11 +98,18 @@ public class ApplicationManager extends Application {
 
     public void subscribeToHouseChannel(String houseID)
     {
+        houseID = "house_" + houseID;
         PushService.subscribe(instance, houseID, NewsFeedActivity.class);
     }
 
-    public void initializeHouseData()
+    public void upsertHouseData()
     {
         instance.parse.getUsersOfHouse(this);
     }
+
+    public boolean hasHouseData()
+    {
+        return (instance.users.size() > 0);
+    }
+
 }
