@@ -127,7 +127,7 @@ public class SettingsActivity extends HomeBaseActivity {
     public void onLogoutClick(View v)
     {
         ParseUser.logOut();
-        clearIntentForwardQueue();
+        mApplication.logout();
         Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
@@ -149,7 +149,7 @@ public class SettingsActivity extends HomeBaseActivity {
                                     Toast.makeText(SettingsActivity.this, "Account Deleted :(", Toast.LENGTH_LONG).show();
                                     ParseQuery.clearAllCachedResults();
                                     ParseUser.logOut();
-                                    clearIntentForwardQueue();
+                                    mApplication.logout();
                                     Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);
                                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(loginIntent);

@@ -115,11 +115,6 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
         mApplication.forwardIntentQueue.push(myIntent);
     }
 
-    public void clearIntentForwardQueue()
-    {
-        mApplication.forwardIntentQueue.clear();
-    }
-
     public void onLoginSuccess()
     {
 

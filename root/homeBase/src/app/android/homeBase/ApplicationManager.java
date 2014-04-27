@@ -112,4 +112,10 @@ public class ApplicationManager extends Application {
         return (instance.users.size() > 0);
     }
 
+    public void logout()
+    {
+        instance.users.clear();
+        instance.forwardIntentQueue.clear();
+    }
+
 }
