@@ -70,7 +70,7 @@ public class LoginActivity extends HomeBaseActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-
+    
     /**
      * on click method for the login button
      * Gets the entered information and calls the loginUser method in ParseBase class

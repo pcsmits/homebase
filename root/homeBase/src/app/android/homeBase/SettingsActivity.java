@@ -129,7 +129,7 @@ public class SettingsActivity extends HomeBaseActivity {
         ParseUser.logOut();
         mApplication.logout();
         Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);
-        loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(loginIntent);
         finish();
     }
@@ -151,7 +151,7 @@ public class SettingsActivity extends HomeBaseActivity {
                                     ParseUser.logOut();
                                     mApplication.logout();
                                     Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);
-                                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(loginIntent);
                                     finish();
                                 } else {
