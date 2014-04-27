@@ -37,10 +37,8 @@ public class LoginActivity extends HomeBaseActivity{
         if(mApplication.parse.userLoggedIn())
         {
             Log.d("Logged in User", mApplication.parse.getCurrentUser().getUsername());
-            //if(!isMyServiceRunning()) {
-
-            //}
             if(mApplication.parse.getCurrentUser().has("house")) {
+                mApplication.upsertHouseData();
                 Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
                 startFeed.putExtra("caller", myClassName);
                 startActivity(startFeed);
@@ -92,7 +90,7 @@ public class LoginActivity extends HomeBaseActivity{
         }
         else
         {
-            Toast.makeText(v.getContext(), "Please enter your username and password", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Please enter your username and password", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -101,7 +99,9 @@ public class LoginActivity extends HomeBaseActivity{
     {
         //TODO is this okay here??
         GPSservice gps = new GPSservice(mApplication.getApplicationContext());
-        if(ParseUser.getCurrentUser().has("house")) {
+        if(ParseUser.getCurrentUser().has("house"))
+        {
+            mApplication.upsertHouseData();
             Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
             startActivity(startFeed);
         } else {
