@@ -126,7 +126,6 @@ public class LoginActivity extends HomeBaseActivity{
     {
         Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(intent);
-        finish();
     }
 
     private boolean isMyServiceRunning() {
