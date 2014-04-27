@@ -16,6 +16,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.parse.ParseUser;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -120,6 +121,18 @@ public class BillCreateActivity extends HomeBaseActivity {
         String type = k_alertType;
         String desc = infoContainer.getText().toString();
         String dollarAmountStr = "0";
+
+        // Make sure everything is filled out
+        List<String> fields = new LinkedList<String>(Arrays.asList(title, type, desc));
+        for(String field : fields)
+        {
+            if(field.isEmpty())
+            {
+                Toast.makeText(BillCreateActivity.this, "Please fill out all fields", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
         if (!dollarAmountField.getText().toString().equals("")) {
             dollarAmountStr = dollarAmountField.getText().toString();
         }
