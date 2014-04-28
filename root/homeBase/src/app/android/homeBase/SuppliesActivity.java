@@ -159,15 +159,8 @@ public class SuppliesActivity extends HomeBaseActivity {
 
     public void onSupplyContainerClick(View v)
     {
-        clickedButton = (BootstrapButton) v.findViewById(R.id.alertContainer_container);
+        clickedButton = (BootstrapButton) v.findViewById(R.id.supplyContainer_container);
         mApplication.parse.getUsername(supplyDescriptions.get(clickedButton).getCreatorID(), SuppliesActivity.this);
-
-        Intent intent = new Intent(SuppliesActivity.this, ChoreInfoActivity.class);
-        intent.putExtra("caller", myClassName);
-        intent.putExtra("title", supplyDescriptions.get(clickedButton).getTitle());
-        intent.putExtra("info", supplyDescriptions.get(clickesdButton).getDescription());
-        intent.putExtra("creator",
-        startActivity(intent);
     }
 
     @Override
