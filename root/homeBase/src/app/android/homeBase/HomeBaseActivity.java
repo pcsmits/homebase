@@ -321,6 +321,16 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
     }
 
+    public void onGetUsernameSuccess(String username)
+    {
+
+    }
+
+    public void onGetUsernameFailure(String exception)
+    {
+
+    }
+
     public void onGetBillsFailure(String e)
     {
 

@@ -62,7 +62,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
         if (expand) {
             // Remember to set the container linear layout to height = (50)*modules
-            a.setParams(lp.height, menuHeight + menuHeight * 4); //this will be times the number of modules we have
+            a.setParams(lp.height, menuHeight + menuHeight * 5); //this will be times the number of modules we have
         } else {
             a.setParams(lp.height, menuHeight);
         }
@@ -100,6 +100,13 @@ public class NewsFeedActivity extends HomeBaseActivity {
         startActivity(intent);
     }
 
+    public void onSuppliesButtonClick(View view)
+    {
+        Intent intent = new Intent(NewsFeedActivity.this, SuppliesActivity.class);
+        intent.putExtra("caller", myClassName);
+        startActivity(intent);
+    }
+
     @Override
     public void onGetAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
     {
@@ -122,6 +129,9 @@ public class NewsFeedActivity extends HomeBaseActivity {
             Log.d("Type: ", alerts.get(i).getType());
             if (alerts.get(i).getType().equals("Bill")) {
                 header.setBootstrapType("bill");
+            }
+            else if (alerts.get(i).getType().equals("Supply")) {
+                header.setBootstrapType("success");
             }
         }
     }
@@ -148,6 +158,8 @@ public class NewsFeedActivity extends HomeBaseActivity {
                 header.setText(alerts.get(i).getTitle());
                 if (alerts.get(i).getType().equals("Bill")) {
                     header.setBootstrapType("bill");
+                } else if (alerts.get(i).getType().equals("Supply")) {
+                    header.setBootstrapType("success");
                 }
             }
         }
