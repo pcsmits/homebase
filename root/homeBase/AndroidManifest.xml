@@ -80,6 +80,16 @@
             android:label="@string/app_name" >
         </activity>
 
+        <activity
+            android:name="app.android.homeBase.SuppliesActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+        <activity
+            android:name="app.android.homeBase.SupplyCreateActivity"
+            android:label="@string/app_name" >
+        </activity>
+
         <!-- Push Noties -->
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.GcmBroadcastReceiver"
