@@ -71,5 +71,13 @@
     <item name="settings_username_et" type="id"/>
     <item name="settings_email_et" type="id"/>
 
+    <item name="supply_allFilter_button" type="id"/>
+    <item name="supply_supplyContainer_button" type="id"/>
+    <item name="supplyContainer_header" type="id"/>
+    <item name="supplyCreate_header_field" type="id"/>
+    <item name="supplyContainer_container" type="id"/>
+    <item name="supplyCreate_body_field" type="id"/>
+    <item name="supplyCreate_creator_field" type="id"/>
+    <item name="supply_info_header_button" type="id"/>
 
 </resources>
