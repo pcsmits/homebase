@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
+    xmlns:bootstrapthumbnail="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
@@ -12,7 +13,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:fontFamily="fontawesome-webfont.ttf"
+        android:background="@drawable/background"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -35,6 +38,15 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
+                <com.beardedhen.androidbootstrap.BootstrapThumbnail
+                    android:id="@+id/thumbnailTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    bootstrapthumbnail:bt_width="280dp"
+                    bootstrapthumbnail:bt_height="150dp"
+                    android:layout_marginBottom="20dp"
+                    bootstrapthumbnail:bt_image="@drawable/bbuton_info"/>
 
                 <com.beardedhen.androidbootstrap.BootstrapEditText
                     android:id="@id/login_username_etext"
