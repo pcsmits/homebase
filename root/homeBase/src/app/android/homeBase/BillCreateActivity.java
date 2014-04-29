@@ -14,16 +14,18 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
 public class BillCreateActivity extends HomeBaseActivity {
-    public ParseBase parse;
+
+    private ApplicationManager mApplication;
+
     private BootstrapEditText headerBar;
     private BootstrapEditText infoContainer;
     private BootstrapEditText dollarAmountField;
@@ -42,11 +44,11 @@ public class BillCreateActivity extends HomeBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApplication = ApplicationManager.getInstance();
         myIntent = getIntent();
         myClassName = "BillCreateActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_bill_create);
-        parse = new ParseBase(this);
 
         headerBar = (BootstrapEditText) this.findViewById(R.id.billCreate_header_field);
 
@@ -77,8 +79,8 @@ public class BillCreateActivity extends HomeBaseActivity {
         infoContainer.setLayoutParams(rlp);
 
         //set up "responsible for" options
-        userNames = ApplicationManager.getInstance().getHomeUsers();
-        usersObjects = ApplicationManager.getInstance().usersObjects;
+        userNames = mApplication.getHomeUsers();
+        usersObjects = mApplication.usersObjects;
         responsibleUsers = new HashMap<String, BootstrapButton>();
         selectedResponsibleUsers = new HashMap<BootstrapButton, Boolean>();
 
@@ -96,7 +98,7 @@ public class BillCreateActivity extends HomeBaseActivity {
         }
 
         creatorField = (BootstrapButton) this.findViewById(R.id.billCreate_creator_field);
-        creatorField.setText(parse.getCurrentUser().getUsername());
+        creatorField.setText(mApplication.parse.getCurrentUser().getUsername());
 
         dollarAmountField = (BootstrapEditText) this.findViewById(R.id.billCreate_dollars_field);
     }
@@ -119,12 +121,24 @@ public class BillCreateActivity extends HomeBaseActivity {
         String type = k_alertType;
         String desc = infoContainer.getText().toString();
         String dollarAmountStr = "0";
+
+        // Make sure everything is filled out
+        List<String> fields = new LinkedList<String>(Arrays.asList(title, type, desc));
+        for(String field : fields)
+        {
+            if(field.isEmpty())
+            {
+                Toast.makeText(BillCreateActivity.this, "Please fill out all fields", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
         if (!dollarAmountField.getText().toString().equals("")) {
             dollarAmountStr = dollarAmountField.getText().toString();
         }
 
         Double amount = Double.parseDouble(dollarAmountStr);
-        String creator = parse.getCurrentUser().getUsername();
+        String creator = mApplication.parse.getCurrentUser().getUsername();
         List<String> responsibleUsers = new LinkedList<String>();
 
         for(String user : userNames) {
@@ -134,7 +148,7 @@ public class BillCreateActivity extends HomeBaseActivity {
             }
         }
 
-        parse.createBill(title, type, desc, amount, responsibleUsers, creator, BillCreateActivity.this);
+        mApplication.parse.createBill(title, type, desc, amount, responsibleUsers, creator, BillCreateActivity.this);
     }
 
     public void onBillCreateCancelClick(View view)

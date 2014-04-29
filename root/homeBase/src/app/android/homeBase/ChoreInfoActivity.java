@@ -1,6 +1,5 @@
 package app.android.homeBase;
 
-
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,22 +16,22 @@ import java.util.List;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class ChoreInfoActivity extends HomeBaseActivity {
-    private ParseBase parse;
     private String title;
     private String info;
     private String creator;
 
+    private ApplicationManager mApplication;
     private List <String> responsibleUsers;
     private List <String> completedUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApplication = ApplicationManager.getInstance();
         myIntent = getIntent();
         myClassName = "ChoreInfoActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_chore_info);
-        parse = new ParseBase(this);
         responsibleUsers = new ArrayList<String>();
         completedUsers = new ArrayList<String>();
 
@@ -45,7 +44,6 @@ public class ChoreInfoActivity extends HomeBaseActivity {
             info = extras.getString("info");
             creator = extras.getString("creator");
         }
-
 
         BootstrapButton headerBar = (BootstrapButton) this.findViewById(R.id.chore_info_header_button);
 
@@ -78,8 +76,8 @@ public class ChoreInfoActivity extends HomeBaseActivity {
 
         BootstrapButton creatorField = (BootstrapButton) this.findViewById(R.id.chore_info_creator_field);
 
-        parse.getAlertResponsibleUsers(creator, title, this);
-        parse.getAlertCompletedUsers(creator, title, this);
+        mApplication.parse.getAlertResponsibleUsers(creator, title, this);
+        mApplication.parse.getAlertCompletedUsers(creator, title, this);
 
         creatorField.setText(creator);
         headerBar.setText(title);
@@ -88,7 +86,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
 
     void DecideViewOptions(boolean responsible) {
         BootstrapButton btn = (BootstrapButton) this.findViewById(R.id.choreInfo_confirm_button);
-        if (creator.equals(parse.getCurrentUser().getUsername())) {
+        if (creator.equals(mApplication.parse.getCurrentUser().getUsername())) {
             btn.setText("Close Issue");
         } else if (responsible) {
             btn.setText("Mark Completed");
@@ -106,13 +104,13 @@ public class ChoreInfoActivity extends HomeBaseActivity {
 
     public void onChoreInfoConfirmClick(View view)
     {
-        String currUser = parse.getCurrentUser().getUsername();
+        String currUser = mApplication.parse.getCurrentUser().getUsername();
         boolean removed = responsibleUsers.remove(currUser);
         if (removed) {
             completedUsers.add(currUser);
         }
 
-        parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, completedUsers, this);
+        mApplication.parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, completedUsers, this);
     }
 
     public void onChoreInfoCancelClick(View view)
@@ -122,7 +120,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
 
     @Override
     public void onGetAlertResponsibleUsersSuccess(List<String> responsibleUsers) {
-        String currUser = parse.getCurrentUser().getUsername();
+        String currUser = mApplication.parse.getCurrentUser().getUsername();
         boolean currentUserIsResponsible = false;
 
         for (int i = 0; i < responsibleUsers.size(); i++) {

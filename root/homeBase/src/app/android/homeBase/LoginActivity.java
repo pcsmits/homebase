@@ -8,12 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.parse.ParseUser;
-
 
 /**
  * This activity is the default launcher activity for the app
@@ -23,8 +21,8 @@ import com.parse.ParseUser;
  * TODO handle a logged in user who has none or multiple houses
  */
 public class LoginActivity extends HomeBaseActivity{
-    private ParseBase parse;
     private Animation animTranslate;
+    private ApplicationManager mApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +30,15 @@ public class LoginActivity extends HomeBaseActivity{
         myIntent = getIntent();
         myClassName = "LoginActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
-        parse = new ParseBase(this, true);
+        mApplication = ApplicationManager.getInstance();
         setContentView(R.layout.activity_login);
 
         // activity here
-        if(parse.userLoggedIn())
+        if(mApplication.parse.userLoggedIn())
         {
-            Log.d("Logged in User", parse.getCurrentUser().getUsername());
-            //if(!isMyServiceRunning()) {
-
-            //}
-            if(parse.getCurrentUser().has("house")) {
+            Log.d("Logged in User", mApplication.parse.getCurrentUser().getUsername());
+            if(mApplication.parse.getCurrentUser().has("house")) {
+                mApplication.upsertHouseData();
                 Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
                 startFeed.putExtra("caller", myClassName);
                 startActivity(startFeed);
@@ -74,7 +70,7 @@ public class LoginActivity extends HomeBaseActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-
+    
     /**
      * on click method for the login button
      * Gets the entered information and calls the loginUser method in ParseBase class
@@ -90,11 +86,11 @@ public class LoginActivity extends HomeBaseActivity{
 
         if(!username.isEmpty() && !password.isEmpty())
         {
-            parse.loginUser(username, password, v.getContext(), this);
+            mApplication.parse.loginUser(username, password, v.getContext(), this);
         }
         else
         {
-            Toast.makeText(v.getContext(), "Please enter your username and password", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Please enter your username and password", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -102,8 +98,10 @@ public class LoginActivity extends HomeBaseActivity{
     public void onLoginSuccess()
     {
         //TODO is this okay here??
-        GPSservice gps = new GPSservice(LoginActivity.this);
-        if(ParseUser.getCurrentUser().has("house")) {
+        GPSservice gps = new GPSservice(mApplication.getApplicationContext());
+        if(ParseUser.getCurrentUser().has("house"))
+        {
+            mApplication.upsertHouseData();
             Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
             startActivity(startFeed);
         } else {
@@ -128,7 +126,6 @@ public class LoginActivity extends HomeBaseActivity{
     {
         Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(intent);
-        finish();
     }
 
     private boolean isMyServiceRunning() {

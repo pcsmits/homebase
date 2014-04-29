@@ -1,8 +1,6 @@
 package app.android.homeBase;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by kyle on 4/11/14.

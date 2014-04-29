@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:fontFamily="fontawesome-webfont.ttf"
+    android:background="@drawable/pattern3"
     >
 
     <com.beardedhen.androidbootstrap.BootstrapEditText
@@ -16,7 +17,7 @@
         android:layout_centerVertical="true"
         android:hint="Bill Title"
         android:textColor="@android:color/black"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionNext"
         android:singleLine="true"
         android:layout_gravity="center_horizontal"
         >
@@ -29,16 +30,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <com.beardedhen.androidbootstrap.BootstrapEditText
             android:layout_width="fill_parent"
             android:layout_height="200dp"
             android:textColor="@android:color/black"
             android:id="@id/billCreate_body_field"
-            android:layout_centerVertical="true"
+            android:singleLine="true"
             android:hint="Description"
             android:imeOptions="actionDone"
-            >
-        </com.beardedhen.androidbootstrap.BootstrapEditText>
+            android:layout_centerVertical="true"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

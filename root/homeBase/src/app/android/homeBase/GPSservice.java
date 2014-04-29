@@ -12,12 +12,12 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
-
 
 public class GPSservice extends Service implements LocationListener {
 
     private final Context mContext;
+
+    private ApplicationManager mApplication;
 
     public Double HouseLat;
     public Double HouseLong;
@@ -45,11 +45,9 @@ public class GPSservice extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    //parse object
-    ParseBase parse = new ParseBase();
-
     public GPSservice(Context context) {
         this.mContext = context;
+        mApplication = ApplicationManager.getInstance();
         getLocation();
     }
 
@@ -196,9 +194,7 @@ public class GPSservice extends Service implements LocationListener {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         // Check house location and new location to compare
-        ParseBase parse = new ParseBase(mContext);
-        parse.getHouse(GPSservice.this);
-
+        mApplication.parse.getHouse(GPSservice.this);
     }
 
     public void onGetHouseSuccess(HomeBaseHouse house)
@@ -207,7 +203,7 @@ public class GPSservice extends Service implements LocationListener {
         float[] results = new float[3];
         Log.d("Distancce Between", this.latitude + " - " + house.getLatitude());
         location.distanceBetween(this.latitude, this.longitude, house.getLatitude(), house.getLongitude(), results);
-        boolean wasHome = parse.getUserLocation();
+        boolean wasHome = mApplication.parse.getUserLocation();
         Log.d("User Local", String.valueOf(wasHome));
         //home
         boolean nowHome = false;
@@ -216,7 +212,7 @@ public class GPSservice extends Service implements LocationListener {
             nowHome = true;
         }
         if (nowHome != wasHome) {
-            parse.updateLocation(nowHome);
+            mApplication.parse.updateLocation(nowHome);
             Log.d("Updated parse", "Switching Boolean isHome");
         }
 

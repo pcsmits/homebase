@@ -1,30 +1,19 @@
 package app.android.homeBase;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.parse.DeleteCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.Timer;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,12 +25,13 @@ public class SettingsActivity extends HomeBaseActivity {
     private String oldUsername;
     private ParseUser currUser;
     private String newUsername;
+    private ApplicationManager mApplication;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        parse = new ParseBase(this);
-        currUser = parse.getCurrentUser();
+        mApplication = ApplicationManager.getInstance();
+        currUser = mApplication.parse.getCurrentUser();
         myIntent = getIntent();
         myClassName = "SettingsActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
@@ -137,7 +127,9 @@ public class SettingsActivity extends HomeBaseActivity {
     public void onLogoutClick(View v)
     {
         ParseUser.logOut();
+        mApplication.logout();
         Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(loginIntent);
         finish();
     }
@@ -157,7 +149,9 @@ public class SettingsActivity extends HomeBaseActivity {
                                     Toast.makeText(SettingsActivity.this, "Account Deleted :(", Toast.LENGTH_LONG).show();
                                     ParseQuery.clearAllCachedResults();
                                     ParseUser.logOut();
+                                    mApplication.logout();
                                     Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);
+                                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(loginIntent);
                                     finish();
                                 } else {

@@ -21,10 +21,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ChoreCreateActivity extends HomeBaseActivity {
-    public ParseBase parse;
     private BootstrapEditText headerBar;
     private BootstrapEditText infoContainer;
     private BootstrapButton ownerField;
+    private ApplicationManager mApplication;
 
     private ArrayList<String> userNames;
     private HashMap<String, BootstrapButton> responsibleUsers;
@@ -35,11 +35,11 @@ public class ChoreCreateActivity extends HomeBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApplication = ApplicationManager.getInstance();
         myIntent = getIntent();
         myClassName = "ChoreCreateActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_chore_create);
-        parse = new ParseBase(this);
 
         headerBar = (BootstrapEditText) this.findViewById(R.id.chore_create_header_field);
 
@@ -70,7 +70,7 @@ public class ChoreCreateActivity extends HomeBaseActivity {
         infoContainer.setLayoutParams(rlp);
 
         //set up "responsible for" options
-        userNames = ApplicationManager.getInstance().getHomeUsers();
+        userNames = mApplication.getHomeUsers();
         responsibleUsers = new HashMap<String, BootstrapButton>();
         selectedResponsibleUsers = new HashMap<BootstrapButton, Boolean>();
 
@@ -89,7 +89,7 @@ public class ChoreCreateActivity extends HomeBaseActivity {
         }
 
         ownerField = (BootstrapButton) this.findViewById(R.id.chore_create_creator_field);
-        ownerField.setText(parse.getCurrentUser().getUsername());
+        ownerField.setText(mApplication.parse.getCurrentUser().getUsername());
     }
 
     public void onUserSelected(View view)
@@ -109,7 +109,7 @@ public class ChoreCreateActivity extends HomeBaseActivity {
         String title = headerBar.getText().toString();
         String type = k_alertType;
         String desc = infoContainer.getText().toString();
-        String creator = parse.getCurrentUser().getUsername();
+        String creator = mApplication.parse.getCurrentUser().getUsername();
         List<String> responsibleUsers = new LinkedList<String>();
 
         for(String user : userNames) {
@@ -119,7 +119,7 @@ public class ChoreCreateActivity extends HomeBaseActivity {
             }
         }
 
-        parse.createAlert(title,type, desc, responsibleUsers, creator, ChoreCreateActivity.this);
+        mApplication.parse.createAlert(title,type, desc, responsibleUsers, creator, ChoreCreateActivity.this);
     }
 
     public void onChoreCreateCancelClick(View view)

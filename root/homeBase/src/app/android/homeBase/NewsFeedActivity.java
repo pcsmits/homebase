@@ -12,17 +12,18 @@ import java.util.ArrayList;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class NewsFeedActivity extends HomeBaseActivity {
-    public ParseBase parse;
     public ArrayList<String> alertTitles;
     private LinearLayout globalLayout;
     private boolean expand = true;
     private boolean startCalled = false;
     private int menuHeight;
+    private ApplicationManager mApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        mApplication = ApplicationManager.getInstance();
         myIntent = getIntent();
         myClassName = "NewsFeedActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
@@ -30,12 +31,11 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
         alertTitles = new ArrayList<String>();
 
-        parse = new ParseBase(this);
         globalLayout = (LinearLayout)this.findViewById(R.id.newsfeed_menu_container);
         menuHeight = globalLayout.getLayoutParams().height;
 
         startCalled = true;
-        parse.getAlerts(NewsFeedActivity.this);
+        mApplication.parse.getAlerts(NewsFeedActivity.this);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
             return;
         }
 
-        parse.refreshAlerts(this);
+        mApplication.parse.refreshAlerts(this);
     }
 
     public void onMenuButtonClick(View view)

@@ -18,12 +18,13 @@ import android.util.Log;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class ChoresActivity extends HomeBaseActivity {
-    private ParseBase parse;
     private ArrayList<BootstrapButton> choreContainers;
     private ArrayList<String> choreTitles;
     private HashMap<BootstrapButton, ChoreInfo> choreDescriptions;
     private LinearLayout layout;
     private boolean startCalled = false;
+
+    private ApplicationManager mApplication;
 
     private BootstrapButton selectedFilter;
 
@@ -41,11 +42,11 @@ public class ChoresActivity extends HomeBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApplication = ApplicationManager.getInstance();
         myIntent = getIntent();
         myClassName = "ChoresActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_chores);
-        parse = new ParseBase(this);
 
         layout = (LinearLayout) findViewById(R.id.chores_choreContainer_button);
         layout.removeAllViews();
@@ -57,8 +58,7 @@ public class ChoresActivity extends HomeBaseActivity {
         selectedFilter = (BootstrapButton) findViewById(R.id.chores_allFilter_button);
         selectedFilter.setEnabled(false);
 
-        parse.getAlerts(this, "Chore");
-
+        mApplication.parse.getAlerts(this, "Chore");
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ChoresActivity extends HomeBaseActivity {
             return;
         }
 
-        parse.refreshAlerts(this, "Chore");
+        mApplication.parse.refreshAlerts(this, "Chore");
     }
 
     public void onChoreContainerClick(View view)
@@ -105,7 +105,7 @@ public class ChoresActivity extends HomeBaseActivity {
         layout.removeAllViews();
         for(int i = 0; i < choreContainers.size(); i++) {
             BootstrapButton choreContainer = choreContainers.get(i);
-            if (choreDescriptions.get(choreContainer).creator != parse.getCurrentUser().getUsername()) {
+            if (!(choreDescriptions.get(choreContainer).creator.equals(mApplication.parse.getCurrentUser().getUsername()))) {
                 layout.addView(choreContainer);
             }
         }
@@ -124,7 +124,7 @@ public class ChoresActivity extends HomeBaseActivity {
         layout.removeAllViews();
         for(int i = 0; i < choreContainers.size(); i++) {
             BootstrapButton choreContainer = choreContainers.get(i);
-            if (choreDescriptions.get(choreContainer).creator.equals(parse.getCurrentUser().getUsername().toString())) {
+            if (choreDescriptions.get(choreContainer).creator.equals(mApplication.parse.getCurrentUser().getUsername().toString())) {
                 layout.addView(choreContainer);
             }
         }

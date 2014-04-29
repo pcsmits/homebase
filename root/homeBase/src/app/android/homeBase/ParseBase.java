@@ -2,28 +2,13 @@ package app.android.homeBase;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.Toast;
-import android.location.*;
 
 import com.parse.*;
-import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
-import android.app.AlertDialog;
-import android.util.Log;
-import java.util.ListIterator;
 
 /**
  * A custom class/wrapper for interacting with Parse
@@ -34,21 +19,6 @@ public class ParseBase
 {
     // Default constructor
     public  ParseBase() { }
-
-    // This is the constructor which calls the parse init
-    // TODO figue out if this should be a singleton or not
-    public ParseBase(Context context)
-    {
-        Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
-        if (!ApplicationManager.tryGetInstance()) {
-            ApplicationManager.createInstance(context);
-        }
-    }
-
-    public ParseBase(Context context, boolean noApplicationManager)
-    {
-        Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
-    }
 
     /********************************************************************************************************
      *   GENERAL AND/OR PRIVATE METHODS
@@ -97,6 +67,8 @@ public class ParseBase
             @Override
             public void done(ParseException e) {
                 if (e == null) {
+                    ParseInstallation.getCurrentInstallation().put("user", user.getObjectId());
+                    ParseInstallation.getCurrentInstallation().saveInBackground();
                     caller.onSignupSuccess(user);
                 } else {
                     caller.onSignupError(e);
@@ -201,7 +173,7 @@ public class ParseBase
     public void getUsersOfHouse(final ApplicationManager caller)
     {
         if (getCurrentUser() == null) {
-            return;
+            caller.onGetHomeUsersFailure();
         }
 
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
