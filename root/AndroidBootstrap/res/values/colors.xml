@@ -69,6 +69,20 @@
     <color name="bbutton_gray_pressed_edge">#ffadadad</color>
     <color name="bbutton_gray_disabled">#ffffffff</color>
     <color name="bbutton_gray_disabled_edge">#ffffffff</color>
+
+    <color name="bbutton_bill">#ffff9d1f</color>
+    <color name="bbutton_bill_edge">#ffffc053</color>
+    <color name="bbutton_bill_pressed">#ffffc053</color>
+    <color name="bbutton_bill_pressed_edge">#ffffc053</color>
+    <color name="bbutton_bill_disabled">#ffffc053</color>
+    <color name="bbutton_bill_disabled_edge">#ffffc053</color>
+
+    <color name="bbutton_chore">#ff1eb4e5</color>
+    <color name="bbutton_chore_edge">#ff73dae1</color>
+    <color name="bbutton_chore_pressed">#ff73dae1</color>
+    <color name="bbutton_chore_pressed_edge">#ff73dae1</color>
+    <color name="bbutton_chore_disabled">#ff73dae1</color>
+    <color name="bbutton_chore_disabled_edge">#ff73dae1</color>
 	
 	
 </resources>

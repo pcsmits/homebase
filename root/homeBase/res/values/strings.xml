@@ -7,9 +7,10 @@
     <string name="login_signup_text">Sign Up</string>
     <string name="login_login_text">Login</string>
     <string name="login_test_text">Newsfeed</string>
-    <string name="login_username_hint">username</string>
-    <string name="login_password_hint">password</string>
-    <string name="login_passwordVer_hint">password again</string>
+    <string name="login_username_hint">Username</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_passwordVer_hint">Password Again</string>
     <string name="signup_signup_button">Sign Up</string>
     <string name="chores_viewActive_button">Active</string>
     <string name="chores_viewClosed_button">Completed</string>
@@ -35,5 +36,12 @@
     <string name="newhouse_state_hint">State</string>
     <string name="newhouse_zipcode_hint">Zipcode</string>
     <string name="title_activity_activity_gps">ActivityGPS</string>
+
+    <string name="settings_change_username">Change Username</string>
+    <string name="settings_change_email">Change Email</string>
+    <string name="settings_log_out">Logout</string>
+    <string name="settings_delete_account">Delete Account</string>
+    <string name="settings_settings">Settings</string>
+
 
 </resources>

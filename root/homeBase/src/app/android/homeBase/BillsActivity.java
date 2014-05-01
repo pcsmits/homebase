@@ -1,25 +1,23 @@
 package app.android.homeBase;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.beardedhen.androidbootstrap.BootstrapButton;
-import com.parse.ParseUser;
 
 public class BillsActivity extends HomeBaseActivity {
-    private ParseBase parse;
     private ArrayList<BootstrapButton> billContainers;
-    private ArrayList<String> billTitles;
+    private ArrayList<String> billIDs;
     private HashMap<BootstrapButton, HomeBaseAlert> billDescriptions;
     private LinearLayout layout;
     private boolean startCalled = false;
+    private ApplicationManager mApplication;
 
     private BootstrapButton selectedFilter;
 
@@ -27,21 +25,23 @@ public class BillsActivity extends HomeBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         // Init parse
-        parse = new ParseBase(this);
-
         super.onCreate(savedInstanceState);
+        mApplication = (ApplicationManager)getApplicationContext();
+        myIntent = getIntent();
+        myClassName = "BillsActivity";
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_bills);
 
         layout = (LinearLayout) findViewById(R.id.bills_billContainer_button);
         billContainers = new ArrayList<BootstrapButton>();
-        billTitles = new ArrayList<String>();
+        billIDs = new ArrayList<String>();
         billDescriptions = new HashMap<BootstrapButton, HomeBaseAlert>();
 
         startCalled = true;
         selectedFilter = (BootstrapButton) findViewById(R.id.bills_allFilter_button);
         selectedFilter.setEnabled(false);
 
-        parse.getAlerts(this, "Bill");
+        mApplication.parse.getAlerts(this, "Bill");
     }
 
     @Override
@@ -53,10 +53,10 @@ public class BillsActivity extends HomeBaseActivity {
             return;
         }
 
-        parse.refreshAlerts(this, "Bill");
+        mApplication.parse.refreshAlerts(this, "Bill");
     }
 
-    public void onBillContainerClick(View view)
+    public void onChoreContainerClick(View view)
     {
         /*BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.bill_container_button);
         thisButton.setText("Clicked");
@@ -66,10 +66,47 @@ public class BillsActivity extends HomeBaseActivity {
         startActivity(intent);*/
     }
 
-    @Override
-    public void onGetBillsFailure(String e)
+    public void onBillAddClick(View view)
     {
+        Intent intent = new Intent(BillsActivity.this, BillCreateActivity.class);
+        intent.putExtra("caller", myClassName);
+        startActivity(intent);
+    }
 
+    public void onAllFilterClick(View view)
+    {
+        selectedFilter.setEnabled(true);
+
+        BootstrapButton clicked = (BootstrapButton) view;
+        clicked.setBootstrapButtonEnabled(false);
+
+        selectedFilter = clicked;
+
+        layout.removeAllViews();
+        for(int i = 0; i < billContainers.size(); i++) {
+            BootstrapButton billContainer = billContainers.get(i);
+            if (!billDescriptions.get(billContainer).getCreatorID().equals(mApplication.parse.getCurrentUser().getUsername())) {
+                layout.addView(billContainer);
+            }
+        }
+    }
+
+    public void onCreatedFilterClick(View view)
+    {
+        selectedFilter.setEnabled(true);
+
+        BootstrapButton clicked = (BootstrapButton) view;
+        clicked.setBootstrapButtonEnabled(false);
+
+        selectedFilter = clicked;
+
+        layout.removeAllViews();
+        for(int i = 0; i < billContainers.size(); i++) {
+            BootstrapButton billContainer = billContainers.get(i);
+            if (billDescriptions.get(billContainer).getCreatorID().equals(mApplication.parse.getCurrentUser().getUsername())) {
+                layout.addView(billContainer);
+            }
+        }
     }
 
     @Override
@@ -79,15 +116,25 @@ public class BillsActivity extends HomeBaseActivity {
         for (HomeBaseAlert alert : alerts)
         {
             LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.bill_container, null, false);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.bill_container_button);
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+
             buttonCont.removeView(myButton);
             layout.addView(myButton);
-            String text = alert.getDescription();
-            myButton.setText(text + " Amount: " + alert.getAmount());
+
+            String title = alert.getTitle();
+            String information = alert.getDescription() + " [$" + alert.getAmount() + "]";
+            String creator = alert.getCreatorID();
+
+            headerBar.setText(title);
+            headerBar.setBootstrapType("bill");
+            myButton.setText(information);
+
             billContainers.add(myButton);
             billDescriptions.put(myButton, alert);
+            billIDs.add(alert.getId());
         }
     }
 
@@ -100,20 +147,28 @@ public class BillsActivity extends HomeBaseActivity {
     @Override
     public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
-        for (int i = 0; i < alerts.size(); i++) {
-            if (!billTitles.contains(alerts.get(i).getTitle())) {
+        for (HomeBaseAlert alert: alerts) {
+            if (!billIDs.contains(alert.getId())) {
                 LayoutInflater inflater = LayoutInflater.from(this);
-                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.chore_container, null, false);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
-                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.login_test_button);
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+
                 buttonCont.removeView(myButton);
                 layout.addView(myButton);
-                String text = alerts.get(i).getTitle();
-                myButton.setText(text + " Amount: " + alerts.get(i).getAmount());
+
+                String title = alert.getTitle();
+                String information = alert.getDescription() + " [" + alert.getAmount() + "]";
+                String creator = alert.getCreatorID();
+
+                headerBar.setText(title);
+                headerBar.setBootstrapType("bill");
+                myButton.setText(information);
+
                 billContainers.add(myButton);
-                String title = text;
-                billTitles.add(title);
-                billDescriptions.put(myButton, alerts.get(i));
+                billDescriptions.put(myButton, alert);
+                billIDs.add(alert.getId());
             }
         }
     }

@@ -6,7 +6,6 @@
     xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:fontFamily="fontawesome-webfont.ttf"
     >
 
     <com.beardedhen.androidbootstrap.BootstrapButton
@@ -17,7 +16,7 @@
         android:enabled="false"
         bootstrapbutton:bb_roundedCorners="false"
         bootstrapbutton:bb_size="default"
-        bootstrapbutton:bb_type="primary"
+        bootstrapbutton:bb_type="bill"
         bootstrapbutton:bb_text_alignment="center"
         android:id="@id/bill_info_header_button"
         android:layout_gravity="center_horizontal"
@@ -60,7 +59,7 @@
                 android:enabled="false"
                 bootstrapbutton:bb_roundedCorners="false"
                 bootstrapbutton:bb_size="default"
-                bootstrapbutton:bb_type="primary"
+                bootstrapbutton:bb_type="bill"
                 bootstrapbutton:bb_text_alignment="center"
                 android:id="@id/bill_info_header_button"
                 android:layout_gravity="center_horizontal"
@@ -110,7 +109,7 @@
                 android:enabled="false"
                 bootstrapbutton:bb_roundedCorners="false"
                 bootstrapbutton:bb_size="default"
-                bootstrapbutton:bb_type="primary"
+                bootstrapbutton:bb_type="bill"
                 bootstrapbutton:bb_text_alignment="center"
                 android:id="@id/bill_info_header_button"
                 android:layout_gravity="center_horizontal"
@@ -160,7 +159,7 @@
                 android:enabled="false"
                 bootstrapbutton:bb_roundedCorners="false"
                 bootstrapbutton:bb_size="default"
-                bootstrapbutton:bb_type="primary"
+                bootstrapbutton:bb_type="bill"
                 bootstrapbutton:bb_text_alignment="center"
                 android:id="@id/bill_info_header_button"
                 android:layout_gravity="center_horizontal"

@@ -1,29 +1,38 @@
 package app.android.homeBase;
 
+import android.app.Application;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.text.AndroidCharacter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.PushService;
+import com.parse.SaveCallback;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 import java.util.Locale;
 
 public class NewHouseActivity extends HomeBaseActivity {
-    public ParseBase parse;
+    private ApplicationManager mApplication;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_new_house);
-        parse = new ParseBase();
+        myIntent = getIntent();
+        myClassName = "NewHouseActivity";
+        mApplication = ApplicationManager.getInstance();
     }
 
     @Override
@@ -55,58 +64,70 @@ public class NewHouseActivity extends HomeBaseActivity {
         checkList.add(houseNameET);
 
         EditText houseAddressET = (EditText) findViewById(R.id.newhouse_address_etext);
-        checkList.add(houseNameET);
+        checkList.add(houseAddressET);
 
         EditText houseCityET = (EditText) findViewById(R.id.newhouse_city_etext);
-        checkList.add(houseNameET);
+        checkList.add(houseCityET);
 
         EditText houseStateET = (EditText) findViewById(R.id.newhouse_state_etext);
-        checkList.add(houseNameET);
+        checkList.add(houseStateET);
 
         EditText houseZipET = (EditText) findViewById(R.id.newhouse_zipcode_etext);
-        checkList.add(houseNameET);
-
-        for(EditText item : checkList)
-        {
-            if(item.length() == 0)
-            {
-                Toast.makeText(NewHouseActivity.this, "Please fill out the "+item.getHint()+" field", Toast.LENGTH_LONG).show();
-                return;
-            }
-        }
+        checkList.add(houseZipET);
 
         try
         {
+            // Make sure all fields filled out
+            for(EditText item : checkList)
+            {
+                if(item.getText().toString().length() == 0)
+                {
+                    Toast.makeText(NewHouseActivity.this, "Please fill out the "+item.getHint()+" field", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+
             String name = houseNameET.getText().toString();
             String address = houseAddressET.getText().toString();
             String city = houseCityET.getText().toString();
             String state = houseStateET.getText().toString();
             String zip = houseZipET.getText().toString();
+
+            // Validate Zipcode
+            for(char character : zip.toCharArray())
+            {
+                if(!java.lang.Character.isDigit(character))
+                {
+                    Toast.makeText(NewHouseActivity.this, "Please Enter a Valid zipcode", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
             int zipcode = Integer.parseInt(zip);
 
             // Find latitude and longitude
             Geocoder gc = new Geocoder(NewHouseActivity.this, Locale.getDefault());
-
+            List<Address> list = null;
             ParseUser curr = ParseUser.getCurrentUser();
-            if (gc.isPresent()) {
-                List<Address> list = null;
+            if (Geocoder.isPresent()) {
                 try {
                     list = gc.getFromLocationName(address + ", " + zip, 1);
                 } catch (IOException E) {
                     Log.d("GeoCoder", "Not a proper address");
                 }
-
-                Address fullAddress = list.get(0);
-
-                double lat = fullAddress.getLatitude();
-                double lng = fullAddress.getLongitude();
+                double lat = 0;
+                double lng = 0;
+                if(list != null && list.size() != 0) {
+                    Address fullAddress = list.get(0);
+                    lat = fullAddress.getLatitude();
+                    lng = fullAddress.getLongitude();
+                }
                 String gpsString = lat + " - " +lng;
                 Log.d("GeoCoder", gpsString);
 
-                parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), lat, lng, NewHouseActivity.this);
+                mApplication.parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), lat, lng, NewHouseActivity.this);
             } else {
                 Log.d("GeoCoder", "Not present");
-                parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), 0, 0, NewHouseActivity.this);
+                mApplication.parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), 0, 0, NewHouseActivity.this);
                 Log.d("GeoCoder", "House loctaion set to 0 0");
             }
 
@@ -124,7 +145,7 @@ public class NewHouseActivity extends HomeBaseActivity {
             String code = houseCodeET.getText().toString();
             if(code.length() != 0)
             {
-                parse.getHouse(code, NewHouseActivity.this);
+                mApplication.parse.getHouse(code, NewHouseActivity.this);
             }
             else
             {
@@ -140,7 +161,7 @@ public class NewHouseActivity extends HomeBaseActivity {
     public void onGetHouseSuccess(HomeBaseHouse house)
     {
         house.getMembers().add(ParseUser.getCurrentUser().getObjectId());
-        parse.updateHouse(house, NewHouseActivity.this);
+        mApplication.parse.updateHouse(house, NewHouseActivity.this);
     }
 
     @Override
@@ -150,11 +171,27 @@ public class NewHouseActivity extends HomeBaseActivity {
     }
 
     @Override
-    public void onUpdateHouseSuccess(HomeBaseHouse house)
+    public void onUpdateHouseSuccess(final HomeBaseHouse house)
     {
         ParseUser.getCurrentUser().put("house", house.getId());
-        Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
-        startActivity(startFeed);
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null)
+                {
+                    mApplication.upsertHouseData();
+                    mApplication.subscribeToHouseChannel(house.getId());
+                    Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
+                    startFeed.putExtra("caller", myClassName);
+                    startActivity(startFeed);
+                    finish();
+                }
+                else {
+                    Toast.makeText(NewHouseActivity.this, "Error: Could not update user", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -164,11 +201,26 @@ public class NewHouseActivity extends HomeBaseActivity {
     }
 
     @Override
-    public void onCreateHouseSuccess(HomeBaseHouse house)
+    public void onCreateHouseSuccess(final HomeBaseHouse house)
     {
         ParseUser.getCurrentUser().put("house", house.getId());
-        Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
-        startActivity(startFeed);
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+           public void done(ParseException e) {
+                if(e == null)
+                {
+                    mApplication.upsertHouseData();
+                    mApplication.subscribeToHouseChannel(house.getId());
+                    Intent startFeed = new Intent(NewHouseActivity.this, NewsFeedActivity.class);
+                    startFeed.putExtra("caller", myClassName);
+                    startActivity(startFeed);
+                    finish();
+                }
+                else {
+                    Toast.makeText(NewHouseActivity.this, "Error: Could not update user", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override

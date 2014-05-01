@@ -38,7 +38,7 @@
             android:textAlignment="center"
             bootstrapbutton:bb_roundedCorners="false"
             bootstrapbutton:bb_size="small"
-            bootstrapbutton:bb_type="info"
+            bootstrapbutton:bb_type="chore"
             bootstrapbutton:bb_text_alignment="center"
             android:enabled="false"
             android:id="@id/newsfeed_template_button_header"

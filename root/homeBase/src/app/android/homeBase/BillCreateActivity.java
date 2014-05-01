@@ -1,6 +1,6 @@
 package app.android.homeBase;
 
-
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -14,34 +14,43 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
+import com.parse.ParseUser;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
-public class ChoreCreateActivity extends HomeBaseActivity {
+public class BillCreateActivity extends HomeBaseActivity {
+
+    private ApplicationManager mApplication;
+
     private BootstrapEditText headerBar;
     private BootstrapEditText infoContainer;
-    private BootstrapButton ownerField;
-    private ApplicationManager mApplication;
+    private BootstrapEditText dollarAmountField;
+    private BootstrapButton creatorField;
 
     private ArrayList<String> userNames;
     private HashMap<String, BootstrapButton> responsibleUsers;
     private HashMap<BootstrapButton, Boolean> selectedResponsibleUsers;
 
-    private final String k_alertType = "Chore";
+    private final String k_alertType = "Bill";
+
+    private HomeBaseAlert createdAlert;
+    private HashMap<String, ParseUser> usersObjects;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mApplication = ApplicationManager.getInstance();
         myIntent = getIntent();
-        myClassName = "ChoreCreateActivity";
+        myClassName = "BillCreateActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
-        setContentView(R.layout.activity_chore_create);
+        setContentView(R.layout.activity_bill_create);
 
-        headerBar = (BootstrapEditText) this.findViewById(R.id.chore_create_header_field);
+        headerBar = (BootstrapEditText) this.findViewById(R.id.billCreate_header_field);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -62,18 +71,18 @@ public class ChoreCreateActivity extends HomeBaseActivity {
             statusBarHeight = resources.getDimensionPixelSize(resourceId);
         }
 
-        int height = ((size.y - headerBar.getLayoutParams().height * 2) - navBarHeight - statusBarHeight);
+        int height = ((size.y - headerBar.getLayoutParams().height * 3) - navBarHeight - statusBarHeight);
 
-        infoContainer = (BootstrapEditText) this.findViewById(R.id.chore_create_body_field);
+        infoContainer = (BootstrapEditText) this.findViewById(R.id.billCreate_body_field);
         ViewGroup.LayoutParams rlp = infoContainer.getLayoutParams();
         rlp.height = height;
         infoContainer.setLayoutParams(rlp);
 
         //set up "responsible for" options
         userNames = mApplication.getHomeUsers();
+        usersObjects = mApplication.usersObjects;
         responsibleUsers = new HashMap<String, BootstrapButton>();
         selectedResponsibleUsers = new HashMap<BootstrapButton, Boolean>();
-
 
         for (int i = 0; i < userNames.size(); i++) {
             LayoutInflater inflater = LayoutInflater.from(this);
@@ -84,12 +93,14 @@ public class ChoreCreateActivity extends HomeBaseActivity {
             userBtn.setText(userNames.get(i));
             responsibleUsers.put(userNames.get(i), userBtn);
             selectedResponsibleUsers.put(userBtn, false);
-            LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.chore_create_responsible_container);
+            LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.billCreate_responsible_container);
             responsibleContainer.addView(btnContainer);
         }
 
-        ownerField = (BootstrapButton) this.findViewById(R.id.chore_create_creator_field);
-        ownerField.setText(mApplication.parse.getCurrentUser().getUsername());
+        creatorField = (BootstrapButton) this.findViewById(R.id.billCreate_creator_field);
+        creatorField.setText(mApplication.parse.getCurrentUser().getUsername());
+
+        dollarAmountField = (BootstrapEditText) this.findViewById(R.id.billCreate_dollars_field);
     }
 
     public void onUserSelected(View view)
@@ -104,11 +115,29 @@ public class ChoreCreateActivity extends HomeBaseActivity {
         }
     }
 
-    public void onChoreCreateSubmitClick(View view)
+    public void onBillCreateSubmitClick(View view)
     {
         String title = headerBar.getText().toString();
         String type = k_alertType;
         String desc = infoContainer.getText().toString();
+        String dollarAmountStr = "0";
+
+        // Make sure everything is filled out
+        List<String> fields = new LinkedList<String>(Arrays.asList(title, type, desc));
+        for(String field : fields)
+        {
+            if(field.isEmpty())
+            {
+                Toast.makeText(BillCreateActivity.this, "Please fill out all fields", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
+        if (!dollarAmountField.getText().toString().equals("")) {
+            dollarAmountStr = dollarAmountField.getText().toString();
+        }
+
+        Double amount = Double.parseDouble(dollarAmountStr);
         String creator = mApplication.parse.getCurrentUser().getUsername();
         List<String> responsibleUsers = new LinkedList<String>();
 
@@ -119,10 +148,10 @@ public class ChoreCreateActivity extends HomeBaseActivity {
             }
         }
 
-        mApplication.parse.createAlert(title,type, desc, responsibleUsers, creator, ChoreCreateActivity.this);
+        mApplication.parse.createBill(title, type, desc, amount, responsibleUsers, creator, BillCreateActivity.this);
     }
 
-    public void onChoreCreateCancelClick(View view)
+    public void onBillCreateCancelClick(View view)
     {
         onBackPressed();
     }
@@ -130,12 +159,37 @@ public class ChoreCreateActivity extends HomeBaseActivity {
     @Override
     public void onCreateAlertSuccess(HomeBaseAlert alert)
     {
-        Toast.makeText(ChoreCreateActivity.this, alert.getTitle() + ": " +alert.getDescription(), Toast.LENGTH_LONG).show();
+        createdAlert = alert;
+        int numUsers = createdAlert.getResponsibleUsers().size();
+        double splitAmount = (createdAlert.getAmount() / numUsers );
+
+        Intent email = new Intent(Intent.ACTION_SEND);
+        email.setType("message/rfc822");
+
+        String[] emailsArr = new String[createdAlert.getResponsibleUsers().size()];
+        int counter = 0;
+        for(String user : createdAlert.getResponsibleUsers())
+        {
+           emailsArr[counter] = usersObjects.get(user).getEmail();
+           counter++;
+        }
+
+        email.putExtra(Intent.EXTRA_EMAIL, emailsArr);
+        email.putExtra(Intent.EXTRA_CC, new String[]{"request@square.com"});
+        email.putExtra(Intent.EXTRA_SUBJECT, "$"+splitAmount);
+        email.putExtra(Intent.EXTRA_TEXT, createdAlert.getTitle()+"\n"+createdAlert.getDescription());
+        try {
+            startActivity(Intent.createChooser(email, "Send mail..."));
+            finish();
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(BillCreateActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+        finish();
     }
 
     @Override
     public void onCreateAlertFailure(String e)
     {
-        Toast.makeText(ChoreCreateActivity.this, e, Toast.LENGTH_LONG).show();
+        Toast.makeText(BillCreateActivity.this, e, Toast.LENGTH_LONG).show();
     }
 }

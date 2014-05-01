@@ -11,8 +11,16 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission android:name="app.android.homeBase.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="app.android.homeBase.permission.C2D_MESSAGE" />
 
     <application
+        android:name=".ApplicationManager"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -23,25 +31,9 @@
             android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!--
-    <activity
-        android:name="app.android.homeBase.testParker"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-
-    </activity>
-        -->
-<!--         <service android:enabled="true" android:name="app.android.homeBase.GPSservice"/>  -->
 
         <activity
             android:name="app.android.homeBase.SignupActivity"
@@ -80,9 +72,30 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".GPSActivity"
-            android:label="@string/title_activity_activity_gps" >
+            android:name="app.android.homeBase.BillCreateActivity"
+            android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="app.android.homeBase.SettingsActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+        <!-- Push Noties -->
+        <service android:name="com.parse.PushService" />
+        <receiver android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="app.android.homeBase" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.parse.ParseBroadcastReceiver">
+         <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

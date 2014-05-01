@@ -1,40 +1,41 @@
 package app.android.homeBase;
 
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class NewsFeedActivity extends HomeBaseActivity {
-    public ParseBase parse;
     public ArrayList<String> alertTitles;
     private LinearLayout globalLayout;
     private boolean expand = true;
     private boolean startCalled = false;
     private int menuHeight;
-
+    private ApplicationManager mApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        mApplication = ApplicationManager.getInstance();
+        myIntent = getIntent();
+        myClassName = "NewsFeedActivity";
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_newsfeed);
 
         alertTitles = new ArrayList<String>();
 
-        parse = new ParseBase(this);
         globalLayout = (LinearLayout)this.findViewById(R.id.newsfeed_menu_container);
         menuHeight = globalLayout.getLayoutParams().height;
 
         startCalled = true;
-        parse.getAlerts(NewsFeedActivity.this);
+        mApplication.parse.getAlerts(NewsFeedActivity.this);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
             return;
         }
 
-        parse.refreshAlerts(this);
+        mApplication.parse.refreshAlerts(this);
     }
 
     public void onMenuButtonClick(View view)
@@ -60,7 +61,8 @@ public class NewsFeedActivity extends HomeBaseActivity {
         a.setDuration(250);
 
         if (expand) {
-            a.setParams(lp.height, menuHeight + menuHeight * 3); //this will be times the number of modules we have
+            // Remember to set the container linear layout to height = (50)*modules
+            a.setParams(lp.height, menuHeight + menuHeight * 4); //this will be times the number of modules we have
         } else {
             a.setParams(lp.height, menuHeight);
         }
@@ -73,18 +75,28 @@ public class NewsFeedActivity extends HomeBaseActivity {
     public void onChoresButtonClick(View view)
     {
         Intent intent = new Intent(NewsFeedActivity.this, ChoresActivity.class);
+        intent.putExtra("caller", myClassName);
         startActivity(intent);
     }
 
     public void onBillsButtonClick(View view)
     {
         Intent intent = new Intent(NewsFeedActivity.this, BillsActivity.class);
+        intent.putExtra("caller", myClassName);
         startActivity(intent);
     }
 
     public void onUsersHomeButtonClick(View view)
     {
         Intent intent = new Intent(NewsFeedActivity.this, GPSActivity.class);
+        intent.putExtra("caller", myClassName);
+        startActivity(intent);
+    }
+
+    public void onSettingsButtonClick(View view)
+    {
+        Intent intent = new Intent(NewsFeedActivity.this, SettingsActivity.class);
+        intent.putExtra("caller", myClassName);
         startActivity(intent);
     }
 
@@ -107,6 +119,10 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
             BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
             header.setText(alerts.get(i).getTitle());
+            Log.d("Type: ", alerts.get(i).getType());
+            if (alerts.get(i).getType().equals("Bill")) {
+                header.setBootstrapType("bill");
+            }
         }
     }
 
@@ -130,6 +146,9 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
                 BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
                 header.setText(alerts.get(i).getTitle());
+                if (alerts.get(i).getType().equals("Bill")) {
+                    header.setBootstrapType("bill");
+                }
             }
         }
     }
@@ -138,5 +157,11 @@ public class NewsFeedActivity extends HomeBaseActivity {
     public void onUpdateAlertListFailure(String e)
     {
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressedEndpoint();
     }
 }

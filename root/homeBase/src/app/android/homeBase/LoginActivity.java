@@ -8,11 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
-
+import com.parse.ParseUser;
 
 /**
  * This activity is the default launcher activity for the app
@@ -22,32 +21,35 @@ import com.beardedhen.androidbootstrap.BootstrapEditText;
  * TODO handle a logged in user who has none or multiple houses
  */
 public class LoginActivity extends HomeBaseActivity{
-    private ParseBase parse;
     private Animation animTranslate;
+    private ApplicationManager mApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        parse = new ParseBase(this);
+        myIntent = getIntent();
+        myClassName = "LoginActivity";
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
+        mApplication = ApplicationManager.getInstance();
         setContentView(R.layout.activity_login);
 
         // activity here
-        if(parse.userLoggedIn())
+        if(mApplication.parse.userLoggedIn())
         {
-            Log.d("Logged in User", parse.getCurrentUser().getUsername());
-            //if(!isMyServiceRunning()) {
-            GPSservice gps = new GPSservice(LoginActivity.this);
-            //}
-            if(parse.getCurrentUser().has("house")) {
+            Log.d("Logged in User", mApplication.parse.getCurrentUser().getUsername());
+            if(mApplication.parse.getCurrentUser().has("house")) {
+                mApplication.upsertHouseData();
                 Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
+                startFeed.putExtra("caller", myClassName);
                 startActivity(startFeed);
             }
             else {
                 Intent startNewhouse = new Intent(LoginActivity.this, NewHouseActivity.class);
+                startNewhouse.putExtra("caller", myClassName);
                 startActivity(startNewhouse);
             }
+            finish();
         }
-        animTranslate = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
     }
 
     @Override
@@ -68,7 +70,7 @@ public class LoginActivity extends HomeBaseActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-
+    
     /**
      * on click method for the login button
      * Gets the entered information and calls the loginUser method in ParseBase class
@@ -84,30 +86,35 @@ public class LoginActivity extends HomeBaseActivity{
 
         if(!username.isEmpty() && !password.isEmpty())
         {
-            parse.loginUser(username, password, v.getContext(), this);
-            //ToDo if house found save to disk
+            mApplication.parse.loginUser(username, password, v.getContext(), this);
         }
         else
         {
-            Toast.makeText(v.getContext(), "Please enter your username and password", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Please enter your username and password", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onLoginSuccess()
     {
-        Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
-        //if(!isMyServiceRunning()) {
-        GPSservice gps = new GPSservice(LoginActivity.this);
-        //}
-        startActivity(startFeed);
+        //TODO is this okay here??
+        GPSservice gps = new GPSservice(mApplication.getApplicationContext());
+        if(ParseUser.getCurrentUser().has("house"))
+        {
+            mApplication.upsertHouseData();
+            Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
+            startActivity(startFeed);
+        } else {
+            Intent startNewHouse = new Intent(LoginActivity.this, NewHouseActivity.class);
+            startActivity(startNewHouse);
+        }
+        finish();
     }
 
     @Override
-    public void onLoginError()
+    public void onLoginError(String e)
     {
-        //Intent intent = new Intent(LoginActivity.this, ChoresActivity.class);
-        //startActivity(intent);
+        Toast.makeText(LoginActivity.this, e, Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -118,13 +125,6 @@ public class LoginActivity extends HomeBaseActivity{
     public void onSignUpClick(View view)
     {
         Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-        startActivity(intent);
-    }
-
-    public void onTestButtonClick(View view)
-    {
-        //view.startAnimation(animTranslate);
-        Intent intent = new Intent(LoginActivity.this, NewsFeedActivity.class);
         startActivity(intent);
     }
 

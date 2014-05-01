@@ -13,21 +13,24 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 
 
 public class GPSActivity extends HomeBaseActivity {
-    public ParseBase parse;
     private LinearLayout globalLayout;
     private boolean expand = true;
     private int menuHeight;
+    private ApplicationManager mApplication;
 
     ArrayList<HomeBaseUser> stats = new ArrayList<HomeBaseUser>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApplication = ApplicationManager.getInstance();
+        myIntent = getIntent();
+        myClassName = "GPSActivity";
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_gps);
 
         //get users
-        parse = new ParseBase();
-        parse.getUsersOfHouse(GPSActivity.this);
+        mApplication.parse.getUsersOfHouse(GPSActivity.this);
     }
 
     @Override

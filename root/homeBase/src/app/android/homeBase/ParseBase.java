@@ -2,28 +2,13 @@ package app.android.homeBase;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.Toast;
-import android.location.*;
 
 import com.parse.*;
-import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
-import android.app.AlertDialog;
-import android.util.Log;
-import java.util.ListIterator;
 
 /**
  * A custom class/wrapper for interacting with Parse
@@ -34,14 +19,6 @@ public class ParseBase
 {
     // Default constructor
     public  ParseBase() { }
-
-    // This is the constructor which calls the parse init
-    // TODO figue out if this should be a singleton or not
-    public ParseBase(Context context)
-    {
-        //TODO maybe store these keys in xml
-        Parse.initialize(context, "dD0N7G0DiCBySn8gXbYtcOxfvM8OGKUZOBRPy8wl", "tt6FH3ugfJOhYY41bCiPb7URHrnzQtV8drwEKQDJ");
-    }
 
     /********************************************************************************************************
      *   GENERAL AND/OR PRIVATE METHODS
@@ -76,15 +53,22 @@ public class ParseBase
         return ParseUser.getCurrentUser();
     }
 
-    public void addUser(final String username, final String password, final HomeBaseActivity caller)
+    public String getCurrentHouseID() {
+        return this.getCurrentUser().get("house").toString();
+    }
+
+    public void addUser(final String username, final String password, final String email, final HomeBaseActivity caller)
     {
         final ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
+        user.setEmail(email);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
+                    ParseInstallation.getCurrentInstallation().put("user", user.getObjectId());
+                    ParseInstallation.getCurrentInstallation().saveInBackground();
                     caller.onSignupSuccess(user);
                 } else {
                     caller.onSignupError(e);
@@ -135,19 +119,21 @@ public class ParseBase
             @Override
             public void done(ParseUser parseUser, ParseException e) {
                 // Make sure we get a valid user back!
-                if(e != null || parseUser == null)
-                {
-                    onLoginError(caller, context, parseUser, e);
+                if(e != null || parseUser == null) {
+                    if (e != null) {
+                        caller.onLoginError(e.getMessage());
+                    } else {
+                        caller.onLoginError("No account found");
+                    }
                 }
                 else
                 {
-                    onLoginSuccess(caller, context, parseUser, e);
+                    caller.onLoginSuccess();
                 }
             }
         });
 
     }
-
     public void getUsersOfHouse(final HomeBaseActivity caller)
     {
         //get user's house
@@ -175,31 +161,40 @@ public class ParseBase
                                     caller.onGetHomeUsersFailure();
                                 }
                             }
-                        });
-                    }
-                    caller.onReturnUsersSuccess();
-                } else {
-                    caller.onReturnUsersFailure();
+                        }
+                    });
                 }
+                caller.onReturnUsersSuccess();
+            } else {
+                caller.onReturnUsersFailure();
+            }
             }
         });
 
     }
 
-    private void onLoginError(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
+    public void getUsersOfHouse(final ApplicationManager caller)
+    {
+        if (getCurrentUser() == null) {
+            caller.onGetHomeUsersFailure();
+        }
 
-        caller.onLoginError();
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.whereEqualTo("house", getCurrentHouseID());
+        userQuery.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> parseUsers, ParseException e) {
+                if(e == null)
+                {
+                    caller.onGetHomeUsersSuccess(parseUsers);
+                }
+            }
+        });
     }
-
-    private void onLoginSuccess(HomeBaseActivity caller, Context context, ParseUser parseUser, ParseException e) {
-        //Toast.makeText(context, "login worked!", Toast.LENGTH_LONG).show();
-        caller.onLoginSuccess();
-    }
-
 
     /******************************************************************************************************
      *
-     * GPS Events and Wrappersbfor Parse
+     * GPS Events and Wrappers for Parse
      ********************************************************************************************************/
 
     public void updateLocation(boolean home) {
@@ -263,22 +258,16 @@ public class ParseBase
     {
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.whereEqualTo("username", adminUsername);
-        userQuery.getFirstInBackground(new GetCallback<ParseUser>()
-        {
+        userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
-            public void done(ParseUser parseUser, ParseException e)
-            {
-                if (e == null)
-                {
+            public void done(ParseUser parseUser, ParseException e) {
+                if (e == null) {
                     ParseQuery<ParseObject> houseQuery = ParseQuery.getQuery("House");
                     houseQuery.whereEqualTo("admin", parseUser.getObjectId());
-                    houseQuery.getFirstInBackground(new GetCallback<ParseObject>()
-                    {
+                    houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                         @Override
-                        public void done(ParseObject parseHouse, ParseException e)
-                        {
-                            if (e == null)
-                            {
+                        public void done(ParseObject parseHouse, ParseException e) {
+                            if (e == null) {
                                 String housename = parseHouse.getString("housename");
                                 String address = parseHouse.getString("address");
                                 String city = parseHouse.getString("city");
@@ -296,17 +285,13 @@ public class ParseBase
                                 house.setLongitude(longitude);
                                 house.setId(id);
                                 caller.onGetHouseSuccess(house);
-                            }
-                            else
-                            {
+                            } else {
                                 caller.onGetHouseFailure("Could not fetch house information, please try again");
                             }
                         }
                     });
-                }
-                else
-                {
-                    caller.onGetHouseFailure("Could not find a house associated with admin: "+adminUsername);
+                } else {
+                    caller.onGetHouseFailure("Could not find a house associated with admin: " + adminUsername);
                 }
             }
         });
@@ -352,17 +337,15 @@ public class ParseBase
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("House");
         query.whereEqualTo("objectId", house.getId());
-        query.getFirstInBackground(new GetCallback<ParseObject>()
-        {
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseHouse, ParseException e) {
-                if (e == null)
-                {
+                if (e == null) {
                     String housename = parseHouse.getString("housename");
                     String address = parseHouse.getString("address");
                     String city = parseHouse.getString("city");
                     String state = parseHouse.getString("state");
-                    int zipcode  = parseHouse.getInt("zipcode");
+                    int zipcode = parseHouse.getInt("zipcode");
                     int lat = parseHouse.getInt("latitude");
                     int longitude = parseHouse.getInt("longitude");
                     String admin = parseHouse.getString("admin");
@@ -376,9 +359,7 @@ public class ParseBase
                     house.setId(id);
 
                     caller.onGetHouseSuccess(house);
-                }
-                else
-                {
+                } else {
                     caller.onGetHouseFailure("Could not fetch house information, please try again");
                 }
             }
@@ -436,11 +417,12 @@ public class ParseBase
     /***********************************************************************************************
      *  ALERT METHODS
      **********************************************************************************************/
-    private HomeBaseAlert buildAlert(ParseObject alert, String type) {
+    private HomeBaseAlert buildAlert(ParseObject alert, String passedType) {
         String objectID = alert.getObjectId();
         String title = alert.getString("title");
         String description = alert.getString("description");
         String creator = alert.getString("creator");
+        String type = alert.getString("type");
         JSONArray responsibleArray = alert.getJSONArray("responsibleUsers");
         JSONArray completedArray = alert.getJSONArray("completedUsers");
         List<String> responsibleUsers = convertJSON(responsibleArray);
@@ -472,6 +454,33 @@ public class ParseBase
         alert.put("creator", creatorID);
         alert.put("responsibleUsers", responsibleArray);
         alert.put("completedUsers", completedArray);
+        alert.put("house", this.getCurrentHouseID());
+        alert.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    HomeBaseAlert hbAlert = buildAlert(alert, type);
+                    caller.onCreateAlertSuccess(hbAlert);
+                } else {
+                    caller.onCreateAlertFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void createBill(String title, final String type, String description, Double amount, List<String> responsibleUsers, String creatorID, final HomeBaseActivity caller)
+    {
+        JSONArray responsibleArray = new JSONArray(responsibleUsers);
+        JSONArray completedArray = new JSONArray();
+        final ParseObject alert = new ParseObject("Alert");
+        alert.put("title", title);
+        alert.put("type", type);
+        alert.put("description", description);
+        alert.put("creator", creatorID);
+        alert.put("responsibleUsers", responsibleArray);
+        alert.put("completedUsers", completedArray);
+        alert.put("amount", amount);
+        alert.put("house", this.getCurrentHouseID());
         alert.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -488,6 +497,7 @@ public class ParseBase
     public void getAlert(String objectID, final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("objectId", objectID);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
@@ -508,6 +518,7 @@ public class ParseBase
     public void getAlerts(final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -528,6 +539,7 @@ public class ParseBase
     public void getAlerts(final HomeBaseActivity caller, final String type)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("type", type);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -549,6 +561,7 @@ public class ParseBase
     public void refreshAlerts(final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -569,6 +582,7 @@ public class ParseBase
     public void refreshAlerts(final HomeBaseActivity caller, final String type)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("type", type);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -592,15 +606,80 @@ public class ParseBase
         ParseObject deleteAlert = ParseObject.createWithoutData("Alert", alert.getId());
         deleteAlert.deleteInBackground(new DeleteCallback() {
             @Override
-            public void done(ParseException e)
-            {
-                if(e == null)
-                {
+            public void done(ParseException e) {
+                if (e == null) {
                     caller.onDeleteAlertSuccess();
-                }
-                else
-                {
+                } else {
                     caller.onDeleteAlertFailure(e.getMessage());
+                }
+            }
+        });
+    }
+    
+    //eventually, need to update alert by objectID - but this requires storing object ID across activities
+    public void updateAlertResponsibleUsers(final String creatorID, final String title, final List<String> responsibleUsers, final List<String> completedUsers, final HomeBaseActivity caller) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
+        query.whereEqualTo("creator", creatorID);
+        query.whereEqualTo("title", title);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    ParseObject toUpdate = objects.get(0);
+                    toUpdate.put("responsibleUsers", responsibleUsers);
+                    toUpdate.put("completedUsers", completedUsers);
+                    toUpdate.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                //call completion
+                            } else {
+                                //call error
+                            }
+                        }
+                    });
+                } else {
+                    //call error
+                }
+            }
+        });
+    }
+
+    public void getAlertResponsibleUsers(final String creatorID, final String title, final HomeBaseActivity caller) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
+        query.whereEqualTo("creator", creatorID);
+        query.whereEqualTo("title", title);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    JSONArray responsibleArray = objects.get(0).getJSONArray("responsibleUsers");
+                    List<String> responsibleUsers = convertJSON(responsibleArray);
+                    caller.onGetAlertResponsibleUsersSuccess(responsibleUsers);
+                } else {
+                    caller.onGetAlertResponsibleUsersFailure(e.toString());
+                }
+            }
+        });
+    }
+    
+    public void getAlertCompletedUsers(final String creatorID, final String title, final HomeBaseActivity caller) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
+        query.whereEqualTo("house", this.getCurrentHouseID());
+        query.whereEqualTo("creator", creatorID);
+        query.whereEqualTo("title", title);
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    JSONArray completedArray = objects.get(0).getJSONArray("completedUsers");
+                    List<String> completedUsers = convertJSON(completedArray);
+                    caller.onGetAlertCompletedUsersSuccess(completedUsers);
+                } else {
+                    caller.onGetAlertCompletedUsersFailure(e.toString());
                 }
             }
         });

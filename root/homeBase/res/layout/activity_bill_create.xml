@@ -2,9 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
-    xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:weightSum="1"
     android:fontFamily="fontawesome-webfont.ttf"
@@ -14,18 +12,15 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:textAlignment="center"
-        android:id="@id/chore_create_header_field"
+        android:id="@id/billCreate_header_field"
         android:layout_centerVertical="true"
-        android:hint="Chore Title"
+        android:hint="Bill Title"
         android:textColor="@android:color/black"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionNext"
         android:singleLine="true"
         android:layout_gravity="center_horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        >
     </com.beardedhen.androidbootstrap.BootstrapEditText>
-
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -34,19 +29,87 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <com.beardedhen.androidbootstrap.BootstrapEditText
             android:layout_width="fill_parent"
             android:layout_height="200dp"
             android:textColor="@android:color/black"
-            android:id="@id/chore_create_body_field"
-            android:layout_centerVertical="true"
+            android:id="@id/billCreate_body_field"
+            android:singleLine="true"
             android:hint="Description"
             android:imeOptions="actionDone"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-        </com.beardedhen.androidbootstrap.BootstrapEditText>
+            android:layout_centerVertical="true"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal" >
+
+                <RelativeLayout
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="0dp">
+                    <com.beardedhen.androidbootstrap.BootstrapButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:text="Amount:"
+                        android:textAlignment="center"
+                        android:enabled="false"
+                        bootstrapbutton:bb_roundedCorners="false"
+                        bootstrapbutton:bb_size="default"
+                        bootstrapbutton:bb_type="bill"
+                        bootstrapbutton:bb_text_alignment="center"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+                    </com.beardedhen.androidbootstrap.BootstrapButton>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="0dp">
+                    <com.beardedhen.androidbootstrap.BootstrapEditText
+                        android:hint="00"
+                        android:inputType="number"
+                        android:numeric="integer"
+                        android:text=""
+                        android:id="@id/billCreate_dollars_field"
+                        android:textColor="@android:color/black"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+                    </com.beardedhen.androidbootstrap.BootstrapEditText>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="0dp">
+                    <com.beardedhen.androidbootstrap.BootstrapEditText
+                        android:hint="00"
+                        android:inputType="number"
+                        android:numeric="integer"
+                        android:maxLength="2"
+                        android:text=""
+                        android:id="@id/billCreate_cents_field"
+                        android:textColor="@android:color/black"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+                    </com.beardedhen.androidbootstrap.BootstrapEditText>
+                </RelativeLayout>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -65,9 +128,8 @@
                         android:enabled="false"
                         bootstrapbutton:bb_roundedCorners="false"
                         bootstrapbutton:bb_size="default"
-                        bootstrapbutton:bb_type="chore"
+                        bootstrapbutton:bb_type="bill"
                         bootstrapbutton:bb_text_alignment="center"
-                        android:id="@id/chore_info_header_button"
                         android:layout_gravity="center_horizontal"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
@@ -89,7 +151,7 @@
                         android:enabled="false"
                         android:textColor="@android:color/black"
                         android:singleLine="true"
-                        android:id="@id/chore_create_creator_field"
+                        android:id="@id/billCreate_creator_field"
                         android:layout_gravity="center_horizontal"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
@@ -115,7 +177,7 @@
                         android:enabled="false"
                         bootstrapbutton:bb_roundedCorners="false"
                         bootstrapbutton:bb_size="default"
-                        bootstrapbutton:bb_type="chore"
+                        bootstrapbutton:bb_type="bill"
                         bootstrapbutton:bb_text_alignment="center"
                         android:layout_gravity="center_horizontal"
                         android:layout_alignParentTop="true"
@@ -143,7 +205,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:orientation="horizontal"
-                            android:id="@id/chore_create_responsible_container">
+                            android:id="@id/billCreate_responsible_container">
                         </LinearLayout>
                     </HorizontalScrollView>
                 </RelativeLayout>
@@ -172,7 +234,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:onClick="onChoreCreateSubmitClick">
+                        android:onClick="onBillCreateSubmitClick">
                     </com.beardedhen.androidbootstrap.BootstrapButton>
                 </RelativeLayout>
                 <RelativeLayout
@@ -194,7 +256,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:onClick="onChoreCreateCancelClick">
+                        android:onClick="onBillCreateCancelClick">
                     </com.beardedhen.androidbootstrap.BootstrapButton>
                 </RelativeLayout>
             </LinearLayout>
