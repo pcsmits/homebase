@@ -2,9 +2,12 @@ package app.android.homeBase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +39,7 @@ public class SuppliesActivity extends HomeBaseActivity {
 
         selectedFilter = (BootstrapButton) findViewById(R.id.supply_allFilter_button);
         selectedFilter.setEnabled(false);
+        startCalled = true;
 
         mApplication.parse.getAlerts(this, "Supply");
     }
@@ -102,10 +106,10 @@ public class SuppliesActivity extends HomeBaseActivity {
         for (HomeBaseAlert alert : alerts)
         {
             LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.supply_container, null, false);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.supplyContainer_container);
-            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.supplyContainer_header);
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
 
             buttonCont.removeView(myButton);
             layout.addView(myButton);
@@ -135,10 +139,10 @@ public class SuppliesActivity extends HomeBaseActivity {
         for (HomeBaseAlert alert: alerts) {
             if (!supplyIDs.contains(alert.getId())) {
                 LayoutInflater inflater = LayoutInflater.from(this);
-                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.supply_container, null, false);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
-                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.supplyContainer_container);
-                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.supplyContainer_header);
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
 
                 buttonCont.removeView(myButton);
                 layout.addView(myButton);
@@ -157,26 +161,27 @@ public class SuppliesActivity extends HomeBaseActivity {
         }
     }
 
-    public void onSupplyContainerClick(View v)
+    public void onChoreContainerClick(View v)
     {
-        clickedButton = (BootstrapButton) v.findViewById(R.id.supplyContainer_container);
+        clickedButton = (BootstrapButton) v.findViewById(R.id.alertContainer_container);
         mApplication.parse.getUsername(supplyDescriptions.get(clickedButton).getCreatorID(), SuppliesActivity.this);
     }
 
     @Override
     public void onGetUsernameSuccess(String username)
     {
-        Intent intent = new Intent(SuppliesActivity.this, ChoreInfoActivity.class);
+        Intent intent = new Intent(SuppliesActivity.this, SupplyInfoActivity.class);
         intent.putExtra("caller", myClassName);
         intent.putExtra("title", supplyDescriptions.get(clickedButton).getTitle());
         intent.putExtra("info", supplyDescriptions.get(clickedButton).getDescription());
         intent.putExtra("creator", username);
-       startActivity(intent);
+        intent.putExtra("id", supplyDescriptions.get(clickedButton).getId());
+        startActivity(intent);
     }
 
     @Override
     public void onGetUsernameFailure(String e)
     {
-
+        Toast.makeText(SuppliesActivity.this, "Error: "+e, Toast.LENGTH_LONG).show();
     }
 }
