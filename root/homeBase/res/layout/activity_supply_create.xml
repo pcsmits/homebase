@@ -5,7 +5,6 @@
     android:layout_height="fill_parent"
     android:weightSum="1"
     android:fontFamily="fontawesome-webfont.ttf"
-    android:background="@drawable/pattern3"
     >
 
     <com.beardedhen.androidbootstrap.BootstrapEditText

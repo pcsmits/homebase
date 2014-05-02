@@ -54,6 +54,7 @@
     <string name="supply_desc_hint">Description</string>
 
     <string name="created_by">Created By:</string>
+    <string name="owned_by">Owner By:</string>
     <string name="creator">Creator</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>

@@ -79,5 +79,9 @@
     <item name="supplyCreate_body_field" type="id"/>
     <item name="supplyCreate_creator_field" type="id"/>
     <item name="supply_info_header_button" type="id"/>
-
+    <item name="supply_info_body_button" type="id"/>
+    <item name="supply_info_creator_field" type="id"/>
+    <item name="supply_info_responsible_container" type="id" />
+    <item name="supplyInfo_confirm_button" type="id" />
+    <item name="supplyInfo_cancel_button" type="id" />
 </resources>
