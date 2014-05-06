@@ -237,22 +237,18 @@ public class ParseBase
      *  House Event and Wrappers for PARSE
      *************************************************************************************************************/
 
-    public void createHouse(String housename, String address, String city, String state, int zipcode, String userid, double lat, double lng, final HomeBaseActivity caller)
+    public void createHouse(String housename, String userid, double lat, double lng, final HomeBaseActivity caller)
     {
         // Add the creator to the user list, also get added as admin in constructor
         List<String> memberList = new LinkedList<String>();
         memberList.add(userid);
 
-        final HomeBaseHouse newHouse = new HomeBaseHouse(housename, address, city, state, zipcode, userid, memberList, lat, lng);
+        final HomeBaseHouse newHouse = new HomeBaseHouse(housename, userid, memberList, lat, lng);
         final ParseObject house = new ParseObject("House");
 
         house.put("admin", newHouse.getAdmin());
         house.put("members", newHouse.getMembers());
         house.put("housename", newHouse.getHousename());
-        house.put("address", newHouse.getAddress());
-        house.put("city", newHouse.getCity());
-        house.put("state", newHouse.getState());
-        house.put("zipcode", newHouse.getZipCode());
         house.put("latitude", newHouse.getLatitude());
         house.put("longitude", newHouse.getLongitude());
 
@@ -285,10 +281,6 @@ public class ParseBase
                         public void done(ParseObject parseHouse, ParseException e) {
                             if (e == null) {
                                 String housename = parseHouse.getString("housename");
-                                String address = parseHouse.getString("address");
-                                String city = parseHouse.getString("city");
-                                String state = parseHouse.getString("state");
-                                int zipcode = parseHouse.getInt("zipcode");
                                 double lat = parseHouse.getDouble("latitude");
                                 double longitude = parseHouse.getDouble("longitude");
                                 String admin = parseHouse.getString("admin");
@@ -296,9 +288,9 @@ public class ParseBase
                                 String id = parseHouse.getObjectId();
 
                                 // Create House instance
-                                HomeBaseHouse house = new HomeBaseHouse(housename, address, city, state, zipcode, admin, members, lat, longitude);
-                                house.setLatitude(lat);
-                                house.setLongitude(longitude);
+                                HomeBaseHouse house = new HomeBaseHouse(housename, admin, members, lat, longitude);
+                                //house.setLatitude(lat);
+                                //house.setLongitude(longitude);
                                 house.setId(id);
                                 caller.onGetHouseSuccess(house);
                             } else {
@@ -326,10 +318,6 @@ public class ParseBase
                 if (e == null) {
                     String housename = parseHouse.getString("housename");
                     Log.d("HOUSE", "house found " + housename);
-                    String address = parseHouse.getString("address");
-                    String city = parseHouse.getString("city");
-                    String state = parseHouse.getString("state");
-                    int zipcode = parseHouse.getInt("zipcode");
                     double lat = parseHouse.getDouble("latitude");
                     double longitude = parseHouse.getDouble("longitude");
                     String admin = parseHouse.getString("admin");
@@ -337,7 +325,7 @@ public class ParseBase
                     String id = parseHouse.getObjectId();
 
                     // Create House instance
-                    HomeBaseHouse house = new HomeBaseHouse(housename, address, city, state, zipcode, admin, members, lat, longitude);
+                    HomeBaseHouse house = new HomeBaseHouse(housename, admin, members, lat, longitude);
                     house.setId(id);
                     caller.onGetHouseSuccess(house);
                 } else {
@@ -358,10 +346,6 @@ public class ParseBase
             public void done(ParseObject parseHouse, ParseException e) {
                 if (e == null) {
                     String housename = parseHouse.getString("housename");
-                    String address = parseHouse.getString("address");
-                    String city = parseHouse.getString("city");
-                    String state = parseHouse.getString("state");
-                    int zipcode = parseHouse.getInt("zipcode");
                     double lat = parseHouse.getDouble("latitude");
                     double longitude = parseHouse.getDouble("longitude");
                     String admin = parseHouse.getString("admin");
@@ -369,9 +353,9 @@ public class ParseBase
                     String id = parseHouse.getObjectId();
 
                     // Create House instance
-                    HomeBaseHouse house = new HomeBaseHouse(housename, address, city, state, zipcode, admin, members, lat, longitude);
-                    house.setLatitude(lat);
-                    house.setLongitude(longitude);
+                    HomeBaseHouse house = new HomeBaseHouse(housename, admin, members, lat, longitude);
+                    //house.setLatitude(lat);
+                    //house.setLongitude(longitude);
                     house.setId(id);
 
                     caller.onGetHouseSuccess(house);
@@ -396,10 +380,6 @@ public class ParseBase
                 {
                     // Update al fields, for simplicity
                     parseHouse.put("housename", house.getHousename());
-                    parseHouse.put("address", house.getAddress());
-                    parseHouse.put("city", house.getCity());
-                    parseHouse.put("state", house.getState());
-                    parseHouse.put("zipcode", house.getZipCode());
                     parseHouse.put("latitude", house.getLatitude());
                     parseHouse.put("longitude", house.getLongitude());
                     parseHouse.put("admin", house.getAdmin());

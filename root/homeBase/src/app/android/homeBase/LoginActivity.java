@@ -1,6 +1,7 @@
 package app.android.homeBase;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -44,7 +45,7 @@ public class LoginActivity extends HomeBaseActivity{
                 startActivity(startFeed);
             }
             else {
-                Intent startNewhouse = new Intent(LoginActivity.this, NewHouseActivity.class);
+                Intent startNewhouse = new Intent(LoginActivity.this, JoinOrCreateHouseActivity.class);
                 startNewhouse.putExtra("caller", myClassName);
                 startActivity(startNewhouse);
             }
@@ -103,7 +104,7 @@ public class LoginActivity extends HomeBaseActivity{
             Intent startFeed = new Intent(LoginActivity.this, NewsFeedActivity.class);
             startActivity(startFeed);
         } else {
-            Intent startNewHouse = new Intent(LoginActivity.this, NewHouseActivity.class);
+            Intent startNewHouse = new Intent(LoginActivity.this, JoinOrCreateHouseActivity.class);
             startActivity(startNewHouse);
         }
         finish();

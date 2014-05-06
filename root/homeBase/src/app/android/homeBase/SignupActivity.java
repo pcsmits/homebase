@@ -233,7 +233,7 @@ public class SignupActivity extends HomeBaseActivity
     public void onSignupSuccess(ParseUser user)
     {
         GPSservice gps = new GPSservice(SignupActivity.this);
-        Intent newHouse = new Intent(SignupActivity.this, NewHouseActivity.class);
+        Intent newHouse = new Intent(SignupActivity.this, JoinOrCreateHouseActivity.class);
         progressSpinner.setVisibility(View.INVISIBLE);
         progressSpinner.setIndeterminate(false);
         startActivity(newHouse);
