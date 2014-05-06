@@ -3,10 +3,12 @@ package app.android.homeBase;
 
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
+
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,19 +22,44 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class FindHouseActivity extends HomeBaseActivity {
-    public ParseBase parse;
+public class MapActivity extends HomeBaseActivity {
+    private ApplicationManager mApplication;
     // Google Map
     private GoogleMap googleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_findhouse);
+        setContentView(R.layout.activity_maps);
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
+
+        myIntent = getIntent();
+        myClassName = "MapActivity";
+        mApplication = ApplicationManager.getInstance();
+
 
         try {
             // Loading map
             initilizeMap();
+            // latitude and longitude
+            double latitude = mApplication.gps.latitude;
+            double longitude = mApplication.gps.longitude;
+
+            Log.d("lat and long", latitude + " " + longitude);
+
+            // create marker
+            MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Place Marker on House");
+
+            // adding marker
+            googleMap.addMarker(marker);
+
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                    new LatLng(latitude, longitude)).zoom(15).build();
+
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            
+            googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,7 +134,7 @@ public class FindHouseActivity extends HomeBaseActivity {
         {
             if(item.length() == 0)
             {
-                Toast.makeText(FindHouseActivity.this, "Please fill out the " + item.getHint() + " field", Toast.LENGTH_LONG).show();
+                Toast.makeText(MapActivity.this, "Please fill out the " + item.getHint() + " field", Toast.LENGTH_LONG).show();
                 return;
             }
         }
@@ -122,7 +149,7 @@ public class FindHouseActivity extends HomeBaseActivity {
             int zipcode = Integer.parseInt(zip);
 
             // Find latitude and longitude
-            Geocoder gc = new Geocoder(FindHouseActivity.this, Locale.getDefault());
+            Geocoder gc = new Geocoder(MapActivity.this, Locale.getDefault());
 
             ParseUser curr = ParseUser.getCurrentUser();
             if (gc.isPresent()) {
@@ -140,15 +167,15 @@ public class FindHouseActivity extends HomeBaseActivity {
                 String gpsString = lat + " - " +lng;
                 Log.d("GeoCoder", gpsString);
 
-                parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), lat, lng, FindHouseActivity.this);
+                mApplication.parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), lat, lng, MapActivity.this);
             } else {
                 Log.d("GeoCoder", "Not present");
-                parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), 43.0667, 89.4, FindHouseActivity.this);
+                mApplication.parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), 43.0667, 89.4, MapActivity.this);
                 Log.d("GeoCoder", "House loctaion set to 0 0");
             }
 
         } catch (NullPointerException e){
-            Toast.makeText(FindHouseActivity.this, "Please fill out all the forms", Toast.LENGTH_LONG).show();
+            Toast.makeText(MapActivity.this, "Please fill out all the forms", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -161,15 +188,15 @@ public class FindHouseActivity extends HomeBaseActivity {
             String code = houseCodeET.getText().toString();
             if(code.length() != 0)
             {
-                parse.getHouse(code, FindHouseActivity.this);
+                mApplication.parse.getHouse(code, MapActivity.this);
             }
             else
             {
-                Toast.makeText(FindHouseActivity.this, "Please enter the username of the house admin", Toast.LENGTH_LONG).show();
+                Toast.makeText(MapActivity.this, "Please enter the username of the house admin", Toast.LENGTH_LONG).show();
             }
         } catch (NullPointerException e)
         {
-            Toast.makeText(FindHouseActivity.this, "Please enter the username of the house admin", Toast.LENGTH_LONG).show();
+            Toast.makeText(MapActivity.this, "Please enter the username of the house admin", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -177,40 +204,40 @@ public class FindHouseActivity extends HomeBaseActivity {
     public void onGetHouseSuccess(HomeBaseHouse house)
     {
         house.getMembers().add(ParseUser.getCurrentUser().getObjectId());
-        parse.updateHouse(house, FindHouseActivity.this);
+        mApplication.parse.updateHouse(house, MapActivity.this);
     }
 
     @Override
     public void onGetHouseFailure(String e)
     {
-        Toast.makeText(FindHouseActivity.this, e, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MapActivity.this, e, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onUpdateHouseSuccess(HomeBaseHouse house)
     {
         ParseUser.getCurrentUser().put("house", house.getId());
-        Intent startFeed = new Intent(FindHouseActivity.this, NewsFeedActivity.class);
+        Intent startFeed = new Intent(MapActivity.this, NewsFeedActivity.class);
         startActivity(startFeed);
     }
 
     @Override
     public void onUpdateHouseFailure(String e)
     {
-        Toast.makeText(FindHouseActivity.this, e, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MapActivity.this, e, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCreateHouseSuccess(HomeBaseHouse house)
     {
         ParseUser.getCurrentUser().put("house", house.getId());
-        Intent startFeed = new Intent(FindHouseActivity.this, NewsFeedActivity.class);
+        Intent startFeed = new Intent(MapActivity.this, NewsFeedActivity.class);
         startActivity(startFeed);
     }
 
     @Override
     public void onCreateHouseFailure(String e)
     {
-        Toast.makeText(FindHouseActivity.this, e, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MapActivity.this, e, Toast.LENGTH_SHORT).show();
     }
 }
