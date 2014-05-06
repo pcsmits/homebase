@@ -159,29 +159,31 @@ public class ParseBase
         houseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseHouse, ParseException e) {
-            if (e == null) {
-                List<String> members = convertJSON(parseHouse.getJSONArray("members"));
-                Log.d("MEMBERS", String.valueOf(members.size()));
-                //with members, check if home
+                if (e == null) {
+                    List<String> members = convertJSON(parseHouse.getJSONArray("members"));
+                    Log.d("MEMBERS", String.valueOf(members.size()));
+                    //with members, check if home
 
-                for (int i = 0; i < members.size(); i++) {
-                    ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-                    userQuery.whereEqualTo("objectId", members.get(i).toString());
-                    userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
-                        @Override
-                        public void done(ParseUser user, ParseException e) {
-                            if (e == null) {
-                                caller.onGetHomeUsersSuccess(user.getUsername(), user.getBoolean("isHome"));
-                            } else {
-                                caller.onGetHomeUsersFailure();
+                    for (int i = 0; i < members.size(); i++) {
+                        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+                        userQuery.whereEqualTo("objectId", members.get(i).toString());
+                        userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+                            @Override
+                            public void done(ParseUser user, ParseException e) {
+                                if (e == null) {
+                                    if (!user.getObjectId().equals(getCurrentUser().getObjectId())){
+                                        caller.onGetHomeUsersSuccess(user.getUsername(), user.getBoolean("isHome"));
+                                    }
+                                } else {
+                                    caller.onGetHomeUsersFailure();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+                    caller.onReturnUsersSuccess();
+                } else {
+                    caller.onReturnUsersFailure();
                 }
-                caller.onReturnUsersSuccess();
-            } else {
-                caller.onReturnUsersFailure();
-            }
             }
         });
 
@@ -287,8 +289,8 @@ public class ParseBase
                                 String city = parseHouse.getString("city");
                                 String state = parseHouse.getString("state");
                                 int zipcode = parseHouse.getInt("zipcode");
-                                int lat = parseHouse.getInt("latitude");
-                                int longitude = parseHouse.getInt("longitude");
+                                double lat = parseHouse.getDouble("latitude");
+                                double longitude = parseHouse.getDouble("longitude");
                                 String admin = parseHouse.getString("admin");
                                 List<String> members = convertJSON(parseHouse.getJSONArray("members"));
                                 String id = parseHouse.getObjectId();
@@ -328,8 +330,8 @@ public class ParseBase
                     String city = parseHouse.getString("city");
                     String state = parseHouse.getString("state");
                     int zipcode = parseHouse.getInt("zipcode");
-                    int lat = parseHouse.getInt("latitude");
-                    int longitude = parseHouse.getInt("longitude");
+                    double lat = parseHouse.getDouble("latitude");
+                    double longitude = parseHouse.getDouble("longitude");
                     String admin = parseHouse.getString("admin");
                     List<String> members = convertJSON(parseHouse.getJSONArray("members"));
                     String id = parseHouse.getObjectId();
@@ -360,8 +362,8 @@ public class ParseBase
                     String city = parseHouse.getString("city");
                     String state = parseHouse.getString("state");
                     int zipcode = parseHouse.getInt("zipcode");
-                    int lat = parseHouse.getInt("latitude");
-                    int longitude = parseHouse.getInt("longitude");
+                    double lat = parseHouse.getDouble("latitude");
+                    double longitude = parseHouse.getDouble("longitude");
                     String admin = parseHouse.getString("admin");
                     List<String> members = convertJSON(parseHouse.getJSONArray("members"));
                     String id = parseHouse.getObjectId();

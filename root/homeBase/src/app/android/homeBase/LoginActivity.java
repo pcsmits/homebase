@@ -97,8 +97,6 @@ public class LoginActivity extends HomeBaseActivity{
     @Override
     public void onLoginSuccess()
     {
-        //TODO is this okay here??
-        GPSservice gps = new GPSservice(mApplication.getApplicationContext());
         if(ParseUser.getCurrentUser().has("house"))
         {
             mApplication.upsertHouseData();
