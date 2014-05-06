@@ -52,6 +52,9 @@
     <item name="GPSuser_location_button" type="id"/>
 
     <item name="map" type="id"/>
+    <item name="locinfo" type="id"/>
+    <item name="save_house_button" type="id"/>
+    <item name="save_house_text" type="id"/>
 
     <item name="newsfeed_menu_container" type="id"/>
     <item name="newsfeed_newsfeedItem_container" type="id"/>

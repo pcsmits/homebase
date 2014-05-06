@@ -3,29 +3,39 @@ package app.android.homeBase;
 
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
-
+import android.app.FragmentManager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 import com.parse.ParseUser;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 
-
-public class MapActivity extends HomeBaseActivity {
+public class MapActivity extends HomeBaseActivity implements OnClickListener, OnMapClickListener, OnMarkerDragListener {
     private ApplicationManager mApplication;
-    // Google Map
     private GoogleMap googleMap;
+
+
+    //Make markers draggable
+    LatLng pos;
+    TextView tvLocInfo;
+    boolean markerClicked;
+    Button button;
+    TextView text;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +47,9 @@ public class MapActivity extends HomeBaseActivity {
         myClassName = "MapActivity";
         mApplication = ApplicationManager.getInstance();
 
+        button=(Button)findViewById(R.id.save_house_button);
+        button.setOnClickListener(this);
+
 
         try {
             // Loading map
@@ -45,27 +58,65 @@ public class MapActivity extends HomeBaseActivity {
             double latitude = mApplication.gps.latitude;
             double longitude = mApplication.gps.longitude;
 
-            Log.d("lat and long", latitude + " " + longitude);
-
             // create marker
-            MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Place Marker on House");
+            MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Place Marker on House").draggable(true);
 
             // adding marker
             googleMap.addMarker(marker);
+            pos = marker.getPosition();
 
             CameraPosition cameraPosition = new CameraPosition.Builder().target(
                     new LatLng(latitude, longitude)).zoom(15).build();
 
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            
+
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
 
+            // DRAGGABLE MARKERS
+            tvLocInfo = (TextView)findViewById(R.id.locinfo);
+
+            //googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+            googleMap.setOnMapClickListener(this);
+            //googleMap.setOnMapLongClickListener(this);
+            googleMap.setOnMarkerDragListener(this);
+
+            markerClicked = false;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+    /**
+     * Location Listeners
+     */
+    @Override
+    public void onMapClick(LatLng point) {
+        //tvLocInfo.setText(point.toString());
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(point));
+
+        markerClicked = false;
+    }
+
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+       // tvLocInfo.setText("Marker " + marker.getId() + " Drag@" + marker.getPosition());
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+        //tvLocInfo.setText("Marker " + marker.getId() + " DragEnd");
+        pos = marker.getPosition();
+    }
+
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+        //tvLocInfo.setText("Marker " + marker.getId() + " DragStart");
+
+    }
+
 
     /**
      * function to load map. If map is not created it will create it for you
@@ -83,6 +134,8 @@ public class MapActivity extends HomeBaseActivity {
             }
         }
     }
+
+
 
     @Override
     protected void onResume() {
@@ -110,115 +163,36 @@ public class MapActivity extends HomeBaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onSubmitHouseClick(View view)
-    {
-        // Get a list of all the edit texts
-        List<EditText> checkList = new ArrayList<EditText>();
-
-        EditText houseNameET = (EditText) findViewById(R.id.newhouse_name_etext);
-        checkList.add(houseNameET);
-
-        EditText houseAddressET = (EditText) findViewById(R.id.newhouse_address_etext);
-        checkList.add(houseNameET);
-
-        EditText houseCityET = (EditText) findViewById(R.id.newhouse_city_etext);
-        checkList.add(houseNameET);
-
-        EditText houseStateET = (EditText) findViewById(R.id.newhouse_state_etext);
-        checkList.add(houseNameET);
-
-        EditText houseZipET = (EditText) findViewById(R.id.newhouse_zipcode_etext);
-        checkList.add(houseNameET);
-
-        for(EditText item : checkList)
-        {
-            if(item.length() == 0)
-            {
-                Toast.makeText(MapActivity.this, "Please fill out the " + item.getHint() + " field", Toast.LENGTH_LONG).show();
-                return;
-            }
-        }
-
-        try
-        {
-            String name = houseNameET.getText().toString();
-            String address = houseAddressET.getText().toString();
-            String city = houseCityET.getText().toString();
-            String state = houseStateET.getText().toString();
-            String zip = houseZipET.getText().toString();
-            int zipcode = Integer.parseInt(zip);
-
-            // Find latitude and longitude
-            Geocoder gc = new Geocoder(MapActivity.this, Locale.getDefault());
-
-            ParseUser curr = ParseUser.getCurrentUser();
-            if (gc.isPresent()) {
-                List<Address> list = null;
-                try {
-                    list = gc.getFromLocationName(address + ", " + zip, 1);
-                } catch (IOException E) {
-                    Log.d("GeoCoder", "Not a proper address");
-                }
-
-                Address fullAddress = list.get(0);
-
-                double lat = fullAddress.getLatitude();
-                double lng = fullAddress.getLongitude();
-                String gpsString = lat + " - " +lng;
-                Log.d("GeoCoder", gpsString);
-
-                mApplication.parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), lat, lng, MapActivity.this);
-            } else {
-                Log.d("GeoCoder", "Not present");
-                mApplication.parse.createHouse(name, address, city, state, zipcode, curr.getObjectId(), 43.0667, 89.4, MapActivity.this);
-                Log.d("GeoCoder", "House loctaion set to 0 0");
-            }
-
-        } catch (NullPointerException e){
-            Toast.makeText(MapActivity.this, "Please fill out all the forms", Toast.LENGTH_LONG).show();
-        }
+    @Override
+    public  void onClick(View view){
+        Log.d("Button Worked!???", pos.latitude + " latitude!!");
+        ParseUser curr = ParseUser.getCurrentUser();
+        mApplication.parse.createHouse("Temp Name", curr.getObjectId(), pos.latitude, pos.longitude, MapActivity.this);
 
     }
 
-    public void onJoinHouseClick(View view)
-    {
-        EditText houseCodeET = (EditText) findViewById(R.id.newhouse_joinhouse_etext);
-        try
-        {
-            String code = houseCodeET.getText().toString();
-            if(code.length() != 0)
-            {
-                mApplication.parse.getHouse(code, MapActivity.this);
-            }
-            else
-            {
-                Toast.makeText(MapActivity.this, "Please enter the username of the house admin", Toast.LENGTH_LONG).show();
-            }
-        } catch (NullPointerException e)
-        {
-            Toast.makeText(MapActivity.this, "Please enter the username of the house admin", Toast.LENGTH_LONG).show();
-        }
-    }
 
     @Override
-    public void onGetHouseSuccess(HomeBaseHouse house)
-    {
-        house.getMembers().add(ParseUser.getCurrentUser().getObjectId());
-        mApplication.parse.updateHouse(house, MapActivity.this);
-    }
-
-    @Override
-    public void onGetHouseFailure(String e)
-    {
-        Toast.makeText(MapActivity.this, e, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onUpdateHouseSuccess(HomeBaseHouse house)
+    public void onUpdateHouseSuccess(final HomeBaseHouse house)
     {
         ParseUser.getCurrentUser().put("house", house.getId());
-        Intent startFeed = new Intent(MapActivity.this, NewsFeedActivity.class);
-        startActivity(startFeed);
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null)
+                {
+                    mApplication.upsertHouseData();
+                    mApplication.subscribeToHouseChannel(house.getId());
+                    Intent startFeed = new Intent(MapActivity.this, NewsFeedActivity.class);
+                    startFeed.putExtra("caller", myClassName);
+                    startActivity(startFeed);
+                    finish();
+                }
+                else {
+                    Toast.makeText(MapActivity.this, "Error: Could not update user", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -228,11 +202,26 @@ public class MapActivity extends HomeBaseActivity {
     }
 
     @Override
-    public void onCreateHouseSuccess(HomeBaseHouse house)
+    public void onCreateHouseSuccess(final HomeBaseHouse house)
     {
         ParseUser.getCurrentUser().put("house", house.getId());
-        Intent startFeed = new Intent(MapActivity.this, NewsFeedActivity.class);
-        startActivity(startFeed);
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null)
+                {
+                    mApplication.upsertHouseData();
+                    mApplication.subscribeToHouseChannel(house.getId());
+                    Intent startFeed = new Intent(MapActivity.this, NewsFeedActivity.class);
+                    startFeed.putExtra("caller", myClassName);
+                    startActivity(startFeed);
+                    finish();
+                }
+                else {
+                    Toast.makeText(MapActivity.this, "Error: Could not update user", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
