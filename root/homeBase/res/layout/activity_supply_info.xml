@@ -7,38 +7,46 @@
     android:fontFamily="fontawesome-webfont.ttf"
     >
 
-    <com.beardedhen.androidbootstrap.BootstrapEditText
+    <com.beardedhen.androidbootstrap.BootstrapButton
         android:layout_width="fill_parent"
         android:layout_height="50dp"
+        android:text="@string/hello_world"
         android:textAlignment="center"
-        android:id="@id/billCreate_header_field"
-        android:layout_centerVertical="true"
-        android:hint="Bill Title"
-        android:textColor="@android:color/black"
-        android:imeOptions="actionNext"
-        android:singleLine="true"
+        android:enabled="false"
+        bootstrapbutton:bb_roundedCorners="false"
+        bootstrapbutton:bb_size="default"
+        bootstrapbutton:bb_type="success"
+        bootstrapbutton:bb_text_alignment="center"
+        android:id="@id/supply_info_header_button"
         android:layout_gravity="center_horizontal"
-        >
-    </com.beardedhen.androidbootstrap.BootstrapEditText>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    </com.beardedhen.androidbootstrap.BootstrapButton>
+
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:fillViewport="true">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <com.beardedhen.androidbootstrap.BootstrapEditText
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:textColor="@android:color/black"
-            android:id="@id/billCreate_body_field"
-            android:singleLine="true"
-            android:hint="Description"
-            android:imeOptions="actionDone"
-            android:layout_centerVertical="true"/>
-
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:textAlignment="center"
+                android:enabled="false"
+                bootstrapbutton:bb_roundedCorners="false"
+                bootstrapbutton:bb_size="default"
+                bootstrapbutton:bb_type="gray"
+                bootstrapbutton:bb_text_alignment="center"
+                android:id="@id/supply_info_body_button"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+            </com.beardedhen.androidbootstrap.BootstrapButton>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -52,83 +60,14 @@
                     <com.beardedhen.androidbootstrap.BootstrapButton
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
-                        android:text="Amount:"
+                        android:text="@string/created_by"
                         android:textAlignment="center"
                         android:enabled="false"
                         bootstrapbutton:bb_roundedCorners="false"
                         bootstrapbutton:bb_size="default"
-                        bootstrapbutton:bb_type="bill"
+                        bootstrapbutton:bb_type="success"
                         bootstrapbutton:bb_text_alignment="center"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
-                    </com.beardedhen.androidbootstrap.BootstrapButton>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_weight="0.5"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="0dp">
-                    <com.beardedhen.androidbootstrap.BootstrapEditText
-                        android:hint="00"
-                        android:inputType="number"
-                        android:numeric="integer"
-                        android:text=""
-                        android:id="@id/billCreate_dollars_field"
-                        android:textColor="@android:color/black"
-                        android:imeOptions="actionDone"
-                        android:singleLine="true"
-                        android:layout_width="fill_parent"
-                        android:layout_height="50dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
-                    </com.beardedhen.androidbootstrap.BootstrapEditText>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_weight="0.5"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="0dp">
-                    <com.beardedhen.androidbootstrap.BootstrapEditText
-                        android:hint="00"
-                        android:inputType="number"
-                        android:numeric="integer"
-                        android:maxLength="2"
-                        android:text=""
-                        android:id="@id/billCreate_cents_field"
-                        android:textColor="@android:color/black"
-                        android:imeOptions="actionDone"
-                        android:singleLine="true"
-                        android:layout_width="fill_parent"
-                        android:layout_height="50dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
-                    </com.beardedhen.androidbootstrap.BootstrapEditText>
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal" >
-
-                <RelativeLayout
-                    android:layout_weight="0.5"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="0dp">
-                    <com.beardedhen.androidbootstrap.BootstrapButton
-                        android:layout_width="fill_parent"
-                        android:layout_height="50dp"
-                        android:text="Created By:"
-                        android:textAlignment="center"
-                        android:enabled="false"
-                        bootstrapbutton:bb_roundedCorners="false"
-                        bootstrapbutton:bb_size="default"
-                        bootstrapbutton:bb_type="bill"
-                        bootstrapbutton:bb_text_alignment="center"
+                        android:id="@id/supply_info_header_button"
                         android:layout_gravity="center_horizontal"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
@@ -144,13 +83,12 @@
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
                         android:textAlignment="center"
-                        android:layout_centerVertical="true"
-                        android:text="Creator"
-                        bootstrapbutton:bb_type="gray"
                         android:enabled="false"
-                        android:textColor="@android:color/black"
-                        android:singleLine="true"
-                        android:id="@id/billCreate_creator_field"
+                        bootstrapbutton:bb_roundedCorners="false"
+                        bootstrapbutton:bb_size="default"
+                        bootstrapbutton:bb_type="gray"
+                        bootstrapbutton:bb_text_alignment="center"
+                        android:id="@id/supply_info_creator_field"
                         android:layout_gravity="center_horizontal"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
@@ -171,12 +109,12 @@
                     <com.beardedhen.androidbootstrap.BootstrapButton
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
-                        android:text="Owned By:"
+                        android:text="@string/owned_by"
                         android:textAlignment="center"
                         android:enabled="false"
                         bootstrapbutton:bb_roundedCorners="false"
                         bootstrapbutton:bb_size="default"
-                        bootstrapbutton:bb_type="bill"
+                        bootstrapbutton:bb_type="success"
                         bootstrapbutton:bb_text_alignment="center"
                         android:layout_gravity="center_horizontal"
                         android:layout_alignParentTop="true"
@@ -204,7 +142,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:orientation="horizontal"
-                            android:id="@id/billCreate_responsible_container">
+                            android:id="@id/supply_info_responsible_container">
                         </LinearLayout>
                     </HorizontalScrollView>
                 </RelativeLayout>
@@ -222,7 +160,7 @@
                     <com.beardedhen.androidbootstrap.BootstrapButton
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
-                        android:text="Submit"
+                        android:text="@string/submit"
                         android:textAlignment="center"
                         android:enabled="true"
                         bootstrapbutton:bb_roundedCorners="false"
@@ -233,7 +171,8 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:onClick="onBillCreateSubmitClick">
+                        android:id="@id/supplyInfo_confirm_button"
+                        android:onClick="onSupplyInfoConfirmClick">
                     </com.beardedhen.androidbootstrap.BootstrapButton>
                 </RelativeLayout>
                 <RelativeLayout
@@ -244,7 +183,7 @@
                     <com.beardedhen.androidbootstrap.BootstrapButton
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
-                        android:text="Cancel"
+                        android:text="@string/cancel"
                         android:textAlignment="center"
                         android:enabled="true"
                         bootstrapbutton:bb_roundedCorners="false"
@@ -255,7 +194,8 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:onClick="onBillCreateCancelClick">
+                        android:id="@id/supplyInfo_cancel_button"
+                        android:onClick="onSupplyInfoCancelClick">
                     </com.beardedhen.androidbootstrap.BootstrapButton>
                 </RelativeLayout>
             </LinearLayout>
