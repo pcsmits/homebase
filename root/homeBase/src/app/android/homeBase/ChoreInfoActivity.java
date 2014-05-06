@@ -75,7 +75,6 @@ public class ChoreInfoActivity extends HomeBaseActivity {
         BootstrapButton body = (BootstrapButton) this.findViewById(R.id.chore_info_body_button);
 
         BootstrapButton creatorField = (BootstrapButton) this.findViewById(R.id.chore_info_creator_field);
-
         mApplication.parse.getAlertResponsibleUsers(creator, title, this);
         mApplication.parse.getAlertCompletedUsers(creator, title, this);
 

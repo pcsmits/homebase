@@ -58,12 +58,13 @@ public class BillsActivity extends HomeBaseActivity {
 
     public void onChoreContainerClick(View view)
     {
-        /*BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.bill_container_button);
-        thisButton.setText("Clicked");
-        Intent intent = new Intent(BillsActivity.this, ChoreInfoActivity.class);
+        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.alertContainer_container);
+        Intent intent = new Intent(BillsActivity.this, BillInfoActivity.class);
+        intent.putExtra("caller", myClassName);
+        intent.putExtra("creator", billDescriptions.get(thisButton).getCreatorID());
         intent.putExtra("title", billDescriptions.get(thisButton).getTitle());
         intent.putExtra("info", billDescriptions.get(thisButton).getDescription());
-        startActivity(intent);*/
+        startActivity(intent);
     }
 
     public void onBillAddClick(View view)
