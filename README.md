@@ -1,5 +1,8 @@
 homebase
 ========
+NOTES with google maps
+add to build.gradle in dependencies
+   compile 'com.google.android.gms:play-services:4.3.23'
 
 Uses Bearded Hen's Android Implementation of Twitter Bootstrap: https://github.com/Bearded-Hen/Android-Bootstrap
 
