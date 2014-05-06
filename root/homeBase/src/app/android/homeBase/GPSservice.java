@@ -194,7 +194,9 @@ public class GPSservice extends Service implements LocationListener {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         // Check house location and new location to compare
-        mApplication.parse.getHouse(GPSservice.this);
+        if(mApplication.parse.userLoggedIn()) {
+           mApplication.parse.getHouse(GPSservice.this);
+        }
     }
 
     public void onGetHouseSuccess(HomeBaseHouse house)
@@ -208,7 +210,7 @@ public class GPSservice extends Service implements LocationListener {
         //home
         boolean nowHome = false;
         Log.d("Distancce Between", String.valueOf(results[0]));
-        if(results[0] <= 50) {
+        if(results[0] <= 60) {
             nowHome = true;
         }
         if (nowHome != wasHome) {

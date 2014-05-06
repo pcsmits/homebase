@@ -161,13 +161,12 @@ public class ParseBase
                                     caller.onGetHomeUsersFailure();
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
+                    caller.onReturnUsersSuccess();
+                } else {
+                    caller.onReturnUsersFailure();
                 }
-                caller.onReturnUsersSuccess();
-            } else {
-                caller.onReturnUsersFailure();
-            }
             }
         });
 
@@ -273,8 +272,8 @@ public class ParseBase
                                 String city = parseHouse.getString("city");
                                 String state = parseHouse.getString("state");
                                 int zipcode = parseHouse.getInt("zipcode");
-                                int lat = parseHouse.getInt("latitude");
-                                int longitude = parseHouse.getInt("longitude");
+                                double lat = parseHouse.getDouble("latitude");
+                                double longitude = parseHouse.getDouble("longitude");
                                 String admin = parseHouse.getString("admin");
                                 List<String> members = convertJSON(parseHouse.getJSONArray("members"));
                                 String id = parseHouse.getObjectId();
@@ -314,8 +313,8 @@ public class ParseBase
                     String city = parseHouse.getString("city");
                     String state = parseHouse.getString("state");
                     int zipcode = parseHouse.getInt("zipcode");
-                    int lat = parseHouse.getInt("latitude");
-                    int longitude = parseHouse.getInt("longitude");
+                    double lat = parseHouse.getDouble("latitude");
+                    double longitude = parseHouse.getDouble("longitude");
                     String admin = parseHouse.getString("admin");
                     List<String> members = convertJSON(parseHouse.getJSONArray("members"));
                     String id = parseHouse.getObjectId();
@@ -346,8 +345,8 @@ public class ParseBase
                     String city = parseHouse.getString("city");
                     String state = parseHouse.getString("state");
                     int zipcode = parseHouse.getInt("zipcode");
-                    int lat = parseHouse.getInt("latitude");
-                    int longitude = parseHouse.getInt("longitude");
+                    double lat = parseHouse.getDouble("latitude");
+                    double longitude = parseHouse.getDouble("longitude");
                     String admin = parseHouse.getString("admin");
                     List<String> members = convertJSON(parseHouse.getJSONArray("members"));
                     String id = parseHouse.getObjectId();
