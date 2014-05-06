@@ -9,7 +9,8 @@
     >
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:background="@color/bbutton_success_pressed">
 
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:layout_width="fill_parent"
@@ -31,173 +32,122 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:id="@+id/newsfeed_menu_container"
+            <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
-                android:layout_marginBottom="4dp">
+                android:layout_marginBottom="4dp"
+                android:background="@color/bbutton_success_disabled">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <RelativeLayout
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_margin="0dp">
+
                         <com.beardedhen.androidbootstrap.BootstrapButton
+                            android:id="@id/supply_allFilter_button"
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:text="@string/newsfeed_showMenu_button"
-                            android:textAlignment="center"
-                            bootstrapbutton:bb_roundedCorners="false"
-                            bootstrapbutton:bb_size="default"
-                            bootstrapbutton:bb_type="primary"
-                            bootstrapbutton:bb_text_alignment="center"
-                            bootstrapbutton:bb_icon_right="fa-chevron-down"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:onClick="onMenuButtonClick">
-                        </com.beardedhen.androidbootstrap.BootstrapButton>
-                    </RelativeLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:orientation="vertical" >
-
-                    <RelativeLayout
-                        android:layout_weight="1"
-                        android:layout_width="fill_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="0dp">
-                        <com.beardedhen.androidbootstrap.BootstrapButton
-                            android:layout_width="fill_parent"
-                            android:layout_height="50dp"
-                            android:text="@string/newsfeed_gotoGPS_button"
-                            android:textAlignment="center"
-                            bootstrapbutton:bb_roundedCorners="false"
-                            bootstrapbutton:bb_size="default"
-                            bootstrapbutton:bb_type="info"
-                            bootstrapbutton:bb_text_alignment="center"
-                            bootstrapbutton:bb_icon_right="fa-chevron-right"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:onClick="onUsersHomeButtonClick">
-                        </com.beardedhen.androidbootstrap.BootstrapButton>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_weight="1"
-                        android:layout_width="fill_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="0dp">
-                        <com.beardedhen.androidbootstrap.BootstrapButton
-                            android:layout_width="fill_parent"
-                            android:layout_height="50dp"
-                            android:text="@string/newsfeed_gotoChores_button"
-                            android:textAlignment="center"
-                            bootstrapbutton:bb_roundedCorners="false"
-                            bootstrapbutton:bb_size="default"
-                            bootstrapbutton:bb_type="chore"
-                            bootstrapbutton:bb_text_alignment="center"
-                            bootstrapbutton:bb_icon_right="fa-chevron-right"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:onClick="onChoresButtonClick">
-                        </com.beardedhen.androidbootstrap.BootstrapButton>
-
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_weight="1"
-                        android:layout_width="fill_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="0dp">
-                        <com.beardedhen.androidbootstrap.BootstrapButton
-                            android:layout_width="fill_parent"
-                            android:layout_height="50dp"
-                            android:text="@string/newsfeed_gotoBills_button"
-                            android:textAlignment="center"
-                            bootstrapbutton:bb_roundedCorners="false"
-                            bootstrapbutton:bb_size="default"
-                            bootstrapbutton:bb_type="bill"
-                            bootstrapbutton:bb_text_alignment="center"
-                            bootstrapbutton:bb_icon_right="fa-chevron-right"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:onClick="onBillsButtonClick">
-                        </com.beardedhen.androidbootstrap.BootstrapButton>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_weight="1"
-                        android:layout_width="fill_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="0dp">
-                        <com.beardedhen.androidbootstrap.BootstrapButton
-                            android:layout_width="fill_parent"
-                            android:layout_height="50dp"
-                            android:text="@string/newsfeed_gotoSupplies_button"
+                            android:text="@string/supply_viewActive_button"
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"
                             bootstrapbutton:bb_type="success"
                             bootstrapbutton:bb_text_alignment="center"
-                            bootstrapbutton:bb_icon_right="fa-chevron-right"
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:onClick="onSuppliesButtonClick">
+                            android:onClick="onAllFilterClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_weight="1"
-                        android:layout_width="fill_parent"
+                        android:layout_width="0dp"
                         android:layout_height="50dp"
-                        android:layout_margin="0dp">
+                        android:layout_marginBottom="0dp">
+
                         <com.beardedhen.androidbootstrap.BootstrapButton
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:text="@string/settings_settings"
+                            android:text="@string/supply_viewMine_button"
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"
-                            bootstrapbutton:bb_type="setting"
+                            bootstrapbutton:bb_type="success"
                             bootstrapbutton:bb_text_alignment="center"
-                            bootstrapbutton:bb_icon_right="fa-chevron-right"
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:onClick="onSettingsButtonClick">
+                            android:onClick="onCreatedFilterClick">
+                        </com.beardedhen.androidbootstrap.BootstrapButton>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_weight="1.1"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="0dp">
+
+                        <com.beardedhen.androidbootstrap.BootstrapButton
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dp"
+                            android:text="@string/supply_viewClosed_button"
+                            android:textAlignment="center"
+                            bootstrapbutton:bb_roundedCorners="false"
+                            bootstrapbutton:bb_size="default"
+                            bootstrapbutton:bb_type="success"
+                            bootstrapbutton:bb_text_alignment="center"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true">
+                        </com.beardedhen.androidbootstrap.BootstrapButton>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_weight="0.93"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="0dp">
+
+                        <com.beardedhen.androidbootstrap.BootstrapButton
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dp"
+                            android:text="@string/supply_add_button"
+                            android:textAlignment="center"
+                            bootstrapbutton:bb_roundedCorners="false"
+                            bootstrapbutton:bb_size="default"
+                            bootstrapbutton:bb_type="success"
+                            bootstrapbutton:bb_text_alignment="center"
+                            bootstrapbutton:bb_icon_right="fa-plus"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_alignParentTop="true"
+                            android:onClick="onSupplyAddClick"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>
 
                 </LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
 
             <ScrollView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
                 <LinearLayout
-                    android:id="@id/newsfeed_newsfeedItem_container"
+                    android:id="@id/supply_supplyContainer_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -206,7 +156,5 @@
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
-
     </RelativeLayout>
-
 </LinearLayout>

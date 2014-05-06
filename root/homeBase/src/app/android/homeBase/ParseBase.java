@@ -77,6 +77,23 @@ public class ParseBase
         });
     }
 
+    public void getUsername(String userID, final HomeBaseActivity caller)
+    {
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.whereEqualTo("objectId", userID);
+        userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser parseUser, ParseException e) {
+                if(e == null)
+                {
+                    caller.onGetUsernameSuccess(parseUser.getUsername());
+                } else {
+                    caller.onGetHouseFailure(e.getMessage());
+                }
+            }
+        });
+
+    }
     /**
      * This is the method for checking that a username is not already in use on parse
      * @param username
@@ -415,17 +432,23 @@ public class ParseBase
      *  ALERT METHODS
      **********************************************************************************************/
     private HomeBaseAlert buildAlert(ParseObject alert, String passedType) {
+        String type = alert.getString("type");
         String objectID = alert.getObjectId();
         String title = alert.getString("title");
         String description = alert.getString("description");
         String creator = alert.getString("creator");
-        String type = alert.getString("type");
-        JSONArray responsibleArray = alert.getJSONArray("responsibleUsers");
-        JSONArray completedArray = alert.getJSONArray("completedUsers");
+        JSONArray responsibleArray = new JSONArray();
+        JSONArray completedArray = new JSONArray();
+
+        if(!type.equals("Supply")) {
+            responsibleArray = alert.getJSONArray("responsibleUsers");
+            completedArray = alert.getJSONArray("completedUsers");
+        }
+
         List<String> responsibleUsers = convertJSON(responsibleArray);
         List<String> completedUsers = convertJSON(completedArray);
 
-        if (type.equals("Default") || type.equals("Chore")) {
+        if (type.equals("Default") || type.equals("Chore") || type.equals("Suuply")) {
             return new HomeBaseAlert(title, objectID, type, responsibleUsers, completedUsers, description, creator);
         } else if (type.equals("Bill")) {
             return buildBill(alert, new HomeBaseAlert(title, objectID, type, responsibleUsers, completedUsers, description, creator));
@@ -491,6 +514,26 @@ public class ParseBase
         });
     }
 
+    public void createSupply(String title, final String type, String description, String creator, final HomeBaseActivity caller)
+    {
+        final ParseObject alert = new ParseObject("Alert");
+        alert.put("title", title);
+        alert.put("type", type);
+        alert.put("description", description);
+        alert.put("creator", creator);
+        alert.put("house", this.getCurrentHouseID());
+        alert.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    HomeBaseAlert hbAlert = buildAlert(alert, type);
+                    caller.onCreateAlertSuccess(hbAlert);
+                } else {
+                    caller.onCreateAlertFailure(e.getMessage());
+                }
+            }
+        });
+    }
     public void getAlert(String objectID, final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
