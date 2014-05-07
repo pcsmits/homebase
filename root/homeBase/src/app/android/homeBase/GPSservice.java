@@ -194,14 +194,17 @@ public class GPSservice extends Service implements LocationListener {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         // Check house location and new location to compare
+
         if(mApplication.parse.userLoggedIn()) {
-           mApplication.parse.getHouse(GPSservice.this);
+            if(mApplication.hasHouse()){
+                onGetHouseSuccess(mApplication.getHouse());
+            } else {
+                mApplication.parse.getHouse(GPSservice.this);
+            }
         }
     }
 
-    public void onGetHouseSuccess(HomeBaseHouse house)
-    {
-
+    public void setUserLocation (HomeBaseHouse house){
         float[] results = new float[3];
         Log.d("Distancce Between", this.latitude + " - " + house.getLatitude());
         location.distanceBetween(this.latitude, this.longitude, house.getLatitude(), house.getLongitude(), results);
@@ -218,6 +221,12 @@ public class GPSservice extends Service implements LocationListener {
             Log.d("Updated parse", "Switching Boolean isHome");
         }
 
+    }
+    public void onGetHouseSuccess(HomeBaseHouse house)
+    {
+        // aplication manager doesn't have the house (add it)
+        mApplication.setHouse(house);
+        setUserLocation(house);
     }
 
     public void onGetHouseFailure(String e)
