@@ -53,7 +53,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
 
                 x2 = touchevent.getX();
                 y2 = touchevent.getY();
-                Log.d("x1: ", "" + x1);
+                //Log.d("x1: ", "" + x1);
 
                 // if left to right sweep event on screen
                 if (x1 < 10 && ((x1 + 150) < x2 && ((y2 - y1) < 10 || (y1 - y2) < 10 )))
