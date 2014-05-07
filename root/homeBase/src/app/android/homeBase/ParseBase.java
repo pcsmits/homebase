@@ -171,6 +171,7 @@ public class ParseBase
                             @Override
                             public void done(ParseUser user, ParseException e) {
                                 if (e == null) {
+                                    // this should return all [client side should handle exclusions]
                                     if (!user.getObjectId().equals(getCurrentUser().getObjectId())){
                                         caller.onGetHomeUsersSuccess(user.getUsername(), user.getBoolean("isHome"));
                                     }

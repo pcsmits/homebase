@@ -67,7 +67,6 @@ public class HomeBaseHouse {
     }
 
     public double getLatitude() {
-
         return latitude;
     }
 

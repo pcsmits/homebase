@@ -142,6 +142,24 @@
                 </com.beardedhen.androidbootstrap.BootstrapButton>
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New House Anchor"
+                    bootstrapbutton:bb_roundedCorners="true"
+                    bootstrapbutton:bb_size="default"
+                    bootstrapbutton:bb_type="danger"
+                    bootstrapbutton:bb_text_alignment="center"
+                    bootstrapbutton:bb_icon_right="fa-chevron-right"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="updateHouseLocation"
+                    >
+                </com.beardedhen.androidbootstrap.BootstrapButton>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

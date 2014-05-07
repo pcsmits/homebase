@@ -77,6 +77,7 @@ public class JoinOrCreateHouseActivity extends HomeBaseActivity {
                 {
                     mApplication.upsertHouseData();
                     mApplication.subscribeToHouseChannel(house.getId());
+                    mApplication.setHouse(house);
                     Intent startFeed = new Intent(JoinOrCreateHouseActivity.this, NewsFeedActivity.class);
                     startFeed.putExtra("caller", myClassName);
                     startActivity(startFeed);

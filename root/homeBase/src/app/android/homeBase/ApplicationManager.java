@@ -10,6 +10,7 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -26,6 +27,7 @@ public class ApplicationManager extends Application {
     public boolean traversingForwardIntentQueue = false;
     private ParseInstallation installation;
     private static ApplicationManager instance;
+    private HomeBaseHouse house;
 
     public static ApplicationManager getInstance()
     {
@@ -66,6 +68,16 @@ public class ApplicationManager extends Application {
 
     public class SavedIntent {
         Intent intent;
+    }
+
+    public void setHouse(HomeBaseHouse house){
+        this.house = house;
+    }
+    public HomeBaseHouse getHouse(){
+        return this.house;
+    }
+    public boolean hasHouse(){
+        return (house != null);
     }
 
     public void debugHomeUsers()
