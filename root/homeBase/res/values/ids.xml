@@ -47,6 +47,7 @@
     <item name="bill_info_body_button" type="id"/>
     <item name="bill_info_container_button" type="id"/>
     <item name="bill_container_button" type="id"/>
+    <item name="billInfo_amount_field" type="id"/>
     <item name="billInfo_creator_field" type="id"/>
     <item name="billInfo_cancel_button" type="id"/>
     <item name="billInfo_confirm_button" type="id"/>

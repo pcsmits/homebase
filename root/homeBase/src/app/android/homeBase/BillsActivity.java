@@ -1,6 +1,7 @@
 package app.android.homeBase;
 
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,6 +128,7 @@ public class BillsActivity extends HomeBaseActivity {
             String title = alert.getTitle();
             String information = alert.getDescription() + " [$" + alert.getAmount() + "]";
             String creator = alert.getCreatorID();
+            Log.d("Creator: ", creator);
 
             headerBar.setText(title);
             headerBar.setBootstrapType("bill");

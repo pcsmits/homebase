@@ -9,6 +9,7 @@ import android.view.Display;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.util.Log;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
@@ -76,9 +77,11 @@ public class BillInfoActivity extends HomeBaseActivity {
         BootstrapButton body = (BootstrapButton) this.findViewById(R.id.bill_info_body_button);
 
         BootstrapButton creatorField = (BootstrapButton) this.findViewById(R.id.billInfo_creator_field);
+        BootstrapButton amountField = (BootstrapButton) this.findViewById(R.id.billInfo_amount_field);
         mApplication.parse.getAlertResponsibleUsers(creator, title, this);
         mApplication.parse.getAlertCompletedUsers(creator, title, this);
 
+        amountField.setText("$" + amount);
         creatorField.setText(creator);
         headerBar.setText(title);
         body.setText(info);
