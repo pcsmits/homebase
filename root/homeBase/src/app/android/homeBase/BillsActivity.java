@@ -61,6 +61,7 @@ public class BillsActivity extends HomeBaseActivity {
         BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.alertContainer_container);
         Intent intent = new Intent(BillsActivity.this, BillInfoActivity.class);
         intent.putExtra("caller", myClassName);
+        intent.putExtra("amount", billDescriptions.get(thisButton).getAmount().toString());
         intent.putExtra("creator", billDescriptions.get(thisButton).getCreatorID());
         intent.putExtra("title", billDescriptions.get(thisButton).getTitle());
         intent.putExtra("info", billDescriptions.get(thisButton).getDescription());
@@ -86,9 +87,7 @@ public class BillsActivity extends HomeBaseActivity {
         layout.removeAllViews();
         for(int i = 0; i < billContainers.size(); i++) {
             BootstrapButton billContainer = billContainers.get(i);
-            if (!billDescriptions.get(billContainer).getCreatorID().equals(mApplication.parse.getCurrentUser().getUsername())) {
-                layout.addView(billContainer);
-            }
+            layout.addView(billContainer);
         }
     }
 

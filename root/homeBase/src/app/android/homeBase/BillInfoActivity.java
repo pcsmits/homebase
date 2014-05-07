@@ -19,6 +19,7 @@ public class BillInfoActivity extends HomeBaseActivity {
     private String title;
     private String info;
     private String creator;
+    private String amount;
 
     private ApplicationManager mApplication;
     private List<String> responsibleUsers;
@@ -42,6 +43,7 @@ public class BillInfoActivity extends HomeBaseActivity {
             title = extras.getString("title");
             info = extras.getString("info");
             creator = extras.getString("creator");
+            amount = extras.getString("amount");
         }
 
         BootstrapButton headerBar = (BootstrapButton) this.findViewById(R.id.bill_info_header_button);

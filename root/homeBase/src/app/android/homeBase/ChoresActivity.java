@@ -105,9 +105,7 @@ public class ChoresActivity extends HomeBaseActivity {
         layout.removeAllViews();
         for(int i = 0; i < choreContainers.size(); i++) {
             BootstrapButton choreContainer = choreContainers.get(i);
-            if (!(choreDescriptions.get(choreContainer).creator.equals(mApplication.parse.getCurrentUser().getUsername()))) {
-                layout.addView(choreContainer);
-            }
+            layout.addView(choreContainer);
         }
     }
 
