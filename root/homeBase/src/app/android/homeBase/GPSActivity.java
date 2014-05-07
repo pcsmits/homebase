@@ -39,6 +39,8 @@ public class GPSActivity extends HomeBaseActivity {
         Log.d("Found User", userStatus.username + " " + userStatus.isHome);
         stats.add(userStatus);
 
+        if (mApplication.parse.getCurrentUser().getUsername().equals(user)){return;}
+
         LinearLayout layout = (LinearLayout) findViewById(R.id.GPSuser_container);
 
         LayoutInflater inflater = LayoutInflater.from(this);
