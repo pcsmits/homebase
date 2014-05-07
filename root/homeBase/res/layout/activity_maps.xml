@@ -11,16 +11,14 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginRight="5dp">
-        android:gravity="center_vertical|center_horizontal"
+        android:layout_height="50dp">
 
         <Button
             android:id="@+id/save_house_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:textColor="#4E4E4E"
+            android:alpha=".7"
+            android:textColor="#FFFFFF"
             android:text="Save House"/>
 
         <!--
