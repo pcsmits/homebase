@@ -167,7 +167,17 @@ public class MapActivity extends HomeBaseActivity implements OnClickListener, On
     public  void onClick(View view){
         Log.d("Button Worked!???", pos.latitude + " latitude!!");
         ParseUser curr = ParseUser.getCurrentUser();
-        mApplication.parse.createHouse("Temp Name", curr.getObjectId(), pos.latitude, pos.longitude, MapActivity.this);
+
+        //if house exists update house
+        if(mApplication.hasHouse()){
+            HomeBaseHouse house = mApplication.getHouse();
+            house.setLatitude(pos.latitude);
+            house.setLongitude(pos.longitude);
+            mApplication.parse.updateHouse(house, MapActivity.this);
+            mApplication.setHouse(house);
+        } else {
+            mApplication.parse.createHouse("Temp Name", curr.getObjectId(), pos.latitude, pos.longitude, MapActivity.this);
+        }
 
     }
 

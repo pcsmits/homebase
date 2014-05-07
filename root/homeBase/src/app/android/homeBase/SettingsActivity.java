@@ -128,7 +128,7 @@ public class SettingsActivity extends HomeBaseActivity {
         Intent startFeed = new Intent(SettingsActivity.this, MapActivity.class);
         startFeed.putExtra("caller", myClassName);
         startActivity(startFeed);
-        finish(); 
+        finish();
     }
 
     public void onLogoutClick(View v)
