@@ -6,6 +6,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import android.content.Intent;
+import android.util.Log;
+import android.view.Display;
+import android.graphics.Point;
 
 import com.parse.*;
 
@@ -15,6 +18,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     protected Intent myIntent;
     protected String myClassName;
     private ApplicationManager mApplication = ApplicationManager.getInstance();
+    private int screenWidth = -1;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -44,19 +48,22 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
             }
             case MotionEvent.ACTION_UP:
             {
+                //get our screen size, if we haven't once already
+                if (screenWidth == -1) initializeSize();
+
                 x2 = touchevent.getX();
                 y2 = touchevent.getY();
+                //Log.d("x1: ", "" + x1);
 
-
-                // if right to left sweep event on screen
-                if ((x1 + 150) < x2 && ((y2 - y1) < 10 || (y1 - y2) < 10 ))
+                // if left to right sweep event on screen
+                if (x1 < 10 && ((x1 + 150) < x2 && ((y2 - y1) < 10 || (y1 - y2) < 10 )))
                 {
                     //Toast.makeText(this, "Right to Left Swap Performed", Toast.LENGTH_LONG).show();
                     onBackPressed();
                 }
                 
-                //if left to right sweep event on screen
-                if (x1 > (x2 + 150) && ((y2 - y1) < 10 || (y1 - y2) < 10 ))
+                //if right to left sweep event on screen
+                if (x1 > screenWidth - 10 && (x1 > (x2 + 150) && ((y2 - y1) < 10 || (y1 - y2) < 10 )))
                 {
                     //Toast.makeText(this, "Right to Left Swap Performed", Toast.LENGTH_LONG).show();
                     onForwardSwipe();
@@ -66,6 +73,14 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
             }
         }
         return false;
+    }
+
+    private void initializeSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        screenWidth = size.x;
+
     }
 
     public void onBackPressedEndpoint()

@@ -8,6 +8,8 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.EditText;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
 
 public class BootstrapEditText extends EditText {
 
@@ -184,5 +186,21 @@ public class BootstrapEditText extends EditText {
 	{
 		this.setEnabled(enabled);
 	}
+
+    @Override
+    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+        InputConnection connection = super.onCreateInputConnection(outAttrs);
+        int imeActions = outAttrs.imeOptions&EditorInfo.IME_MASK_ACTION;
+        if ((imeActions&EditorInfo.IME_ACTION_DONE) != 0) {
+            // clear the existing action
+            outAttrs.imeOptions ^= imeActions;
+            // set the DONE action
+            outAttrs.imeOptions |= EditorInfo.IME_ACTION_DONE;
+        }
+        if ((outAttrs.imeOptions&EditorInfo.IME_FLAG_NO_ENTER_ACTION) != 0) {
+            outAttrs.imeOptions &= ~EditorInfo.IME_FLAG_NO_ENTER_ACTION;
+        }
+        return connection;
+    }
 	
 }
