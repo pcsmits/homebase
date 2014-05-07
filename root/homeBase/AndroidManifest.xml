@@ -60,60 +60,74 @@
 
         <activity
             android:name="app.android.homeBase.SignupActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="app.android.homeBase.ChoresActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="app.android.homeBase.MapActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".GPSActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="app.android.homeBase.ChoreInfoActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="app.android.homeBase.ChoreCreateActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="app.android.homeBase.JoinOrCreateHouseActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="app.android.homeBase.NewsFeedActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="app.android.homeBase.BillsActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="app.android.homeBase.BillInfoActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="app.android.homeBase.BillCreateActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="app.android.homeBase.SettingsActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
 
         <activity
             android:name="app.android.homeBase.SuppliesActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
 
         <activity
             android:name="app.android.homeBase.SupplyCreateActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/app_name" >
         </activity>
 
