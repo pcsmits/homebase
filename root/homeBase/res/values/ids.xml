@@ -55,6 +55,9 @@
 
     <item name="GPSuser_container" type="id"/>
     <item name="GPSuser_location_button" type="id"/>
+    <item name="GPStracker_template_button" type="id"/>
+    <item name="GPStracker_template_icon" type="id"/>
+    <item name="GPStracker_template_header" type="id"/>
 
     <item name="map" type="id"/>
     <item name="locinfo" type="id"/>
