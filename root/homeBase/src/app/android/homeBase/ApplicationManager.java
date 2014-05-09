@@ -129,6 +129,7 @@ public class ApplicationManager extends Application {
         instance.users.clear();
         instance.forwardIntentQueue.clear();
         instance.usersObjects.clear();
+        house = null;
     }
 
 }
