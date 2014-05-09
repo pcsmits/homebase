@@ -3,7 +3,7 @@ package app.android.homeBase;
 
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
-import android.app.FragmentManager;
+import android.location.Location;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,6 +23,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 public class MapActivity extends HomeBaseActivity implements OnClickListener, OnMapClickListener, OnMarkerDragListener {
     private ApplicationManager mApplication;
@@ -34,7 +36,7 @@ public class MapActivity extends HomeBaseActivity implements OnClickListener, On
     TextView tvLocInfo;
     boolean markerClicked;
     Button button;
-    TextView text;
+    Location location;
 
 
     @Override
@@ -42,6 +44,7 @@ public class MapActivity extends HomeBaseActivity implements OnClickListener, On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
+        location = new  Location("Current House");
 
         myIntent = getIntent();
         myClassName = "MapActivity";
@@ -58,7 +61,16 @@ public class MapActivity extends HomeBaseActivity implements OnClickListener, On
             double latitude = mApplication.gps.latitude;
             double longitude = mApplication.gps.longitude;
 
-            // create marker
+            if(mApplication.hasHouse()) {
+                // add second marker if updating house
+                LatLng house = new LatLng(mApplication.getHouse().getLatitude(), mApplication.getHouse().getLongitude());
+                MarkerOptions oldLocation = new MarkerOptions().position(new LatLng(house.latitude, house.longitude))
+                        .title("Current House Anchor")
+                        .draggable(false)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                googleMap.addMarker(oldLocation);
+
+            }
             marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Place Marker on House").draggable(true);
 
             // adding marker
@@ -94,8 +106,20 @@ public class MapActivity extends HomeBaseActivity implements OnClickListener, On
     @Override
     public void onMapClick(LatLng point) {
         //tvLocInfo.setText(point.toString());
+
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(point));
         googleMap.clear();
+        
+        if(mApplication.hasHouse()) {
+            // add second marker if updating house
+            LatLng house = new LatLng(mApplication.getHouse().getLatitude(), mApplication.getHouse().getLongitude());
+            MarkerOptions oldLocation = new MarkerOptions().position(new LatLng(house.latitude, house.longitude))
+                    .title("Current House Anchor")
+                    .draggable(false)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            googleMap.addMarker(oldLocation);
+
+        }
         marker = new MarkerOptions().position(point).draggable(true);
         googleMap.addMarker(marker);
         pos = marker.getPosition();
