@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.view.ViewGroup.LayoutParams;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.FontAwesomeText;
 
 
 public class GPSActivity extends HomeBaseActivity {
@@ -46,11 +47,24 @@ public class GPSActivity extends HomeBaseActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.gps_user_template, null, false);
 
-        BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
+        BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.GPStracker_template_button);
+        BootstrapButton myHeader = (BootstrapButton) buttonCont.findViewById(R.id.GPStracker_template_header);
+        FontAwesomeText myIcon = (FontAwesomeText) buttonCont.findViewById(R.id.GPStracker_template_icon);
         buttonCont.removeView(myButton);
         layout.addView(myButton);
-        String text = user + " " + String.valueOf(home);
-        myButton.setText(text);
+        String header = user;
+        String isHome = String.valueOf(home);
+        myButton.setText(isHome);
+        myHeader.setText(user);
+        myHeader.setBootstrapType("default");
+        if (home) {
+            myIcon.startFlashing(this, true, FontAwesomeText.AnimationSpeed.FAST);
+            myIcon.setTextColor(getResources().getColor(R.color.bbutton_success));
+            myHeader.setBootstrapType("success");
+        } else {
+            myIcon.setTextColor(getResources().getColor(R.color.bbutton_danger));
+            myHeader.setBootstrapType("danger");
+        }
 
     }
 
