@@ -28,7 +28,7 @@ public class MapActivity extends HomeBaseActivity implements OnClickListener, On
     private ApplicationManager mApplication;
     private GoogleMap googleMap;
 
-
+    private MarkerOptions marker;
     //Make markers draggable
     LatLng pos;
     TextView tvLocInfo;
@@ -59,7 +59,7 @@ public class MapActivity extends HomeBaseActivity implements OnClickListener, On
             double longitude = mApplication.gps.longitude;
 
             // create marker
-            MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Place Marker on House").draggable(true);
+            marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Place Marker on House").draggable(true);
 
             // adding marker
             googleMap.addMarker(marker);
@@ -95,6 +95,10 @@ public class MapActivity extends HomeBaseActivity implements OnClickListener, On
     public void onMapClick(LatLng point) {
         //tvLocInfo.setText(point.toString());
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(point));
+        googleMap.clear();
+        marker = new MarkerOptions().position(point).draggable(true);
+        googleMap.addMarker(marker);
+        pos = marker.getPosition();
 
         markerClicked = false;
     }
