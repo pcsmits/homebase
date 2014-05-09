@@ -109,7 +109,7 @@ public class MapActivity extends HomeBaseActivity implements OnClickListener, On
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(point));
         googleMap.clear();
-        
+
         if(mApplication.hasHouse()) {
             // add second marker if updating house
             LatLng house = new LatLng(mApplication.getHouse().getLatitude(), mApplication.getHouse().getLongitude());
