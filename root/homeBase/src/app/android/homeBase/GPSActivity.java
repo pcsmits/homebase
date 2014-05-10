@@ -30,7 +30,25 @@ public class GPSActivity extends HomeBaseActivity {
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_gps);
 
-        //get users
+
+        //if no user print message
+        if(mApplication.users.size() < 2){
+
+            LinearLayout layout = (LinearLayout) findViewById(R.id.GPSuser_container);
+
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.gps_user_template, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.GPStracker_template_button);
+            BootstrapButton myHeader = (BootstrapButton) buttonCont.findViewById(R.id.GPStracker_template_header);
+
+            buttonCont.removeView(myButton);
+            layout.addView(myButton);
+
+            myButton.setText("New users can join with the admin username");
+            myHeader.setText("No, users Found");
+        }
+
         mApplication.parse.getUsersOfHouse(GPSActivity.this);
     }
 
@@ -50,6 +68,7 @@ public class GPSActivity extends HomeBaseActivity {
         BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.GPStracker_template_button);
         BootstrapButton myHeader = (BootstrapButton) buttonCont.findViewById(R.id.GPStracker_template_header);
         FontAwesomeText myIcon = (FontAwesomeText) buttonCont.findViewById(R.id.GPStracker_template_icon);
+
         buttonCont.removeView(myButton);
         layout.addView(myButton);
         String header = user;
