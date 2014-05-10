@@ -37,16 +37,17 @@ public class GPSActivity extends HomeBaseActivity {
             LinearLayout layout = (LinearLayout) findViewById(R.id.GPSuser_container);
 
             LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.gps_user_template, null, false);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.GPStracker_template_button);
-            BootstrapButton myHeader = (BootstrapButton) buttonCont.findViewById(R.id.GPStracker_template_header);
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton myHeader = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_header);
 
             buttonCont.removeView(myButton);
             layout.addView(myButton);
 
             myButton.setText("New users can join with the admin username");
-            myHeader.setText("No, users Found");
+            myHeader.setText("No Users Found");
+            myHeader.setBootstrapType("danger");
         }
 
         mApplication.parse.getUsersOfHouse(GPSActivity.this);

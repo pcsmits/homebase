@@ -136,6 +136,21 @@ public class ChoresActivity extends HomeBaseActivity {
     @Override
     public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
+
+        if (alerts.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            layout.addView(myButton);
+
+            myButton.setText("You have no chores at this time");
+            header.setText("Welcome");
+        }
+
         //this will eventually run through chores from parse and populate view accordingly, but this is a good framework
         //for creating bootstrap buttons programatically from xml frameworks
         for (int i = 0; i < alerts.size(); i++) {
