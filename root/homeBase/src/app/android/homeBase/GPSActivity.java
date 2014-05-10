@@ -58,7 +58,7 @@ public class GPSActivity extends HomeBaseActivity {
         myHeader.setText(user);
         myHeader.setBootstrapType("default");
         if (home) {
-            myIcon.startFlashing(this, true, FontAwesomeText.AnimationSpeed.FAST);
+            myIcon.startFlashing(this, true, FontAwesomeText.AnimationSpeed.MEDIUM);
             myIcon.setTextColor(getResources().getColor(R.color.bbutton_success));
             myHeader.setBootstrapType("success");
         } else {

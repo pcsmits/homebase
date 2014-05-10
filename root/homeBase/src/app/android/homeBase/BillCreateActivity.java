@@ -80,6 +80,8 @@ public class BillCreateActivity extends HomeBaseActivity {
 
         //set up "responsible for" options
         userNames = mApplication.getHomeUsers();
+        // remove yourself from possible responsible users
+        userNames.remove(mApplication.parse.getCurrentUser().getUsername());
         usersObjects = mApplication.usersObjects;
         responsibleUsers = new HashMap<String, BootstrapButton>();
         selectedResponsibleUsers = new HashMap<BootstrapButton, Boolean>();
@@ -160,7 +162,8 @@ public class BillCreateActivity extends HomeBaseActivity {
     public void onCreateAlertSuccess(HomeBaseAlert alert)
     {
         createdAlert = alert;
-        int numUsers = createdAlert.getResponsibleUsers().size();
+        //int numUsers = createdAlert.getResponsibleUsers().size();
+        int numUsers = mApplication.getHomeUsers().size();
         double splitAmount = (createdAlert.getAmount() / numUsers );
 
         Intent email = new Intent(Intent.ACTION_SEND);
