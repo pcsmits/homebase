@@ -190,7 +190,6 @@ public class GPSservice extends Service implements LocationListener {
 
 
     public void onLocationChanged(Location location) {
-        Log.d("GPS", "Location Changed " + location.getLatitude() + " - " + location.getLongitude());
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         // Check house location and new location to compare
@@ -206,10 +205,9 @@ public class GPSservice extends Service implements LocationListener {
 
     public void setUserLocation (HomeBaseHouse house){
         float[] results = new float[3];
-        Log.d("Distancce Between", this.latitude + " - " + house.getLatitude());
         location.distanceBetween(this.latitude, this.longitude, house.getLatitude(), house.getLongitude(), results);
         boolean wasHome = mApplication.parse.getUserLocation();
-        Log.d("User Local", String.valueOf(wasHome));
+        Log.d("User Location", String.valueOf(wasHome));
         //home
         boolean nowHome = false;
         Log.d("Distancce Between", String.valueOf(results[0]));

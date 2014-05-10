@@ -30,7 +30,26 @@ public class GPSActivity extends HomeBaseActivity {
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_gps);
 
-        //get users
+
+        //if no user print message
+        if(mApplication.users.size() < 2){
+
+            LinearLayout layout = (LinearLayout) findViewById(R.id.GPSuser_container);
+
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton myHeader = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            layout.addView(myButton);
+
+            myButton.setText("New users can join with the admin username");
+            myHeader.setText("No Users Found");
+            myHeader.setBootstrapType("danger");
+        }
+
         mApplication.parse.getUsersOfHouse(GPSActivity.this);
     }
 
@@ -50,18 +69,21 @@ public class GPSActivity extends HomeBaseActivity {
         BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.GPStracker_template_button);
         BootstrapButton myHeader = (BootstrapButton) buttonCont.findViewById(R.id.GPStracker_template_header);
         FontAwesomeText myIcon = (FontAwesomeText) buttonCont.findViewById(R.id.GPStracker_template_icon);
+
         buttonCont.removeView(myButton);
         layout.addView(myButton);
         String header = user;
-        String isHome = String.valueOf(home);
-        myButton.setText(isHome);
+        //String isHome = String.valueOf(home);
+       // myButton.setText(isHome);
         myHeader.setText(user);
         myHeader.setBootstrapType("default");
         if (home) {
+            myButton.setText("Home");
             myIcon.startFlashing(this, true, FontAwesomeText.AnimationSpeed.MEDIUM);
             myIcon.setTextColor(getResources().getColor(R.color.bbutton_success));
             myHeader.setBootstrapType("success");
         } else {
+            myButton.setText("Not home");
             myIcon.setTextColor(getResources().getColor(R.color.bbutton_danger));
             myHeader.setBootstrapType("danger");
         }

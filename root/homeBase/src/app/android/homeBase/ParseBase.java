@@ -538,6 +538,7 @@ public class ParseBase
         });
     }
 
+
     public void getAlerts(final HomeBaseActivity caller)
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
