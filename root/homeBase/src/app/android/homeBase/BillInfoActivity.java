@@ -133,7 +133,7 @@ public class BillInfoActivity extends HomeBaseActivity {
 
     public void onBillInfoCancelClick(View view)
     {
-        finish();
+        onBackPressed();
     }
 
     @Override
