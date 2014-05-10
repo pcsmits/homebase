@@ -111,6 +111,26 @@ public class BillsActivity extends HomeBaseActivity {
         }
     }
 
+    public void onResponsibleFilterClick(View view)
+    {
+        selectedFilter.setEnabled(true);
+
+        BootstrapButton clicked = (BootstrapButton) view;
+        clicked.setBootstrapButtonEnabled(false);
+
+        selectedFilter = clicked;
+
+        layout.removeAllViews();
+        for(int i = 0; i < billContainers.size(); i++) {
+            BootstrapButton billContainer = billContainers.get(i);
+            for (int j = 0; j < billDescriptions.get(billContainer).getResponsibleUsers().size(); j++) {
+                if (billDescriptions.get(billContainer).getResponsibleUsers().get(j).equals(mApplication.parse.getCurrentUser().getUsername())) {
+                    layout.addView(billContainer);
+                }
+            }
+        }
+    }
+
     @Override
     public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
