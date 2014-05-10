@@ -543,6 +543,7 @@ public class ParseBase
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
         query.whereEqualTo("house", this.getCurrentHouseID());
+        query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -565,6 +566,7 @@ public class ParseBase
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
         query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("type", type);
+        query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -586,6 +588,7 @@ public class ParseBase
     {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
         query.whereEqualTo("house", this.getCurrentHouseID());
+        query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -608,6 +611,7 @@ public class ParseBase
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
         query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("type", type);
+        query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
