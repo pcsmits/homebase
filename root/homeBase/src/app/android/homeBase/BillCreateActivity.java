@@ -150,7 +150,15 @@ public class BillCreateActivity extends HomeBaseActivity {
             }
         }
 
-        mApplication.parse.createBill(title, type, desc, amount, responsibleUsers, creator, BillCreateActivity.this);
+        if (responsibleUsers.size() == 0){
+            if(userNames.size() < 1){
+                Toast.makeText(BillCreateActivity.this, "There are no users to assign the bill to", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(BillCreateActivity.this, "Please select an owner", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            mApplication.parse.createBill(title, type, desc, amount, responsibleUsers, creator, BillCreateActivity.this);
+        }
     }
 
     public void onBillCreateCancelClick(View view)
@@ -164,7 +172,7 @@ public class BillCreateActivity extends HomeBaseActivity {
         createdAlert = alert;
         //int numUsers = createdAlert.getResponsibleUsers().size();
         int numUsers = mApplication.getHomeUsers().size();
-        double splitAmount = (createdAlert.getAmount() / numUsers );
+        double splitAmount = (createdAlert.getAmount() / numUsers++ );
 
         Intent email = new Intent(Intent.ACTION_SEND);
         email.setType("message/rfc822");

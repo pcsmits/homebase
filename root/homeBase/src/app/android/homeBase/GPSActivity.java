@@ -73,15 +73,17 @@ public class GPSActivity extends HomeBaseActivity {
         buttonCont.removeView(myButton);
         layout.addView(myButton);
         String header = user;
-        String isHome = String.valueOf(home);
-        myButton.setText(isHome);
+        //String isHome = String.valueOf(home);
+       // myButton.setText(isHome);
         myHeader.setText(user);
         myHeader.setBootstrapType("default");
         if (home) {
+            myButton.setText("Home");
             myIcon.startFlashing(this, true, FontAwesomeText.AnimationSpeed.MEDIUM);
             myIcon.setTextColor(getResources().getColor(R.color.bbutton_success));
             myHeader.setBootstrapType("success");
         } else {
+            myButton.setText("Not home");
             myIcon.setTextColor(getResources().getColor(R.color.bbutton_danger));
             myHeader.setBootstrapType("danger");
         }

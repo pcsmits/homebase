@@ -214,6 +214,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     {
 
     }
+
     public void onGetAlertFailure(String e)
     {
 

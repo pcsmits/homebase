@@ -66,6 +66,7 @@ public class BillsActivity extends HomeBaseActivity {
         intent.putExtra("creator", billDescriptions.get(thisButton).getCreatorID());
         intent.putExtra("title", billDescriptions.get(thisButton).getTitle());
         intent.putExtra("info", billDescriptions.get(thisButton).getDescription());
+        intent.putExtra("alertID", billDescriptions.get(thisButton).getId());
         startActivity(intent);
     }
 
