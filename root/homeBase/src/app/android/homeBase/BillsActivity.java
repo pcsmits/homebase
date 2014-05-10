@@ -76,7 +76,7 @@ public class BillsActivity extends HomeBaseActivity {
     {
         Intent intent = new Intent(BillsActivity.this, BillCreateActivity.class);
         intent.putExtra("caller", myClassName);
-        startActivityForResult(intent, 1);
+        startActivity(intent);
     }
 
     public void onAllFilterClick(View view)
