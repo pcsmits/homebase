@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.util.Log;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class BillInfoActivity extends HomeBaseActivity {
     private String info;
     private String creator;
     private String amount;
+    private String alertID;
 
     private ApplicationManager mApplication;
     private List<String> responsibleUsers;
@@ -37,6 +39,7 @@ public class BillInfoActivity extends HomeBaseActivity {
         completedUsers = new ArrayList<String>();
 
         Bundle extras = getIntent().getExtras();
+
         title = "";
         info = "";
         creator = "";
@@ -45,6 +48,7 @@ public class BillInfoActivity extends HomeBaseActivity {
             info = extras.getString("info");
             creator = extras.getString("creator");
             amount = extras.getString("amount");
+            alertID = extras.getString("alertID");
         }
 
         BootstrapButton headerBar = (BootstrapButton) this.findViewById(R.id.bill_info_header_button);
@@ -107,10 +111,18 @@ public class BillInfoActivity extends HomeBaseActivity {
 
     public void onBillInfoConfirmClick(View view)
     {
-        String currUser = mApplication.parse.getCurrentUser().getUsername();
-        boolean removed = responsibleUsers.remove(currUser);
-        if (removed) {
-            completedUsers.add(currUser);
+        // if creator
+        if (creator.equals(mApplication.parse.getCurrentUser().getUsername())) {
+            // delete bill
+           // myObject.deleteInBackground();
+            mApplication.parse.getAlert(alertID, BillInfoActivity.this);
+
+        } else {  // not creator so just remove the one user from bill
+            String currUser = mApplication.parse.getCurrentUser().getUsername();
+            boolean removed = responsibleUsers.remove(currUser);
+            if (removed) {
+                completedUsers.add(currUser);
+            }
         }
 
         mApplication.parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, completedUsers, this);
@@ -159,4 +171,19 @@ public class BillInfoActivity extends HomeBaseActivity {
 
     }
 
+    @Override
+    public void onGetAlertSuccess(HomeBaseAlert alert){
+        mApplication.parse.deleteAlert(alert, this);
+    }
+
+    @Override
+    public void onDeleteAlertFailure(String error){
+        Log.d("Delete Alert","Failed: " + error);
+
+    }
+
+    @Override
+    public void onDeleteAlertSuccess(){
+        onBackPressed();
+    }
 }

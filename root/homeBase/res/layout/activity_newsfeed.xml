@@ -154,7 +154,7 @@
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"
-                            bootstrapbutton:bb_type="success"
+                            bootstrapbutton:bb_type="supply"
                             bootstrapbutton:bb_text_alignment="center"
                             bootstrapbutton:bb_icon_right="fa-chevron-right"
                             android:layout_gravity="center_horizontal"

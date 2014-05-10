@@ -80,6 +80,8 @@ public class BillCreateActivity extends HomeBaseActivity {
 
         //set up "responsible for" options
         userNames = mApplication.getHomeUsers();
+        // remove yourself from possible responsible users
+        userNames.remove(mApplication.parse.getCurrentUser().getUsername());
         usersObjects = mApplication.usersObjects;
         responsibleUsers = new HashMap<String, BootstrapButton>();
         selectedResponsibleUsers = new HashMap<BootstrapButton, Boolean>();
@@ -148,7 +150,15 @@ public class BillCreateActivity extends HomeBaseActivity {
             }
         }
 
-        mApplication.parse.createBill(title, type, desc, amount, responsibleUsers, creator, BillCreateActivity.this);
+        if (responsibleUsers.size() == 0){
+            if(userNames.size() < 1){
+                Toast.makeText(BillCreateActivity.this, "There are no users to assign the bill to", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(BillCreateActivity.this, "Please select an owner", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            mApplication.parse.createBill(title, type, desc, amount, responsibleUsers, creator, BillCreateActivity.this);
+        }
     }
 
     public void onBillCreateCancelClick(View view)
@@ -160,8 +170,9 @@ public class BillCreateActivity extends HomeBaseActivity {
     public void onCreateAlertSuccess(HomeBaseAlert alert)
     {
         createdAlert = alert;
-        int numUsers = createdAlert.getResponsibleUsers().size();
-        double splitAmount = (createdAlert.getAmount() / numUsers );
+        //int numUsers = createdAlert.getResponsibleUsers().size();
+        int numUsers = mApplication.getHomeUsers().size();
+        double splitAmount = (createdAlert.getAmount() / numUsers++ );
 
         Intent email = new Intent(Intent.ACTION_SEND);
         email.setType("message/rfc822");

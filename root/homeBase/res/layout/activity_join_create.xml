@@ -24,6 +24,7 @@
     <com.beardedhen.androidbootstrap.BootstrapEditText
         android:layout_width="fill_parent"
         android:layout_height="50dp"
+        android:layout_marginTop = "50dp"
         android:hint="Enter house admin"
         android:textColor="@android:color/black"
         android:imeOptions="actionNext"

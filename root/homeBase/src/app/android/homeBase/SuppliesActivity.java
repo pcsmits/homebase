@@ -102,6 +102,21 @@ public class SuppliesActivity extends HomeBaseActivity {
     @Override
     public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
+        if (alerts.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            layout.addView(myButton);
+
+            myButton.setText("No supplies are needed");
+            header.setText("Welcome");
+            header.setBootstrapType("supply");
+        }
+
         // Fetch all the bills from parse
         for (HomeBaseAlert alert : alerts)
         {
@@ -118,7 +133,7 @@ public class SuppliesActivity extends HomeBaseActivity {
             String information = alert.getDescription();
 
             headerBar.setText(title);
-            headerBar.setBootstrapType("success");
+            headerBar.setBootstrapType("supply");
             myButton.setText(information);
 
             supplyContainers.add(myButton);

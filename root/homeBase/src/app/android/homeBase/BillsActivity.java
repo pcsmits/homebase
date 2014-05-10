@@ -66,6 +66,7 @@ public class BillsActivity extends HomeBaseActivity {
         intent.putExtra("creator", billDescriptions.get(thisButton).getCreatorID());
         intent.putExtra("title", billDescriptions.get(thisButton).getTitle());
         intent.putExtra("info", billDescriptions.get(thisButton).getDescription());
+        intent.putExtra("alertID", billDescriptions.get(thisButton).getId());
         startActivity(intent);
     }
 
@@ -110,9 +111,44 @@ public class BillsActivity extends HomeBaseActivity {
         }
     }
 
+    public void onResponsibleFilterClick(View view)
+    {
+        selectedFilter.setEnabled(true);
+
+        BootstrapButton clicked = (BootstrapButton) view;
+        clicked.setBootstrapButtonEnabled(false);
+
+        selectedFilter = clicked;
+
+        layout.removeAllViews();
+        for(int i = 0; i < billContainers.size(); i++) {
+            BootstrapButton billContainer = billContainers.get(i);
+            for (int j = 0; j < billDescriptions.get(billContainer).getResponsibleUsers().size(); j++) {
+                if (billDescriptions.get(billContainer).getResponsibleUsers().get(j).equals(mApplication.parse.getCurrentUser().getUsername())) {
+                    layout.addView(billContainer);
+                }
+            }
+        }
+    }
+
     @Override
     public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
+        //if no alerts
+        if (alerts.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            layout.addView(myButton);
+
+            myButton.setText("You have no chores at this time");
+            header.setText("Welcome");
+        }
+
         // Fetch all the bills from parse
         for (HomeBaseAlert alert : alerts)
         {

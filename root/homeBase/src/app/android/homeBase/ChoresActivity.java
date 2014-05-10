@@ -32,10 +32,12 @@ public class ChoresActivity extends HomeBaseActivity {
         public String title;
         public String information;
         public String creator;
-        ChoreInfo(String title, String information, String creator) {
+        public ArrayList<String> responsibleUsers;
+        ChoreInfo(String title, String information, String creator, ArrayList<String> responsibleUsers) {
             this.title = title;
             this.information = information;
             this.creator = creator;
+            this.responsibleUsers = responsibleUsers;
         }
     }
 
@@ -130,14 +132,42 @@ public class ChoresActivity extends HomeBaseActivity {
 
     public void onResponsibleFilterClick(View view)
     {
+        selectedFilter.setEnabled(true);
 
+        BootstrapButton clicked = (BootstrapButton) view;
+        clicked.setBootstrapButtonEnabled(false);
+
+        selectedFilter = clicked;
+
+        layout.removeAllViews();
+        for(int i = 0; i < choreContainers.size(); i++) {
+            BootstrapButton choreContainer = choreContainers.get(i);
+            for (int j = 0; j < choreDescriptions.get(choreContainer).responsibleUsers.size(); j++) {
+                if (choreDescriptions.get(choreContainer).responsibleUsers.get(j).equals(mApplication.parse.getCurrentUser().getUsername().toString())) {
+                    layout.addView(choreContainer);
+                }
+            }
+        }
     }
 
     @Override
     public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
-        //this will eventually run through chores from parse and populate view accordingly, but this is a good framework
-        //for creating bootstrap buttons programatically from xml frameworks
+
+        if (alerts.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            layout.addView(myButton);
+
+            myButton.setText("You have no chores at this time");
+            header.setText("Welcome");
+        }
+
         for (int i = 0; i < alerts.size(); i++) {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
@@ -151,6 +181,7 @@ public class ChoresActivity extends HomeBaseActivity {
             String title = alerts.get(i).getTitle();
             String information = alerts.get(i).getDescription();
             String creator = alerts.get(i).getCreatorID();
+            ArrayList<String> responsibleUsers = new ArrayList<String>(alerts.get(i).getResponsibleUsers());
 
             headerBar.setText(title);
             headerBar.setBootstrapType("chore");
@@ -158,7 +189,7 @@ public class ChoresActivity extends HomeBaseActivity {
 
             choreContainers.add(myButton);
             choreTitles.add(title);
-            choreDescriptions.put(myButton, new ChoreInfo(title, information, creator));
+            choreDescriptions.put(myButton, new ChoreInfo(title, information, creator, responsibleUsers));
         }
     }
 
@@ -185,6 +216,7 @@ public class ChoresActivity extends HomeBaseActivity {
                 String title = alerts.get(i).getTitle();
                 String information = alerts.get(i).getDescription();
                 String creator = alerts.get(i).getCreatorID();
+                ArrayList<String> responsibleUsers = new ArrayList<String>(alerts.get(i).getResponsibleUsers());
 
                 headerBar.setText(title);
                 headerBar.setBootstrapType("chore");
@@ -192,7 +224,7 @@ public class ChoresActivity extends HomeBaseActivity {
 
                 choreContainers.add(myButton);
                 choreTitles.add(title);
-                choreDescriptions.put(myButton, new ChoreInfo(title, information, creator));
+                choreDescriptions.put(myButton, new ChoreInfo(title, information, creator, responsibleUsers));
             }
         }
     }

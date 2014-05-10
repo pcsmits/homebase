@@ -42,7 +42,7 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:layout_weight="1"
+                        android:layout_weight="0.6"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_margin="0dp">
@@ -51,7 +51,7 @@
                             android:id="@id/bills_allFilter_button"
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:text="@string/bills_viewActive_button"
+                            android:text="All"
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"
@@ -67,7 +67,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_weight="1"
+                        android:layout_weight="0.8"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="0dp">
@@ -75,7 +75,7 @@
                         <com.beardedhen.androidbootstrap.BootstrapButton
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:text="@string/bills_viewMine_button"
+                            android:text="Created"
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"
@@ -99,7 +99,7 @@
                         <com.beardedhen.androidbootstrap.BootstrapButton
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:text="@string/bills_viewClosed_button"
+                            android:text="Responsible"
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"
@@ -108,13 +108,14 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true">
+                            android:layout_alignParentStart="true"
+                            android:onClick="onResponsibleFilterClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
 
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_weight="0.97"
+                        android:layout_weight="0.8"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="0dp">

@@ -111,6 +111,19 @@ public class NewsFeedActivity extends HomeBaseActivity {
     public void onGetAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
     {
         LinearLayout layout = (LinearLayout) findViewById(R.id.newsfeed_newsfeedItem_container);
+        if (alerts.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
+            buttonCont.removeView(myButton);
+            layout.addView(myButton);
+            myButton.setText("You have no alerts at this time");
+
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
+            header.setText("Welcome");
+            return;
+        }
 
         for (int i = 0; i < alerts.size(); i++) {
             alertTitles.add(alerts.get(i).getTitle());
