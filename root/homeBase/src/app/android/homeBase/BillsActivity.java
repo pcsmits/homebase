@@ -5,6 +5,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -74,7 +76,7 @@ public class BillsActivity extends HomeBaseActivity {
     {
         Intent intent = new Intent(BillsActivity.this, BillCreateActivity.class);
         intent.putExtra("caller", myClassName);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     public void onAllFilterClick(View view)
@@ -185,8 +187,30 @@ public class BillsActivity extends HomeBaseActivity {
     @Override
     public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
-        for (HomeBaseAlert alert: alerts) {
-            if (!billIDs.contains(alert.getId())) {
+        layout.removeAllViews();
+        List<BootstrapButton> toDelete = new LinkedList<BootstrapButton>();
+        for(BootstrapButton existing : billDescriptions.keySet())
+        {
+            HomeBaseAlert existingAlert = billDescriptions.get(existing);
+            if(!alerts.contains(existingAlert))
+            {
+                toDelete.add(existing);
+            }
+        }
+
+        for(BootstrapButton deleted : toDelete)
+        {
+            billIDs.remove(billDescriptions.get(deleted).getId());
+            billContainers.remove(deleted);
+            billDescriptions.remove(deleted);
+
+        }
+
+        int pointer = 0;
+        for (HomeBaseAlert alert : alerts)
+        {
+            if (!billIDs.contains(alert.getId()))
+            {
                 LayoutInflater inflater = LayoutInflater.from(this);
                 LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
@@ -194,20 +218,26 @@ public class BillsActivity extends HomeBaseActivity {
                 BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
 
                 buttonCont.removeView(myButton);
-                layout.addView(myButton);
 
                 String title = alert.getTitle();
-                String information = alert.getDescription() + " [" + alert.getAmount() + "]";
+                String information = alert.getDescription() + " [$" + alert.getAmount() + "]";
                 String creator = alert.getCreatorID();
 
                 headerBar.setText(title);
                 headerBar.setBootstrapType("bill");
                 myButton.setText(information);
 
-                billContainers.add(myButton);
+                billContainers.add(pointer, myButton);
+                pointer++;
                 billDescriptions.put(myButton, alert);
                 billIDs.add(alert.getId());
             }
+        }
+
+        for(int i = 0; i < billContainers.size(); i++)
+        {
+            BootstrapButton billContainer = billContainers.get(i);
+            layout.addView(billContainer);
         }
     }
 
