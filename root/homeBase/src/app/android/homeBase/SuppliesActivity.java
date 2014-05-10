@@ -114,7 +114,7 @@ public class SuppliesActivity extends HomeBaseActivity {
 
             myButton.setText("No supplies are needed");
             header.setText("Welcome");
-            header.setBootstrapType("success");
+            header.setBootstrapType("supply");
         }
 
         // Fetch all the bills from parse
@@ -133,7 +133,7 @@ public class SuppliesActivity extends HomeBaseActivity {
             String information = alert.getDescription();
 
             headerBar.setText(title);
-            headerBar.setBootstrapType("success");
+            headerBar.setBootstrapType("supply");
             myButton.setText(information);
 
             supplyContainers.add(myButton);
