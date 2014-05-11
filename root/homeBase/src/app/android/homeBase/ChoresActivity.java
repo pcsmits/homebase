@@ -251,7 +251,7 @@ public class ChoresActivity extends HomeBaseActivity {
     {
         layout.removeAllViews();
 
-        if (choreContainers.size() == 0){
+        if (alerts.size() == 0){
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
