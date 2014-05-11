@@ -84,12 +84,12 @@
     <color name="bbutton_chore_disabled">#ff73dae1</color>
     <color name="bbutton_chore_disabled_edge">#ff73dae1</color>
 
-    <color name="bbutton_supply">#ff981bd7</color>
-    <color name="bbutton_supply_edge">#ff981bd7</color>
-    <color name="bbutton_supply_pressed">#ffaa4fd7</color>
-    <color name="bbutton_supply_pressed_edge">#ffaa4fd7</color>
-    <color name="bbutton_supply_disabled">#ffaa4fd7</color>
-    <color name="bbutton_supply_disabled_edge">#ffaa4fd7</color>
+    <color name="bbutton_supply">#ffd7744f</color>
+    <color name="bbutton_supply_edge">#ffd7744f</color>
+    <color name="bbutton_supply_pressed">#ffd78e77</color>
+    <color name="bbutton_supply_pressed_edge">#ffd78e77</color>
+    <color name="bbutton_supply_disabled">#ffd78e77</color>
+    <color name="bbutton_supply_disabled_edge">#ffd78e77</color>
 	
 	
 </resources>

@@ -7,10 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.View.OnClickListener;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.BootstrapEditText;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class SuppliesActivity extends HomeBaseActivity {
@@ -23,6 +31,7 @@ public class SuppliesActivity extends HomeBaseActivity {
     private BootstrapButton selectedFilter;
     boolean startCalled = false;
     private BootstrapButton clickedButton;
+    private AlertDialog createDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +63,6 @@ public class SuppliesActivity extends HomeBaseActivity {
             startCalled = false;
             return;
         }
-
         mApplication.parse.refreshAlerts(this, "Supply");
     }
 
@@ -68,6 +76,24 @@ public class SuppliesActivity extends HomeBaseActivity {
         selectedFilter = clicked;
 
         layout.removeAllViews();
+
+        if (supplyContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("No supplies are needed");
+            header.setText("Welcome");
+            header.setBootstrapType("supply");
+            return;
+        }
+
         for(int i = 0; i < supplyContainers.size(); i++) {
             BootstrapButton supplyContainer = supplyContainers.get(i);
             layout.addView(supplyContainer);
@@ -76,9 +102,67 @@ public class SuppliesActivity extends HomeBaseActivity {
 
     public void onSupplyAddClick(View view)
     {
-        Intent intent = new Intent(SuppliesActivity.this, SupplyCreateActivity.class);
-        intent.putExtra("caller", myClassName);
-        startActivity(intent);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        final HomeBaseActivity wrappingInstance = this;
+
+        // Get the layout inflater
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        alertDialogBuilder.setView(inflater.inflate(R.layout.activity_supply_create, null, false));
+
+        // set dialog message
+        alertDialogBuilder
+                .setCancelable(false);
+
+
+
+        // create alert dialog
+        createDialog = alertDialogBuilder.create();
+
+        // show it
+        createDialog.show();
+
+        BootstrapButton cancel = (BootstrapButton)createDialog.findViewById(R.id.supplyInfo_cancel_button);
+        cancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close dialog
+                createDialog.dismiss();
+            }
+        });
+
+        BootstrapButton submit = (BootstrapButton)createDialog.findViewById(R.id.supplyInfo_confirm_button);
+
+        final BootstrapEditText headerBar = (BootstrapEditText) createDialog.findViewById(R.id.supplyCreate_header_field);
+        final BootstrapEditText infoContainer = (BootstrapEditText) createDialog.findViewById(R.id.supplyCreate_body_field);
+
+        BootstrapButton creatorField = (BootstrapButton) createDialog.findViewById(R.id.supplyCreate_creator_field);
+        creatorField.setText(mApplication.parse.getCurrentUser().getUsername());
+
+        submit.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = headerBar.getText().toString();
+                String type = "Supply";
+                String desc = infoContainer.getText().toString();
+
+                // Make sure everything is filled out
+                List<String> fields = new LinkedList<String>(Arrays.asList(title, type, desc));
+                for(String field : fields)
+                {
+                    if(field.isEmpty())
+                    {
+                        Toast.makeText(wrappingInstance, "Please fill out all fields", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
+                String creator = mApplication.parse.getCurrentUser().getUsername();
+                List<String> placeHolder = new LinkedList<String>();
+                mApplication.parse.createAlert(title, type, desc, placeHolder, creator, wrappingInstance);
+            }
+        });
     }
 
     public void onCreatedFilterClick(View view)
@@ -91,6 +175,24 @@ public class SuppliesActivity extends HomeBaseActivity {
         selectedFilter = clicked;
 
         layout.removeAllViews();
+
+        if (supplyContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("No supplies are needed");
+            header.setText("Welcome");
+            header.setBootstrapType("supply");
+            return;
+        }
+
         for(int i = 0; i < supplyContainers.size(); i++) {
             BootstrapButton supplyContainer = supplyContainers.get(i);
             if (supplyDescriptions.get(supplyContainer).getCreatorID().equals(mApplication.parse.getCurrentUser().getUsername())) {
@@ -110,11 +212,13 @@ public class SuppliesActivity extends HomeBaseActivity {
             BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
 
             buttonCont.removeView(myButton);
+            myButton.setClickable(false);
             layout.addView(myButton);
 
             myButton.setText("No supplies are needed");
             header.setText("Welcome");
             header.setBootstrapType("supply");
+            return;
         }
 
         // Fetch all the bills from parse
@@ -153,6 +257,23 @@ public class SuppliesActivity extends HomeBaseActivity {
     @Override
     public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
+        if (supplyContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("No supplies are needed");
+            header.setText("Welcome");
+            header.setBootstrapType("supply");
+            return;
+        }
+
         for (HomeBaseAlert alert: alerts) {
             if (!supplyIDs.contains(alert.getId())) {
                 LayoutInflater inflater = LayoutInflater.from(this);
@@ -225,5 +346,19 @@ public class SuppliesActivity extends HomeBaseActivity {
     public void onDeleteAlertSuccess()
     {
         //finish();
+    }
+
+    @Override
+    public void onCreateAlertSuccess(HomeBaseAlert alert)
+    {
+        // Close dialog
+        createDialog.dismiss();
+        mApplication.parse.refreshAlerts(this, "Supply");
+    }
+
+    @Override
+    public void onCreateAlertFailure(String e)
+    {
+        Toast.makeText(SuppliesActivity.this, e, Toast.LENGTH_LONG).show();
     }
 }
