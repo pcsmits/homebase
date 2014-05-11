@@ -31,6 +31,7 @@ public class BillCreateActivity extends HomeBaseActivity {
     private BootstrapEditText headerBar;
     private BootstrapEditText infoContainer;
     private BootstrapEditText dollarAmountField;
+    private BootstrapEditText centsAmountField;
     private BootstrapButton creatorField;
 
     private ArrayList<String> userNames;
@@ -87,6 +88,7 @@ public class BillCreateActivity extends HomeBaseActivity {
         selectedResponsibleUsers = new HashMap<BootstrapButton, Boolean>();
 
         for (int i = 0; i < userNames.size(); i++) {
+            Log.d("Users", userNames.get(i));
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout template = (LinearLayout) inflater.inflate(R.layout.user_select_template, null, false);
             RelativeLayout btnContainer = (RelativeLayout) template.findViewById(R.id.userSelection_template_container);
@@ -103,6 +105,7 @@ public class BillCreateActivity extends HomeBaseActivity {
         creatorField.setText(mApplication.parse.getCurrentUser().getUsername());
 
         dollarAmountField = (BootstrapEditText) this.findViewById(R.id.billCreate_dollars_field);
+        centsAmountField = (BootstrapEditText) this.findViewById(R.id.billCreate_cents_field);
     }
 
     public void onUserSelected(View view)
@@ -123,6 +126,7 @@ public class BillCreateActivity extends HomeBaseActivity {
         String type = k_alertType;
         String desc = infoContainer.getText().toString();
         String dollarAmountStr = "0";
+        String centsAmountStr = ".00";
 
         // Make sure everything is filled out
         List<String> fields = new LinkedList<String>(Arrays.asList(title, type, desc));
@@ -138,8 +142,15 @@ public class BillCreateActivity extends HomeBaseActivity {
         if (!dollarAmountField.getText().toString().equals("")) {
             dollarAmountStr = dollarAmountField.getText().toString();
         }
+        if (!centsAmountField.getText().toString().equals("")) {
+            centsAmountStr = centsAmountField.getText().toString();
+        }
+        String total = dollarAmountStr+"."+centsAmountStr;
 
-        Double amount = Double.parseDouble(dollarAmountStr);
+        Double amount = Double.parseDouble(total);
+        //round to 2 decimals
+        amount = (double) Math.round(amount * 100) / 100;
+
         String creator = mApplication.parse.getCurrentUser().getUsername();
         List<String> responsibleUsers = new LinkedList<String>();
 
