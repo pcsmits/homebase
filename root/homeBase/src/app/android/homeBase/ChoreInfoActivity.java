@@ -2,6 +2,7 @@ package app.android.homeBase;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.graphics.Point;
@@ -19,6 +20,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
     private String title;
     private String info;
     private String creator;
+    private String alertID;
 
     private ApplicationManager mApplication;
     private List <String> responsibleUsers;
@@ -43,6 +45,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
             title = extras.getString("title");
             info = extras.getString("info");
             creator = extras.getString("creator");
+            alertID = extras.getString("alertID");
         }
 
         BootstrapButton headerBar = (BootstrapButton) this.findViewById(R.id.chore_info_header_button);
@@ -90,6 +93,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
         } else if (responsible) {
             btn.setText("Mark Completed");
         } else {
+            btn.setText("");
             btn.setEnabled(false);
         }
     }
@@ -103,10 +107,18 @@ public class ChoreInfoActivity extends HomeBaseActivity {
 
     public void onChoreInfoConfirmClick(View view)
     {
-        String currUser = mApplication.parse.getCurrentUser().getUsername();
-        boolean removed = responsibleUsers.remove(currUser);
-        if (removed) {
-            completedUsers.add(currUser);
+        // if creator
+        if (creator.equals(mApplication.parse.getCurrentUser().getUsername())) {
+            // delete bill
+            // myObject.deleteInBackground();
+            mApplication.parse.getAlert(alertID, ChoreInfoActivity.this);
+
+        } else {
+            String currUser = mApplication.parse.getCurrentUser().getUsername();
+            boolean removed = responsibleUsers.remove(currUser);
+            if (removed) {
+                completedUsers.add(currUser);
+            }
         }
 
         mApplication.parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, completedUsers, this);
@@ -153,5 +165,21 @@ public class ChoreInfoActivity extends HomeBaseActivity {
     @Override
     public void onGetAlertCompletedUsersFailure(String e) {
 
+    }
+
+    @Override
+    public void onGetAlertSuccess(HomeBaseAlert alert){
+        mApplication.parse.deleteAlert(alert, this);
+    }
+
+    @Override
+    public void onDeleteAlertFailure(String error){
+        Log.d("Delete Alert", "Failed: " + error);
+    }
+
+    @Override
+    public void onDeleteAlertSuccess()
+    {
+        finish();
     }
 }

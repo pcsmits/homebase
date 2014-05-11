@@ -101,6 +101,7 @@ public class BillInfoActivity extends HomeBaseActivity {
         } else if (responsible) {
             btn.setText("Mark Completed");
         } else {
+            btn.setText("");
             btn.setEnabled(false);
         }
     }

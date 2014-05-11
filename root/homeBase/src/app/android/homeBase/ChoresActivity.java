@@ -20,7 +20,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 public class ChoresActivity extends HomeBaseActivity {
     private ArrayList<BootstrapButton> choreContainers;
     private ArrayList<String> choreTitles;
-    private HashMap<BootstrapButton, ChoreInfo> choreDescriptions;
+    private HashMap<BootstrapButton, HomeBaseAlert> choreDescriptions;
     private LinearLayout layout;
     private boolean startCalled = false;
 
@@ -54,7 +54,7 @@ public class ChoresActivity extends HomeBaseActivity {
         layout.removeAllViews();
         choreContainers = new ArrayList<BootstrapButton>();
         choreTitles = new ArrayList<String>();
-        choreDescriptions = new HashMap<BootstrapButton, ChoreInfo>();
+        choreDescriptions = new HashMap<BootstrapButton, HomeBaseAlert>();
 
         startCalled = true;
         selectedFilter = (BootstrapButton) findViewById(R.id.chores_allFilter_button);
@@ -81,9 +81,10 @@ public class ChoresActivity extends HomeBaseActivity {
 
         Intent intent = new Intent(ChoresActivity.this, ChoreInfoActivity.class);
         intent.putExtra("caller", myClassName);
-        intent.putExtra("title", choreDescriptions.get(thisButton).title);
-        intent.putExtra("info", choreDescriptions.get(thisButton).information);
-        intent.putExtra("creator", choreDescriptions.get(thisButton).creator);
+        intent.putExtra("title", choreDescriptions.get(thisButton).getTitle());
+        intent.putExtra("info", choreDescriptions.get(thisButton).getDescription());
+        intent.putExtra("creator", choreDescriptions.get(thisButton).getCreatorID());
+        intent.putExtra("alertID", choreDescriptions.get(thisButton).getId());
         startActivity(intent);
     }
 
@@ -124,7 +125,7 @@ public class ChoresActivity extends HomeBaseActivity {
         layout.removeAllViews();
         for(int i = 0; i < choreContainers.size(); i++) {
             BootstrapButton choreContainer = choreContainers.get(i);
-            if (choreDescriptions.get(choreContainer).creator.equals(mApplication.parse.getCurrentUser().getUsername().toString())) {
+            if (choreDescriptions.get(choreContainer).getCreatorID().equals(mApplication.parse.getCurrentUser().getUsername().toString())) {
                 layout.addView(choreContainer);
             }
         }
@@ -142,8 +143,8 @@ public class ChoresActivity extends HomeBaseActivity {
         layout.removeAllViews();
         for(int i = 0; i < choreContainers.size(); i++) {
             BootstrapButton choreContainer = choreContainers.get(i);
-            for (int j = 0; j < choreDescriptions.get(choreContainer).responsibleUsers.size(); j++) {
-                if (choreDescriptions.get(choreContainer).responsibleUsers.get(j).equals(mApplication.parse.getCurrentUser().getUsername().toString())) {
+            for (int j = 0; j < choreDescriptions.get(choreContainer).getResponsibleUsers().size(); j++) {
+                if (choreDescriptions.get(choreContainer).getResponsibleUsers().get(j).equals(mApplication.parse.getCurrentUser().getUsername().toString())) {
                     layout.addView(choreContainer);
                 }
             }
@@ -189,7 +190,7 @@ public class ChoresActivity extends HomeBaseActivity {
 
             choreContainers.add(myButton);
             choreTitles.add(title);
-            choreDescriptions.put(myButton, new ChoreInfo(title, information, creator, responsibleUsers));
+            choreDescriptions.put(myButton, alerts.get(i));
         }
     }
 
@@ -202,6 +203,23 @@ public class ChoresActivity extends HomeBaseActivity {
     @Override
     public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
+        layout.removeAllViews();
+
+        ArrayList<BootstrapButton> toDelete = new ArrayList<BootstrapButton>();
+        for (int j = 0; j < choreContainers.size(); j++) {
+            if (!alerts.contains(choreDescriptions.get(j))) {
+                toDelete.add(choreContainers.get(j));
+            }
+        }
+
+        for(BootstrapButton deleted : toDelete)
+        {
+            choreTitles.remove(choreDescriptions.get(deleted).getTitle());
+            choreContainers.remove(deleted);
+            choreDescriptions.remove(deleted);
+
+        }
+
         for (int i = 0; i < alerts.size(); i++) {
             if (!choreTitles.contains(alerts.get(i).getTitle())) {
                 LayoutInflater inflater = LayoutInflater.from(this);
@@ -211,7 +229,7 @@ public class ChoresActivity extends HomeBaseActivity {
                 BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
 
                 buttonCont.removeView(myButton);
-                layout.addView(myButton);
+                //layout.addView(myButton);
 
                 String title = alerts.get(i).getTitle();
                 String information = alerts.get(i).getDescription();
@@ -224,8 +242,12 @@ public class ChoresActivity extends HomeBaseActivity {
 
                 choreContainers.add(myButton);
                 choreTitles.add(title);
-                choreDescriptions.put(myButton, new ChoreInfo(title, information, creator, responsibleUsers));
+                choreDescriptions.put(myButton, alerts.get(i));
             }
+        }
+
+        for (int k = 0; k < choreContainers.size(); k++) {
+            layout.addView(choreContainers.get(k));
         }
     }
 
