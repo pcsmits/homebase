@@ -27,11 +27,8 @@ public class ChoresActivity extends HomeBaseActivity {
     private HashMap<BootstrapButton, HomeBaseAlert> choreDescriptions;
     private LinearLayout layout;
     private boolean startCalled = false;
-
     private ApplicationManager mApplication;
-
     private BootstrapButton selectedFilter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +99,23 @@ public class ChoresActivity extends HomeBaseActivity {
         selectedFilter = clicked;
 
         layout.removeAllViews();
+
+        if (choreContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("You have no chores at this time");
+            header.setText("Welcome");
+            return;
+        }
+
         for(int i = 0; i < choreContainers.size(); i++) {
             BootstrapButton choreContainer = choreContainers.get(i);
             layout.addView(choreContainer);
@@ -119,6 +133,23 @@ public class ChoresActivity extends HomeBaseActivity {
         selectedFilter = clicked;
 
         layout.removeAllViews();
+
+        if (choreContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("You have no chores at this time");
+            header.setText("Welcome");
+            return;
+        }
+
         for(int i = 0; i < choreContainers.size(); i++) {
             BootstrapButton choreContainer = choreContainers.get(i);
             if (choreDescriptions.get(choreContainer).getCreatorID().equals(mApplication.parse.getCurrentUser().getUsername().toString())) {
@@ -137,6 +168,23 @@ public class ChoresActivity extends HomeBaseActivity {
         selectedFilter = clicked;
 
         layout.removeAllViews();
+
+        if (choreContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("You have no chores at this time");
+            header.setText("Welcome");
+            return;
+        }
+
         for(int i = 0; i < choreContainers.size(); i++) {
             BootstrapButton choreContainer = choreContainers.get(i);
             for (int j = 0; j < choreDescriptions.get(choreContainer).getResponsibleUsers().size(); j++) {
@@ -159,10 +207,12 @@ public class ChoresActivity extends HomeBaseActivity {
             BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
 
             buttonCont.removeView(myButton);
+            myButton.setClickable(false);
             layout.addView(myButton);
 
             myButton.setText("You have no chores at this time");
             header.setText("Welcome");
+            return;
         } else {
             for (int i = 0; i < alerts.size(); i++) {
                 LayoutInflater inflater = LayoutInflater.from(this);
@@ -200,6 +250,22 @@ public class ChoresActivity extends HomeBaseActivity {
     public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
         layout.removeAllViews();
+
+        if (choreContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("You have no chores at this time");
+            header.setText("Welcome");
+            return;
+        }
 
         ArrayList<BootstrapButton> toDelete = new ArrayList<BootstrapButton>();
         for (int j = 0; j < choreContainers.size(); j++) {

@@ -94,6 +94,24 @@ public class BillsActivity extends HomeBaseActivity {
         selectedFilter = clicked;
 
         layout.removeAllViews();
+
+        if (billContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("You have no bills at this time");
+            header.setText("Welcome");
+            header.setBootstrapType("bill");
+            return;
+        }
+
         for(int i = 0; i < billContainers.size(); i++) {
             BootstrapButton billContainer = billContainers.get(i);
             layout.addView(billContainer);
@@ -110,6 +128,24 @@ public class BillsActivity extends HomeBaseActivity {
         selectedFilter = clicked;
 
         layout.removeAllViews();
+
+        if (billContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("You have no bills at this time");
+            header.setText("Welcome");
+            header.setBootstrapType("bill");
+            return;
+        }
+
         for(int i = 0; i < billContainers.size(); i++) {
             BootstrapButton billContainer = billContainers.get(i);
             if (billDescriptions.get(billContainer).getCreatorID().equals(mApplication.parse.getCurrentUser().getUsername())) {
@@ -128,6 +164,24 @@ public class BillsActivity extends HomeBaseActivity {
         selectedFilter = clicked;
 
         layout.removeAllViews();
+
+        if (billContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("You have no bills at this time");
+            header.setText("Welcome");
+            header.setBootstrapType("bill");
+            return;
+        }
+
         for(int i = 0; i < billContainers.size(); i++) {
             BootstrapButton billContainer = billContainers.get(i);
             for (int j = 0; j < billDescriptions.get(billContainer).getResponsibleUsers().size(); j++) {
@@ -151,11 +205,13 @@ public class BillsActivity extends HomeBaseActivity {
             BootstrapButton header = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
 
             buttonCont.removeView(myButton);
+            myButton.setClickable(false);
             layout.addView(myButton);
 
             myButton.setText("You have no chores at this time");
             header.setText("Welcome");
             header.setBootstrapType("bill");
+            return;
         } else {
             // Fetch all the bills from parse
             for (HomeBaseAlert alert : alerts)
@@ -195,6 +251,24 @@ public class BillsActivity extends HomeBaseActivity {
     public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
         layout.removeAllViews();
+
+        if (billContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("You have no bills at this time");
+            header.setText("Welcome");
+            header.setBootstrapType("bill");
+            return;
+        }
+
         List<BootstrapButton> toDelete = new LinkedList<BootstrapButton>();
         for(BootstrapButton existing : billDescriptions.keySet())
         {
