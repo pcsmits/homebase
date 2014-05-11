@@ -143,9 +143,4 @@ public class ApplicationManager extends Application {
         house = null;
     }
 
-    public boolean isAdmin()
-    {
-        return ParseUser.getCurrentUser().getObjectId().equals(house.getAdmin());
-    }
-
 }
