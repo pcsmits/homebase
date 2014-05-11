@@ -162,7 +162,7 @@ public class BillInfoActivity extends HomeBaseActivity {
     @Override
     public void onUpdateAlertSuccess(HomeBaseAlert alert)
     {
-        this.onGetAlertResponsibleUsersSuccess(alert.getResponsibleUsers());
+        finish();
     }
 
     public void onBillInfoCancelClick(View view)
@@ -216,7 +216,6 @@ public class BillInfoActivity extends HomeBaseActivity {
     @Override
     public void onDeleteAlertFailure(String error){
         Log.d("Delete Alert","Failed: " + error);
-
     }
 
     @Override
