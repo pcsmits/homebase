@@ -45,6 +45,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
         inflateProgressBar();
 
         feedContainerLayout.addView(loadingProgress);
+        refreshHouse();
     }
 
     @Override
@@ -58,6 +59,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
         }
 
         mApplication.parse.refreshAlerts(this);
+        refreshHouse();
     }
 
     public void onMenuButtonClick(View view)
@@ -275,5 +277,18 @@ public class NewsFeedActivity extends HomeBaseActivity {
     public void onBackPressed()
     {
         super.onBackPressedEndpoint();
+    }
+
+    void refreshHouse()
+    {
+        if (mApplication.hasHouse()) {
+            mApplication.parse.updateHouse(mApplication.getHouse(), NewsFeedActivity.this);
+        }
+    }
+
+    @Override
+    public void onUpdateHouseSuccess(HomeBaseHouse house)
+    {
+        mApplication.setHouse(house);
     }
 }
