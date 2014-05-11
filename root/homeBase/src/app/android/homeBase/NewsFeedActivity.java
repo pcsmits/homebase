@@ -8,11 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class NewsFeedActivity extends HomeBaseActivity {
-    public ArrayList<String> alertTitles;
+    private ArrayList<BootstrapButton> newsFeedContainers = new ArrayList<BootstrapButton>();
+    private ArrayList<HomeBaseAlert> newsFeedAlerts = new ArrayList<HomeBaseAlert>();
+    private HashMap<BootstrapButton, HomeBaseAlert> buttonToAlertMap = new HashMap<BootstrapButton, HomeBaseAlert>();
+    private HashMap<HomeBaseAlert, BootstrapButton> alertToButtonMap = new HashMap<HomeBaseAlert, BootstrapButton>();
+    private LinearLayout feedContainerLayout;
     private LinearLayout globalLayout;
     private boolean expand = true;
     private boolean startCalled = false;
@@ -29,10 +34,10 @@ public class NewsFeedActivity extends HomeBaseActivity {
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_newsfeed);
 
-        alertTitles = new ArrayList<String>();
-
         globalLayout = (LinearLayout)this.findViewById(R.id.newsfeed_menu_container);
         menuHeight = globalLayout.getLayoutParams().height;
+
+        feedContainerLayout = (LinearLayout) findViewById(R.id.newsfeed_newsfeedItem_container);
 
         startCalled = true;
         mApplication.parse.getAlerts(NewsFeedActivity.this);
@@ -110,14 +115,13 @@ public class NewsFeedActivity extends HomeBaseActivity {
     @Override
     public void onGetAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
     {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.newsfeed_newsfeedItem_container);
         if (alerts.size() == 0){
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
 
             BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
             buttonCont.removeView(myButton);
-            layout.addView(myButton);
+            feedContainerLayout.addView(myButton);
             myButton.setText("You have no alerts at this time");
 
             BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
@@ -126,14 +130,19 @@ public class NewsFeedActivity extends HomeBaseActivity {
         }
 
         for (int i = 0; i < alerts.size(); i++) {
-            alertTitles.add(alerts.get(i).getTitle());
+            newsFeedAlerts.add(alerts.get(i));
 
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
 
             BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
+
+            newsFeedContainers.add(myButton);
+            alertToButtonMap.put(alerts.get(i), myButton);
+            buttonToAlertMap.put(myButton, alerts.get(i));
+
             buttonCont.removeView(myButton);
-            layout.addView(myButton);
+            feedContainerLayout.addView(myButton);
             String text = alerts.get(i).getDescription();
             myButton.setText(text);
 
@@ -144,7 +153,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
                 header.setBootstrapType("bill");
             }
             else if (alerts.get(i).getType().equals("Supply")) {
-                header.setBootstrapType("success");
+                header.setBootstrapType("supply");
             }
         }
     }
@@ -152,18 +161,38 @@ public class NewsFeedActivity extends HomeBaseActivity {
     @Override
     public void onUpdateAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
     {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.newsfeed_newsfeedItem_container);
+        feedContainerLayout.removeAllViews();
+
+        ArrayList<BootstrapButton> toDelete = new ArrayList<BootstrapButton>();
+        for (int j = 0; j < newsFeedAlerts.size(); j++) {
+            if (!alerts.contains(newsFeedAlerts.get(j))) {
+                toDelete.add(alertToButtonMap.get(j));
+            }
+        }
+
+        for(BootstrapButton deleted : toDelete)
+        {
+            alertToButtonMap.remove(buttonToAlertMap.get(deleted));
+            newsFeedAlerts.remove(buttonToAlertMap.get(deleted));
+            newsFeedContainers.remove(deleted);
+            buttonToAlertMap.remove(deleted);
+        }
 
         for (int i = 0; i < alerts.size(); i++) {
-            if (!alertTitles.contains(alerts.get(i).getTitle())) {
-                alertTitles.add(alerts.get(i).getTitle());
+            if (!newsFeedAlerts.contains(alerts.get(i))) {
+                newsFeedAlerts.add(alerts.get(i));
 
                 LayoutInflater inflater = LayoutInflater.from(this);
                 LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
 
                 BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
+
+                newsFeedContainers.add(myButton);
+                alertToButtonMap.put(alerts.get(i), myButton);
+                buttonToAlertMap.put(myButton, alerts.get(i));
+
                 buttonCont.removeView(myButton);
-                layout.addView(myButton);
+
                 String text = alerts.get(i).getDescription();
                 myButton.setText(text);
 
@@ -172,9 +201,14 @@ public class NewsFeedActivity extends HomeBaseActivity {
                 if (alerts.get(i).getType().equals("Bill")) {
                     header.setBootstrapType("bill");
                 } else if (alerts.get(i).getType().equals("Supply")) {
-                    header.setBootstrapType("success");
+                    header.setBootstrapType("supply");
                 }
             }
+        }
+
+        for (int k = 0; k < newsFeedAlerts.size(); k++) {
+            feedContainerLayout.addView(alertToButtonMap.get(newsFeedAlerts.get(k)));
+            Log.d("News Feed Alerts: ", "" + newsFeedAlerts.size());
         }
     }
 

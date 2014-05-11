@@ -550,7 +550,7 @@ public class ParseBase
                 if (e == null) {
                     ArrayList<HomeBaseAlert> alertList = new ArrayList<HomeBaseAlert>();
                     for (int i = 0; i < objects.size(); i++) {
-                        HomeBaseAlert alert = buildAlert(objects.get(i), "Default");
+                        HomeBaseAlert alert = buildAlert(objects.get(i), objects.get(i).get("type").toString());
                         alertList.add(alert);
                     }
                     caller.onGetAlertListSuccess(alertList);
@@ -595,7 +595,7 @@ public class ParseBase
                 if (e == null) {
                     ArrayList<HomeBaseAlert> alertList = new ArrayList<HomeBaseAlert>();
                     for (int i = 0; i < objects.size(); i++) {
-                        HomeBaseAlert alert = buildAlert(objects.get(i), "Default");
+                        HomeBaseAlert alert = buildAlert(objects.get(i), objects.get(i).get("type").toString());
                         alertList.add(alert);
                     }
                     caller.onUpdateAlertListSuccess(alertList);

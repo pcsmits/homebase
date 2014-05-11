@@ -28,18 +28,6 @@ public class ChoresActivity extends HomeBaseActivity {
 
     private BootstrapButton selectedFilter;
 
-    class ChoreInfo {
-        public String title;
-        public String information;
-        public String creator;
-        public ArrayList<String> responsibleUsers;
-        ChoreInfo(String title, String information, String creator, ArrayList<String> responsibleUsers) {
-            this.title = title;
-            this.information = information;
-            this.creator = creator;
-            this.responsibleUsers = responsibleUsers;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

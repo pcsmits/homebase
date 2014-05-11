@@ -1,12 +1,28 @@
 package app.android.homeBase;
 
 import java.util.List;
+import android.util.Log;
 
 /**
  * Created by kyle on 3/24/14.
  * Generic alert class for wrapping Chores, Messages, Groceries
  */
 public class HomeBaseAlert {
+
+    @Override
+    public boolean equals(Object object)
+    {
+        boolean sameSame = false;
+
+        if (object != null && object instanceof HomeBaseAlert)
+        {
+            HomeBaseAlert comparedTo = (HomeBaseAlert) object;
+            if(this.id.equals(comparedTo.id)) sameSame = true;
+        }
+
+        //Log.d("Comparing and returning: ", "" + sameSame);
+        return sameSame;
+    }
 
     // These can only be set on creation
     private String title;
