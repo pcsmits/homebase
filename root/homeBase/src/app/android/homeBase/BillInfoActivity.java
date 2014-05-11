@@ -125,32 +125,6 @@ public class BillInfoActivity extends HomeBaseActivity {
 
         } else {  // not creator so just remove the one user from bill
             String currUser = mApplication.parse.getCurrentUser().getUsername();
-
-            int numUsers = mApplication.getHomeUsers().size() + 1;
-            double splitAmount = (Double.parseDouble(amount) / numUsers );
-            if(splitAmount < 1.0)
-            {
-                splitAmount = 1.0;
-            }
-
-            DecimalFormat decimalFormat = new DecimalFormat("#.##");
-            String amountString = decimalFormat.format(splitAmount);
-
-
-            Intent email = new Intent(Intent.ACTION_SEND);
-            email.setType("message/rfc822");
-
-            String[] emailsArr = {mApplication.usersObjects.get(creator).getEmail()};
-
-            email.putExtra(Intent.EXTRA_EMAIL, emailsArr);
-            email.putExtra(Intent.EXTRA_CC, new String[]{"cash@square.com"});
-            email.putExtra(Intent.EXTRA_SUBJECT, "$"+amountString);
-            email.putExtra(Intent.EXTRA_TEXT, "Payment for: "+title+"\n"+info);
-            try {
-                startActivity(Intent.createChooser(email, "Send mail..."));
-            } catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(BillInfoActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-            }
             boolean removed = responsibleUsers.remove(currUser);
             if (removed) {
                 completedUsers.add(currUser);
@@ -182,6 +156,7 @@ public class BillInfoActivity extends HomeBaseActivity {
             template.removeView(btnContainer);
             BootstrapButton userBtn = (BootstrapButton)btnContainer.findViewById(R.id.userSelection_button);
             userBtn.setText(responsibleUsers.get(i));
+            userBtn.setClickable(false);
             LinearLayout responsibleContainer = (LinearLayout) this.findViewById(R.id.billInfo_responsible_container);
             responsibleContainer.addView(btnContainer);
             this.responsibleUsers.add(responsibleUsers.get(i));
