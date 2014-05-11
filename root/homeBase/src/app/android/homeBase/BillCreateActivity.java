@@ -148,6 +148,9 @@ public class BillCreateActivity extends HomeBaseActivity {
         String total = dollarAmountStr+"."+centsAmountStr;
 
         Double amount = Double.parseDouble(total);
+        //round to 2 decimals
+        amount = (double) Math.round(amount * 100) / 100;
+
         String creator = mApplication.parse.getCurrentUser().getUsername();
         List<String> responsibleUsers = new LinkedList<String>();
 
