@@ -130,7 +130,7 @@ public class ChoreCreateActivity extends HomeBaseActivity {
     @Override
     public void onCreateAlertSuccess(HomeBaseAlert alert)
     {
-        Toast.makeText(ChoreCreateActivity.this, alert.getTitle() + ": " +alert.getDescription(), Toast.LENGTH_LONG).show();
+        finish();
     }
 
     @Override
