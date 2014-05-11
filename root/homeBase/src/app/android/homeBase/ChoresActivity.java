@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.app.ProgressDialog;
 import android.view.MotionEvent;
 import android.widget.Toast;
 import android.util.Log;
@@ -49,6 +50,10 @@ public class ChoresActivity extends HomeBaseActivity {
         selectedFilter.setEnabled(false);
 
         mApplication.parse.getAlerts(this, "Chore");
+
+        loadingScreen = new ProgressDialog(ChoresActivity.this);
+        loadingScreen.setMessage("Loading");
+        loadingScreen.show();
     }
 
     @Override
@@ -180,6 +185,9 @@ public class ChoresActivity extends HomeBaseActivity {
             choreTitles.add(title);
             choreDescriptions.put(myButton, alerts.get(i));
         }
+
+        loadingScreen.hide();
+        loadingScreen = null;
     }
 
     @Override

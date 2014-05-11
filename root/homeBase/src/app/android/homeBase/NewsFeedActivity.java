@@ -1,5 +1,6 @@
 package app.android.homeBase;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +42,10 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
         startCalled = true;
         mApplication.parse.getAlerts(NewsFeedActivity.this);
+
+        loadingScreen = new ProgressDialog(NewsFeedActivity.this);
+        loadingScreen.setMessage("Loading");
+        loadingScreen.show();
     }
 
     @Override
@@ -192,6 +197,9 @@ public class NewsFeedActivity extends HomeBaseActivity {
                 header.setBootstrapType("supply");
             }
         }
+
+        loadingScreen.hide();
+        loadingScreen = null;
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.Display;
 import android.graphics.Point;
+import android.app.ProgressDialog;
 
 import com.parse.*;
 
@@ -17,6 +18,7 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     protected float x1, x2, y1, y2;
     protected Intent myIntent;
     protected String myClassName;
+    protected ProgressDialog loadingScreen;
     private ApplicationManager mApplication = ApplicationManager.getInstance();
     private int screenWidth = -1;
 

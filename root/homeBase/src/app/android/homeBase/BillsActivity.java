@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.app.ProgressDialog;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class BillsActivity extends HomeBaseActivity {
@@ -45,6 +46,9 @@ public class BillsActivity extends HomeBaseActivity {
         selectedFilter.setEnabled(false);
 
         mApplication.parse.getAlerts(this, "Bill");
+        loadingScreen = new ProgressDialog(BillsActivity.this);
+        loadingScreen.setMessage("Loading");
+        loadingScreen.show();
     }
 
     @Override
@@ -176,6 +180,9 @@ public class BillsActivity extends HomeBaseActivity {
             billDescriptions.put(myButton, alert);
             billIDs.add(alert.getId());
         }
+
+        loadingScreen.hide();
+        loadingScreen = null;
     }
 
     @Override
