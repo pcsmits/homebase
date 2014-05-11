@@ -255,6 +255,7 @@ public class SuppliesActivity extends HomeBaseActivity {
     @Override
     public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
+        layout.removeAllViews();
         if (alerts.size() == 0){
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
@@ -273,7 +274,6 @@ public class SuppliesActivity extends HomeBaseActivity {
         }
 
         for (HomeBaseAlert alert: alerts) {
-            if (!supplyIDs.contains(alert.getId())) {
                 LayoutInflater inflater = LayoutInflater.from(this);
                 LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.supply_container, null, false);
 
@@ -295,7 +295,6 @@ public class SuppliesActivity extends HomeBaseActivity {
                 supplyDescriptions.put(myButton, alert);
                 supplyIDs.add(alert.getId());
                 confirmButtons.put(confirmButton, myButton);
-            }
         }
     }
 
