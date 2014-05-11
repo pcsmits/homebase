@@ -15,15 +15,16 @@
         android:textAlignment="center"
         bootstrapbutton:bb_roundedCorners="false"
         bootstrapbutton:bb_size="default"
-        bootstrapbutton:bb_type="black"
-        android:text="HELLO"
+        bootstrapbutton:bb_type="gray"
+        android:enabled="false"
+        android:text="text"
         bootstrapbutton:bb_text_alignment="center"
         android:id="@id/supplyContainer_container"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="onSupplyContainerClick">
+        android:layout_alignParentStart="true">
 
         <com.beardedhen.androidbootstrap.BootstrapButton
+                android:text="text"
                 android:layout_marginBottom="4dp"
                 android:layout_width="fill_parent"
                 android:layout_height="35dp"
@@ -43,8 +44,8 @@
             <RelativeLayout
                 android:layout_marginTop="45dp"
                 android:layout_marginRight="10dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="27dp"
+                android:layout_height="25dp"
                 android:layout_gravity="right">
                 <com.beardedhen.androidbootstrap.BootstrapButton
                     android:layout_width="fill_parent"
@@ -53,6 +54,7 @@
                     bootstrapbutton:bb_size="small"
                     bootstrapbutton:bb_type="supply"
                     bootstrapbutton:bb_text_alignment="center"
+                    bootstrapbutton:bb_icon_left="fa-check"
                     android:enabled="true"
                     android:onClick="onSupplyObtained"/>
             </RelativeLayout>
