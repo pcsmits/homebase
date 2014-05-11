@@ -185,7 +185,13 @@ public class NewsFeedActivity extends HomeBaseActivity {
                 buttonCont.removeView(myButton);
                 feedContainerLayout.addView(myButton);
                 String text = alerts.get(i).getDescription();
-                myButton.setText(text);
+                int max = 40;
+                String ellipse = "...";
+                if (text.length() < 40) {
+                    max = text.length();
+                    ellipse = "";
+                }
+                myButton.setText(text.substring(0, max)+ellipse);
 
                 BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
                 header.setText(alerts.get(i).getTitle());
@@ -231,7 +237,13 @@ public class NewsFeedActivity extends HomeBaseActivity {
                 buttonCont.removeView(myButton);
                 feedContainerLayout.addView(myButton);
                 String text = alerts.get(i).getDescription();
-                myButton.setText(text);
+                int max = 40;
+                String ellipse = "...";
+                if (text.length() < 40) {
+                    max = text.length();
+                    ellipse = "";
+                }
+                myButton.setText(text.substring(0, max)+ellipse);
 
                 BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
                 header.setText(alerts.get(i).getTitle());
