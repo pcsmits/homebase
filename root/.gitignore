@@ -55,4 +55,5 @@ build/
 gradle/
 gradle/wrapper/
 
-build.gradle
+homeBase/build.gradle
+AndroidBootstrap/build.gradle
