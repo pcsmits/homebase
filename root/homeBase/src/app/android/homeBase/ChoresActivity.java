@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.app.ProgressDialog;
 import android.view.MotionEvent;
 import android.widget.Toast;
 import android.util.Log;
@@ -49,6 +50,11 @@ public class ChoresActivity extends HomeBaseActivity {
         selectedFilter.setEnabled(false);
 
         mApplication.parse.getAlerts(this, "Chore");
+
+        loadingScreen = new ProgressDialog(ChoresActivity.this);
+        loadingScreen.setTitle("Getting Chores...");
+        loadingScreen.setMessage("Loading");
+        loadingScreen.show();
     }
 
     @Override
@@ -155,31 +161,34 @@ public class ChoresActivity extends HomeBaseActivity {
 
             myButton.setText("You have no chores at this time");
             header.setText("Welcome");
+        } else {
+            for (int i = 0; i < alerts.size(); i++) {
+                LayoutInflater inflater = LayoutInflater.from(this);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+
+                buttonCont.removeView(myButton);
+                layout.addView(myButton);
+
+                String title = alerts.get(i).getTitle();
+                String information = alerts.get(i).getDescription();
+                String creator = alerts.get(i).getCreatorID();
+                ArrayList<String> responsibleUsers = new ArrayList<String>(alerts.get(i).getResponsibleUsers());
+
+                headerBar.setText(title);
+                headerBar.setBootstrapType("chore");
+                myButton.setText(information);
+
+                choreContainers.add(myButton);
+                choreTitles.add(title);
+                choreDescriptions.put(myButton, alerts.get(i));
+            }
         }
 
-        for (int i = 0; i < alerts.size(); i++) {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
-
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
-            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
-
-            buttonCont.removeView(myButton);
-            layout.addView(myButton);
-
-            String title = alerts.get(i).getTitle();
-            String information = alerts.get(i).getDescription();
-            String creator = alerts.get(i).getCreatorID();
-            ArrayList<String> responsibleUsers = new ArrayList<String>(alerts.get(i).getResponsibleUsers());
-
-            headerBar.setText(title);
-            headerBar.setBootstrapType("chore");
-            myButton.setText(information);
-
-            choreContainers.add(myButton);
-            choreTitles.add(title);
-            choreDescriptions.put(myButton, alerts.get(i));
-        }
+        loadingScreen.hide();
+        loadingScreen = null;
     }
 
     @Override

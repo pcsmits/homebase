@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.app.ProgressDialog;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class BillsActivity extends HomeBaseActivity {
@@ -45,6 +46,9 @@ public class BillsActivity extends HomeBaseActivity {
         selectedFilter.setEnabled(false);
 
         mApplication.parse.getAlerts(this, "Bill");
+        loadingScreen = new ProgressDialog(BillsActivity.this);
+        loadingScreen.setMessage("Loading");
+        loadingScreen.show();
     }
 
     @Override
@@ -149,33 +153,36 @@ public class BillsActivity extends HomeBaseActivity {
 
             myButton.setText("You have no chores at this time");
             header.setText("Welcome");
+        } else {
+            // Fetch all the bills from parse
+            for (HomeBaseAlert alert : alerts)
+            {
+                LayoutInflater inflater = LayoutInflater.from(this);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+
+                buttonCont.removeView(myButton);
+                layout.addView(myButton);
+
+                String title = alert.getTitle();
+                String information = alert.getDescription() + " [$" + alert.getAmount() + "]";
+                String creator = alert.getCreatorID();
+                Log.d("Creator: ", creator);
+
+                headerBar.setText(title);
+                headerBar.setBootstrapType("bill");
+                myButton.setText(information);
+
+                billContainers.add(myButton);
+                billDescriptions.put(myButton, alert);
+                billIDs.add(alert.getId());
+            }
         }
 
-        // Fetch all the bills from parse
-        for (HomeBaseAlert alert : alerts)
-        {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
-
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
-            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
-
-            buttonCont.removeView(myButton);
-            layout.addView(myButton);
-
-            String title = alert.getTitle();
-            String information = alert.getDescription() + " [$" + alert.getAmount() + "]";
-            String creator = alert.getCreatorID();
-            Log.d("Creator: ", creator);
-
-            headerBar.setText(title);
-            headerBar.setBootstrapType("bill");
-            myButton.setText(information);
-
-            billContainers.add(myButton);
-            billDescriptions.put(myButton, alert);
-            billIDs.add(alert.getId());
-        }
+        loadingScreen.hide();
+        loadingScreen = null;
     }
 
     @Override

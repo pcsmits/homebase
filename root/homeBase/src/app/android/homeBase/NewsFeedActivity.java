@@ -1,5 +1,6 @@
 package app.android.homeBase;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +42,10 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
         startCalled = true;
         mApplication.parse.getAlerts(NewsFeedActivity.this);
+
+        loadingScreen = new ProgressDialog(NewsFeedActivity.this);
+        loadingScreen.setMessage("Loading");
+        loadingScreen.show();
     }
 
     @Override
@@ -112,6 +117,42 @@ public class NewsFeedActivity extends HomeBaseActivity {
         startActivity(intent);
     }
 
+    public void onNewsFeedItemClick(View view)
+    {
+        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.newsfeed_template_button);
+        HomeBaseAlert correspondingAlert = buttonToAlertMap.get(thisButton);
+        if (correspondingAlert.getType().equals("Chore")) {
+            HandleChoreClick(correspondingAlert);
+        } else if (correspondingAlert.getType().equals("Bill")) {
+            HandleBillClick(correspondingAlert);
+        } else {
+
+        }
+    }
+
+    private void HandleChoreClick(HomeBaseAlert clicked)
+    {
+        Intent intent = new Intent(NewsFeedActivity.this, ChoreInfoActivity.class);
+        intent.putExtra("caller", myClassName);
+        intent.putExtra("title", clicked.getTitle());
+        intent.putExtra("info", clicked.getDescription());
+        intent.putExtra("creator", clicked.getCreatorID());
+        intent.putExtra("alertID", clicked.getId());
+        startActivity(intent);
+    }
+
+    private void HandleBillClick(HomeBaseAlert clicked)
+    {
+        Intent intent = new Intent(NewsFeedActivity.this, BillInfoActivity.class);
+        intent.putExtra("caller", myClassName);
+        intent.putExtra("amount", clicked.getAmount().toString());
+        intent.putExtra("creator", clicked.getCreatorID());
+        intent.putExtra("title", clicked.getTitle());
+        intent.putExtra("info", clicked.getDescription());
+        intent.putExtra("alertID", clicked.getId());
+        startActivity(intent);
+    }
+
     @Override
     public void onGetAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
     {
@@ -126,36 +167,38 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
             BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
             header.setText("Welcome");
-            return;
+        } else {
+            for (int i = 0; i < alerts.size(); i++) {
+                newsFeedAlerts.add(alerts.get(i));
+
+                LayoutInflater inflater = LayoutInflater.from(this);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
+
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
+
+                newsFeedContainers.add(myButton);
+                alertToButtonMap.put(alerts.get(i), myButton);
+                buttonToAlertMap.put(myButton, alerts.get(i));
+
+                buttonCont.removeView(myButton);
+                feedContainerLayout.addView(myButton);
+                String text = alerts.get(i).getDescription();
+                myButton.setText(text);
+
+                BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
+                header.setText(alerts.get(i).getTitle());
+                Log.d("Type: ", alerts.get(i).getType());
+                if (alerts.get(i).getType().equals("Bill")) {
+                    header.setBootstrapType("bill");
+                }
+                else if (alerts.get(i).getType().equals("Supply")) {
+                    header.setBootstrapType("supply");
+                }
+            }
         }
 
-        for (int i = 0; i < alerts.size(); i++) {
-            newsFeedAlerts.add(alerts.get(i));
-
-            LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
-
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
-
-            newsFeedContainers.add(myButton);
-            alertToButtonMap.put(alerts.get(i), myButton);
-            buttonToAlertMap.put(myButton, alerts.get(i));
-
-            buttonCont.removeView(myButton);
-            feedContainerLayout.addView(myButton);
-            String text = alerts.get(i).getDescription();
-            myButton.setText(text);
-
-            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
-            header.setText(alerts.get(i).getTitle());
-            Log.d("Type: ", alerts.get(i).getType());
-            if (alerts.get(i).getType().equals("Bill")) {
-                header.setBootstrapType("bill");
-            }
-            else if (alerts.get(i).getType().equals("Supply")) {
-                header.setBootstrapType("supply");
-            }
-        }
+        loadingScreen.hide();
+        loadingScreen = null;
     }
 
     @Override
