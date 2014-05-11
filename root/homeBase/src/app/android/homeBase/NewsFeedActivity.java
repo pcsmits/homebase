@@ -112,6 +112,42 @@ public class NewsFeedActivity extends HomeBaseActivity {
         startActivity(intent);
     }
 
+    public void onNewsFeedItemClick(View view)
+    {
+        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.newsfeed_template_button);
+        HomeBaseAlert correspondingAlert = buttonToAlertMap.get(thisButton);
+        if (correspondingAlert.getType().equals("Chore")) {
+            HandleChoreClick(correspondingAlert);
+        } else if (correspondingAlert.getType().equals("Bill")) {
+            HandleBillClick(correspondingAlert);
+        } else {
+
+        }
+    }
+
+    private void HandleChoreClick(HomeBaseAlert clicked)
+    {
+        Intent intent = new Intent(NewsFeedActivity.this, ChoreInfoActivity.class);
+        intent.putExtra("caller", myClassName);
+        intent.putExtra("title", clicked.getTitle());
+        intent.putExtra("info", clicked.getDescription());
+        intent.putExtra("creator", clicked.getCreatorID());
+        intent.putExtra("alertID", clicked.getId());
+        startActivity(intent);
+    }
+
+    private void HandleBillClick(HomeBaseAlert clicked)
+    {
+        Intent intent = new Intent(NewsFeedActivity.this, BillInfoActivity.class);
+        intent.putExtra("caller", myClassName);
+        intent.putExtra("amount", clicked.getAmount().toString());
+        intent.putExtra("creator", clicked.getCreatorID());
+        intent.putExtra("title", clicked.getTitle());
+        intent.putExtra("info", clicked.getDescription());
+        intent.putExtra("alertID", clicked.getId());
+        startActivity(intent);
+    }
+
     @Override
     public void onGetAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
     {

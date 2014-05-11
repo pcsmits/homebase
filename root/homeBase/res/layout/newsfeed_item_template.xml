@@ -19,10 +19,11 @@
         android:textAlignment="center"
         bootstrapbutton:bb_roundedCorners="false"
         bootstrapbutton:bb_size="default"
-        bootstrapbutton:bb_type="gray"
+        bootstrapbutton:bb_type="default"
         bootstrapbutton:bb_text_alignment="center"
-        android:enabled="false"
+        android:enabled="true"
         android:id="@id/newsfeed_template_button"
+        android:onClick="onNewsFeedItemClick"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         >
