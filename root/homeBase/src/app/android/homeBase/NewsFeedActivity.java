@@ -39,7 +39,6 @@ public class NewsFeedActivity extends HomeBaseActivity {
         menuHeight = globalLayout.getLayoutParams().height;
 
         feedContainerLayout = (LinearLayout) findViewById(R.id.newsfeed_newsfeedItem_container);
-
         startCalled = true;
         mApplication.parse.getAlerts(NewsFeedActivity.this);
 
