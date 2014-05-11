@@ -31,7 +31,7 @@
 
             <com.beardedhen.androidbootstrap.BootstrapEditText
                 android:layout_width="fill_parent"
-                android:layout_height="300dp"
+                android:layout_height="50dp"
                 android:textColor="@android:color/black"
                 android:id="@id/supplyCreate_body_field"
                 android:singleLine="true"
@@ -94,13 +94,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
                 android:orientation="horizontal" >
 
                 <RelativeLayout
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="100dp"
+                    android:layout_height="50dp"
                     android:layout_margin="0dp">
                     <com.beardedhen.androidbootstrap.BootstrapButton
                         android:layout_width="fill_parent"
@@ -116,14 +116,14 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:onClick="onSupplyCreateSubmitClick"
+                        android:id="@id/supplyInfo_confirm_button"
                         android:layout_alignParentBottom="true">
                     </com.beardedhen.androidbootstrap.BootstrapButton>
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="100dp"
+                    android:layout_height="50dp"
                     android:layout_margin="0dp">
                     <com.beardedhen.androidbootstrap.BootstrapButton
                         android:layout_width="fill_parent"
@@ -139,7 +139,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:onClick="onSupplyCreateCancelClick"
+                        android:id="@id/supplyInfo_cancel_button"
                         android:layout_alignParentBottom="true">
                     </com.beardedhen.androidbootstrap.BootstrapButton>
                 </RelativeLayout>
