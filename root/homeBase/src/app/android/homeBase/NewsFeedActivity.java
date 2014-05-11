@@ -43,9 +43,9 @@ public class NewsFeedActivity extends HomeBaseActivity {
         startCalled = true;
         mApplication.parse.getAlerts(NewsFeedActivity.this);
 
-        loadingScreen = new ProgressDialog(NewsFeedActivity.this);
-        loadingScreen.setMessage("Loading");
-        loadingScreen.show();
+        inflateProgressBar();
+
+        feedContainerLayout.addView(loadingProgress);
     }
 
     @Override
@@ -156,6 +156,8 @@ public class NewsFeedActivity extends HomeBaseActivity {
     @Override
     public void onGetAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
     {
+        feedContainerLayout.removeView(loadingProgress);
+
         if (alerts.size() == 0){
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
@@ -196,9 +198,6 @@ public class NewsFeedActivity extends HomeBaseActivity {
                 }
             }
         }
-
-        loadingScreen.hide();
-        loadingScreen = null;
     }
 
     @Override
