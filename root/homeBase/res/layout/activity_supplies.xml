@@ -92,7 +92,7 @@
 
                     </RelativeLayout>
                     <RelativeLayout
-                        android:layout_weight="0.93"
+                        android:layout_weight="0.7"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="0dp">
@@ -104,7 +104,7 @@
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"
-                            bootstrapbutton:bb_type="supply"
+                            bootstrapbutton:bb_type="success"
                             bootstrapbutton:bb_text_alignment="center"
                             bootstrapbutton:bb_icon_right="fa-plus"
                             android:layout_gravity="center_horizontal"
