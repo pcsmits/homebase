@@ -81,9 +81,7 @@ public class BillCreateActivity extends HomeBaseActivity {
         infoContainer.setLayoutParams(rlp);
 
         //set up "responsible for" options
-        userNames = mApplication.getHomeUsers();
-        // remove yourself from possible responsible users
-        userNames.remove(mApplication.parse.getCurrentUser().getUsername());
+        userNames = mApplication.getRoommates();
         usersObjects = mApplication.usersObjects;
         responsibleUsers = new HashMap<String, BootstrapButton>();
         selectedResponsibleUsers = new HashMap<BootstrapButton, Boolean>();
@@ -173,7 +171,7 @@ public class BillCreateActivity extends HomeBaseActivity {
     {
         createdAlert = alert;
         //int numUsers = createdAlert.getResponsibleUsers().size();
-        int numUsers = mApplication.getHomeUsers().size() + 1;
+        int numUsers = mApplication.getHomeUsers().size();
         double splitAmount = (createdAlert.getAmount() / numUsers );
         if(splitAmount < 1.0)
         {

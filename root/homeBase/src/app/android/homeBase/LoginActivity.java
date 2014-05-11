@@ -34,6 +34,7 @@ public class LoginActivity extends HomeBaseActivity{
         mApplication = ApplicationManager.getInstance();
         setContentView(R.layout.activity_login);
 
+
         // activity here
         if(mApplication.parse.userLoggedIn())
         {
