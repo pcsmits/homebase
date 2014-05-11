@@ -24,6 +24,11 @@ public class HomeBaseAlert {
         return sameSame;
     }
 
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
+    }
+
     // These can only be set on creation
     private String title;
     private String id;

@@ -17,6 +17,7 @@ public class SuppliesActivity extends HomeBaseActivity {
     private ArrayList<BootstrapButton> supplyContainers;
     private ArrayList<String> supplyIDs;
     private HashMap<BootstrapButton, HomeBaseAlert> supplyDescriptions;
+    private HashMap<BootstrapButton, BootstrapButton> confirmButtons;
     private LinearLayout layout;
     private ApplicationManager mApplication;
     private BootstrapButton selectedFilter;
@@ -36,6 +37,7 @@ public class SuppliesActivity extends HomeBaseActivity {
         supplyContainers = new ArrayList<BootstrapButton>();
         supplyIDs = new ArrayList<String>();
         supplyDescriptions = new HashMap<BootstrapButton, HomeBaseAlert>();
+        confirmButtons = new HashMap<BootstrapButton, BootstrapButton>();
 
         selectedFilter = (BootstrapButton) findViewById(R.id.supply_allFilter_button);
         selectedFilter.setEnabled(false);
@@ -68,9 +70,7 @@ public class SuppliesActivity extends HomeBaseActivity {
         layout.removeAllViews();
         for(int i = 0; i < supplyContainers.size(); i++) {
             BootstrapButton supplyContainer = supplyContainers.get(i);
-            if (!supplyDescriptions.get(supplyContainer).getCreatorID().equals(mApplication.parse.getCurrentUser().getUsername())) {
-                layout.addView(supplyContainer);
-            }
+            layout.addView(supplyContainer);
         }
     }
 
@@ -121,10 +121,11 @@ public class SuppliesActivity extends HomeBaseActivity {
         for (HomeBaseAlert alert : alerts)
         {
             LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.supply_container, null, false);
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
-            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.supplyContainer_container);
+            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.supplyContainer_header);
+            BootstrapButton confirmButton = (BootstrapButton) myButton.findViewById(R.id.supplyContainer_button);
 
             buttonCont.removeView(myButton);
             layout.addView(myButton);
@@ -139,6 +140,7 @@ public class SuppliesActivity extends HomeBaseActivity {
             supplyContainers.add(myButton);
             supplyDescriptions.put(myButton, alert);
             supplyIDs.add(alert.getId());
+            confirmButtons.put(confirmButton, myButton);
         }
     }
 
@@ -154,10 +156,11 @@ public class SuppliesActivity extends HomeBaseActivity {
         for (HomeBaseAlert alert: alerts) {
             if (!supplyIDs.contains(alert.getId())) {
                 LayoutInflater inflater = LayoutInflater.from(this);
-                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.supply_container, null, false);
 
-                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
-                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.supplyContainer_container);
+                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.supplyContainer_header);
+                BootstrapButton confirmButton = (BootstrapButton) myButton.findViewById(R.id.supplyContainer_button);
 
                 buttonCont.removeView(myButton);
                 layout.addView(myButton);
@@ -166,20 +169,33 @@ public class SuppliesActivity extends HomeBaseActivity {
                 String information = alert.getDescription();
 
                 headerBar.setText(title);
-                headerBar.setBootstrapType("bill");
+                headerBar.setBootstrapType("supply");
                 myButton.setText(information);
 
                 supplyContainers.add(myButton);
                 supplyDescriptions.put(myButton, alert);
                 supplyIDs.add(alert.getId());
+                confirmButtons.put(confirmButton, myButton);
             }
         }
     }
 
     public void onChoreContainerClick(View v)
     {
-        clickedButton = (BootstrapButton) v.findViewById(R.id.alertContainer_container);
+        clickedButton = (BootstrapButton) v.findViewById(R.id.supplyContainer_container);
         mApplication.parse.getUsername(supplyDescriptions.get(clickedButton).getCreatorID(), SuppliesActivity.this);
+    }
+
+    public void onSupplyObtained(View view)
+    {
+        BootstrapButton clickedButton = (BootstrapButton) view.findViewById(R.id.supplyContainer_button);
+        BootstrapButton container = confirmButtons.get(clickedButton);
+        mApplication.parse.deleteAlert(supplyDescriptions.get(container), this);
+
+        supplyContainers.remove(container);
+        supplyDescriptions.remove(container);
+        layout.removeView(container);
+        confirmButtons.remove(clickedButton);
     }
 
     @Override
@@ -198,5 +214,16 @@ public class SuppliesActivity extends HomeBaseActivity {
     public void onGetUsernameFailure(String e)
     {
         Toast.makeText(SuppliesActivity.this, "Error: "+e, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDeleteAlertFailure(String error){
+        Log.d("Delete Alert", "Failed: " + error);
+    }
+
+    @Override
+    public void onDeleteAlertSuccess()
+    {
+        //finish();
     }
 }
