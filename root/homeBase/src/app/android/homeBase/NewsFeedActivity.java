@@ -164,6 +164,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
             BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
             buttonCont.removeView(myButton);
+            myButton.setClickable(false);
             feedContainerLayout.addView(myButton);
             myButton.setText("You have no alerts at this time");
 
@@ -210,6 +211,7 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
             BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
             buttonCont.removeView(myButton);
+            myButton.setClickable(false);
             feedContainerLayout.addView(myButton);
             myButton.setText("You have no alerts at this time");
 
