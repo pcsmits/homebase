@@ -126,7 +126,7 @@ public class BillCreateActivity extends HomeBaseActivity {
         String type = k_alertType;
         String desc = infoContainer.getText().toString();
         String dollarAmountStr = "0";
-        String centsAmountStr = ".00";
+        String centsAmountStr = "00";
 
         // Make sure everything is filled out
         List<String> fields = new LinkedList<String>(Arrays.asList(title, type, desc));
