@@ -13,10 +13,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.parse.ParseObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,13 +125,44 @@ public class BillInfoActivity extends HomeBaseActivity {
 
         } else {  // not creator so just remove the one user from bill
             String currUser = mApplication.parse.getCurrentUser().getUsername();
+
+            int numUsers = mApplication.getHomeUsers().size() + 1;
+            double splitAmount = (Double.parseDouble(amount) / numUsers );
+            if(splitAmount < 1.0)
+            {
+                splitAmount = 1.0;
+            }
+
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            String amountString = decimalFormat.format(splitAmount);
+
+
+            Intent email = new Intent(Intent.ACTION_SEND);
+            email.setType("message/rfc822");
+
+            String[] emailsArr = {mApplication.usersObjects.get(creator).getEmail()};
+
+            email.putExtra(Intent.EXTRA_EMAIL, emailsArr);
+            email.putExtra(Intent.EXTRA_CC, new String[]{"cash@square.com"});
+            email.putExtra(Intent.EXTRA_SUBJECT, "$"+amountString);
+            email.putExtra(Intent.EXTRA_TEXT, "Payment for: "+title+"\n"+info);
+            try {
+                startActivity(Intent.createChooser(email, "Send mail..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(BillInfoActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            }
             boolean removed = responsibleUsers.remove(currUser);
             if (removed) {
                 completedUsers.add(currUser);
             }
         }
+        mApplication.parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, completedUsers, "Bill", this);
+    }
 
-        mApplication.parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, completedUsers, this);
+    @Override
+    public void onUpdateAlertSuccess(HomeBaseAlert alert)
+    {
+        finish();
     }
 
     public void onBillInfoCancelClick(View view)
@@ -183,7 +216,6 @@ public class BillInfoActivity extends HomeBaseActivity {
     @Override
     public void onDeleteAlertFailure(String error){
         Log.d("Delete Alert","Failed: " + error);
-
     }
 
     @Override

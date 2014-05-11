@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -82,15 +83,17 @@ public class SettingsActivity extends HomeBaseActivity {
     {
         try{
             newUsername = usernameEditText.getText().toString();
+            Log.d("Usernem", newUsername);
             if(!newUsername.equals(oldUsername))
             {
-                parse.checkUserName(newUsername, SettingsActivity.this);
+                mApplication.parse.checkUserName(newUsername, SettingsActivity.this);
             } else {
                 Toast.makeText(SettingsActivity.this, "New username matches current username", Toast.LENGTH_LONG).show();
             }
         } catch (NullPointerException e){
             //Maybe empty edit texts should be empty string
             // not null.... just a thought
+            Toast.makeText(SettingsActivity.this, "Null EditText", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -98,6 +101,7 @@ public class SettingsActivity extends HomeBaseActivity {
     @Override
     public void onCheckUserSuccess()
     {
+        currUser = ParseUser.getCurrentUser();
         currUser.setUsername(newUsername);
         currUser.saveInBackground(new SaveCallback() {
             @Override
