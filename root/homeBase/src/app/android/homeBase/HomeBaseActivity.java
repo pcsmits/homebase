@@ -1,7 +1,10 @@
 package app.android.homeBase;
 
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +13,7 @@ import android.util.Log;
 import android.view.Display;
 import android.graphics.Point;
 import android.app.ProgressDialog;
+import android.widget.ProgressBar;
 
 import com.parse.*;
 
@@ -19,8 +23,10 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
     protected Intent myIntent;
     protected String myClassName;
     protected ProgressDialog loadingScreen;
+    protected LinearLayout loadingProgress;
     private ApplicationManager mApplication = ApplicationManager.getInstance();
-    private int screenWidth = -1;
+    protected int screenWidth = -1;
+    protected int screenHeight = -1;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -77,11 +83,22 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
         return false;
     }
 
+    protected void inflateProgressBar()
+    {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        initializeSize();
+        loadingProgress = (LinearLayout) inflater.inflate(R.layout.progress_bar, null, false);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.height = screenHeight - 100;
+        loadingProgress.setLayoutParams(params);
+    }
+
     private void initializeSize() {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         screenWidth = size.x;
+        screenHeight = size.y;
 
     }
 
