@@ -42,6 +42,8 @@ public class GPSActivity extends HomeBaseActivity {
             BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
             BootstrapButton myHeader = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_header);
 
+            myButton.setClickable(false);
+
             buttonCont.removeView(myButton);
             layout.addView(myButton);
 

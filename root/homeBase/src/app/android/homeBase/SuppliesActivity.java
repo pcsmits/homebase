@@ -63,7 +63,6 @@ public class SuppliesActivity extends HomeBaseActivity {
             startCalled = false;
             return;
         }
-
         mApplication.parse.refreshAlerts(this, "Supply");
     }
 
@@ -77,6 +76,24 @@ public class SuppliesActivity extends HomeBaseActivity {
         selectedFilter = clicked;
 
         layout.removeAllViews();
+
+        if (supplyContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("No supplies are needed");
+            header.setText("Welcome");
+            header.setBootstrapType("supply");
+            return;
+        }
+
         for(int i = 0; i < supplyContainers.size(); i++) {
             BootstrapButton supplyContainer = supplyContainers.get(i);
             layout.addView(supplyContainer);
@@ -158,6 +175,24 @@ public class SuppliesActivity extends HomeBaseActivity {
         selectedFilter = clicked;
 
         layout.removeAllViews();
+
+        if (supplyContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("No supplies are needed");
+            header.setText("Welcome");
+            header.setBootstrapType("supply");
+            return;
+        }
+
         for(int i = 0; i < supplyContainers.size(); i++) {
             BootstrapButton supplyContainer = supplyContainers.get(i);
             if (supplyDescriptions.get(supplyContainer).getCreatorID().equals(mApplication.parse.getCurrentUser().getUsername())) {
@@ -177,11 +212,13 @@ public class SuppliesActivity extends HomeBaseActivity {
             BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
 
             buttonCont.removeView(myButton);
+            myButton.setClickable(false);
             layout.addView(myButton);
 
             myButton.setText("No supplies are needed");
             header.setText("Welcome");
             header.setBootstrapType("supply");
+            return;
         }
 
         // Fetch all the bills from parse
@@ -220,6 +257,23 @@ public class SuppliesActivity extends HomeBaseActivity {
     @Override
     public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
+        if (supplyContainers.size() == 0){
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+
+            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+
+            buttonCont.removeView(myButton);
+            myButton.setClickable(false);
+            layout.addView(myButton);
+
+            myButton.setText("No supplies are needed");
+            header.setText("Welcome");
+            header.setBootstrapType("supply");
+            return;
+        }
+
         for (HomeBaseAlert alert: alerts) {
             if (!supplyIDs.contains(alert.getId())) {
                 LayoutInflater inflater = LayoutInflater.from(this);
