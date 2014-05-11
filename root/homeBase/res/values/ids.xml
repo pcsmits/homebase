@@ -87,6 +87,7 @@
     <item name="supply_allFilter_button" type="id"/>
     <item name="supply_supplyContainer_button" type="id"/>
     <item name="supplyContainer_header" type="id"/>
+    <item name="supplyContainer_button" type="id"/>
     <item name="supplyCreate_header_field" type="id"/>
     <item name="supplyContainer_container" type="id"/>
     <item name="supplyCreate_body_field" type="id"/>

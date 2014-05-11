@@ -150,6 +150,7 @@ public class ChoresActivity extends HomeBaseActivity {
     @Override
     public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
+        layout.removeView(loadingProgress);
         if (alerts.size() == 0){
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
@@ -163,8 +164,6 @@ public class ChoresActivity extends HomeBaseActivity {
             myButton.setText("You have no chores at this time");
             header.setText("Welcome");
         } else {
-            layout.removeView(loadingProgress);
-
             for (int i = 0; i < alerts.size(); i++) {
                 LayoutInflater inflater = LayoutInflater.from(this);
                 LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
