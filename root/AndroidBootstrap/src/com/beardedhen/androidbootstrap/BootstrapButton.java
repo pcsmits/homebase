@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.text.TextUtils;
 
 import com.beardedhen.androidbootstrap.R;
  
@@ -365,7 +366,11 @@ public class BootstrapButton extends FrameLayout {
 		}
 
 	}
-	
+
+    public void fitLine(int lines){
+        lblMiddle.setMaxLines(lines);
+        lblMiddle.setEllipsize(TextUtils.TruncateAt.END);
+    }
 	
 	/**
 	 * Changes the button text
