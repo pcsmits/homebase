@@ -120,7 +120,6 @@ public class BillInfoActivity extends HomeBaseActivity {
             // delete bill
            // myObject.deleteInBackground();
             mApplication.parse.getAlert(alertID, BillInfoActivity.this);
-            return;
 
         } else {  // not creator so just remove the one user from bill
             String currUser = mApplication.parse.getCurrentUser().getUsername();
