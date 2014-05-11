@@ -3,6 +3,7 @@ package app.android.homeBase;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.graphics.Point;
 import android.view.Display;
@@ -16,6 +17,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.parse.ParseUser;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -171,6 +173,13 @@ public class BillCreateActivity extends HomeBaseActivity {
         //int numUsers = createdAlert.getResponsibleUsers().size();
         int numUsers = mApplication.getHomeUsers().size();
         double splitAmount = (createdAlert.getAmount() / numUsers );
+        if(splitAmount < 1.0)
+        {
+            splitAmount = 1.0;
+        }
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String amountString = decimalFormat.format(splitAmount);
 
         Intent email = new Intent(Intent.ACTION_SEND);
         email.setType("message/rfc822");
@@ -185,7 +194,7 @@ public class BillCreateActivity extends HomeBaseActivity {
 
         email.putExtra(Intent.EXTRA_EMAIL, emailsArr);
         email.putExtra(Intent.EXTRA_CC, new String[]{"request@square.com"});
-        email.putExtra(Intent.EXTRA_SUBJECT, "$"+splitAmount);
+        email.putExtra(Intent.EXTRA_SUBJECT, "$"+amountString);
         email.putExtra(Intent.EXTRA_TEXT, createdAlert.getTitle()+"\n"+createdAlert.getDescription());
         try {
             startActivity(Intent.createChooser(email, "Send mail..."));

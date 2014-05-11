@@ -7,9 +7,12 @@ import android.support.v4.view.MotionEventCompat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.app.ProgressDialog;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -51,10 +54,9 @@ public class ChoresActivity extends HomeBaseActivity {
 
         mApplication.parse.getAlerts(this, "Chore");
 
-        loadingScreen = new ProgressDialog(ChoresActivity.this);
-        loadingScreen.setTitle("Getting Chores...");
-        loadingScreen.setMessage("Loading");
-        loadingScreen.show();
+        inflateProgressBar();
+
+        layout.addView(loadingProgress);
     }
 
     @Override
@@ -148,7 +150,6 @@ public class ChoresActivity extends HomeBaseActivity {
     @Override
     public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
-
         if (alerts.size() == 0){
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
@@ -162,6 +163,8 @@ public class ChoresActivity extends HomeBaseActivity {
             myButton.setText("You have no chores at this time");
             header.setText("Welcome");
         } else {
+            layout.removeView(loadingProgress);
+
             for (int i = 0; i < alerts.size(); i++) {
                 LayoutInflater inflater = LayoutInflater.from(this);
                 LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
@@ -186,9 +189,6 @@ public class ChoresActivity extends HomeBaseActivity {
                 choreDescriptions.put(myButton, alerts.get(i));
             }
         }
-
-        loadingScreen.hide();
-        loadingScreen = null;
     }
 
     @Override

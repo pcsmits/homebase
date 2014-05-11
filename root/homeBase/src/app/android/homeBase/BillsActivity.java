@@ -46,9 +46,10 @@ public class BillsActivity extends HomeBaseActivity {
         selectedFilter.setEnabled(false);
 
         mApplication.parse.getAlerts(this, "Bill");
-        loadingScreen = new ProgressDialog(BillsActivity.this);
-        loadingScreen.setMessage("Loading");
-        loadingScreen.show();
+
+        inflateProgressBar();
+
+        layout.addView(loadingProgress);
     }
 
     @Override
@@ -140,6 +141,7 @@ public class BillsActivity extends HomeBaseActivity {
     @Override
     public void onGetAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
+        layout.removeView(loadingProgress);
         //if no alerts
         if (alerts.size() == 0){
             LayoutInflater inflater = LayoutInflater.from(this);
@@ -181,9 +183,6 @@ public class BillsActivity extends HomeBaseActivity {
                 billIDs.add(alert.getId());
             }
         }
-
-        loadingScreen.hide();
-        loadingScreen = null;
     }
 
     @Override

@@ -431,7 +431,7 @@ public class ParseBase
         List<String> responsibleUsers = convertJSON(responsibleArray);
         List<String> completedUsers = convertJSON(completedArray);
 
-        if (type.equals("Default") || type.equals("Chore") || type.equals("Suuply")) {
+        if (type.equals("Default") || type.equals("Chore") || type.equals("Supply")) {
             return new HomeBaseAlert(title, objectID, type, responsibleUsers, completedUsers, description, creator);
         } else if (type.equals("Bill")) {
             return buildBill(alert, new HomeBaseAlert(title, objectID, type, responsibleUsers, completedUsers, description, creator));
@@ -645,7 +645,7 @@ public class ParseBase
     }
     
     //eventually, need to update alert by objectID - but this requires storing object ID across activities
-    public void updateAlertResponsibleUsers(final String creatorID, final String title, final List<String> responsibleUsers, final List<String> completedUsers, final HomeBaseActivity caller) {
+    public void updateAlertResponsibleUsers(final String creatorID, final String title, final List<String> responsibleUsers, final List<String> completedUsers, final String type, final HomeBaseActivity caller) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Alert");
         query.whereEqualTo("house", this.getCurrentHouseID());
         query.whereEqualTo("creator", creatorID);
@@ -654,7 +654,7 @@ public class ParseBase
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    ParseObject toUpdate = objects.get(0);
+                    final ParseObject toUpdate = objects.get(0);
                     toUpdate.put("responsibleUsers", responsibleUsers);
                     toUpdate.put("completedUsers", completedUsers);
                     toUpdate.saveInBackground(new SaveCallback() {
@@ -662,6 +662,7 @@ public class ParseBase
                         public void done(ParseException e) {
                             if (e == null) {
                                 //call completion
+                                caller.onUpdateAlertSuccess(buildAlert(toUpdate, type));
                             } else {
                                 //call error
                             }

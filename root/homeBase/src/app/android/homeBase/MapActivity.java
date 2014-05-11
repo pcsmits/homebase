@@ -71,7 +71,7 @@ public class MapActivity extends HomeBaseActivity implements OnClickListener, On
                 googleMap.addMarker(oldLocation);
 
             }
-            marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Place Marker on House").draggable(true);
+            marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Your Location").draggable(true);
 
             // adding marker
             googleMap.addMarker(marker);
