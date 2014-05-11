@@ -231,6 +231,7 @@ public class ChoresActivity extends HomeBaseActivity {
 
                 headerBar.setText(title);
                 headerBar.setBootstrapType("chore");
+                myButton.fitLine(1);
                 myButton.setText(information);
 
                 choreContainers.add(myButton);
@@ -300,6 +301,7 @@ public class ChoresActivity extends HomeBaseActivity {
 
                 headerBar.setText(title);
                 headerBar.setBootstrapType("chore");
+                myButton.fitLine(1);
                 myButton.setText(information);
 
                 choreContainers.add(myButton);

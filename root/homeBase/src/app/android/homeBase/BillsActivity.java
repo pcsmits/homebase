@@ -232,6 +232,7 @@ public class BillsActivity extends HomeBaseActivity {
 
                 headerBar.setText(title);
                 headerBar.setBootstrapType("bill");
+                myButton.fitLine(1);
                 myButton.setText(information);
 
                 billContainers.add(myButton);
@@ -306,6 +307,7 @@ public class BillsActivity extends HomeBaseActivity {
 
                 headerBar.setText(title);
                 headerBar.setBootstrapType("bill");
+                myButton.fitLine(1);
                 myButton.setText(information);
 
                 billContainers.add(pointer, myButton);
