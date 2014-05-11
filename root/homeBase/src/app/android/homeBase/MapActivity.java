@@ -204,7 +204,7 @@ public class MapActivity extends HomeBaseActivity implements OnClickListener, On
             mApplication.parse.updateHouse(house, MapActivity.this);
             mApplication.setHouse(house);
         } else {
-            mApplication.parse.createHouse("Temp Name", curr.getObjectId(), pos.latitude, pos.longitude, MapActivity.this);
+            mApplication.parse.createHouse("KyleParkerHouses", curr.getObjectId(), pos.latitude, pos.longitude, MapActivity.this);
         }
 
     }
