@@ -116,8 +116,6 @@ public class SuppliesActivity extends HomeBaseActivity {
         alertDialogBuilder
                 .setCancelable(false);
 
-
-
         // create alert dialog
         createDialog = alertDialogBuilder.create();
 
@@ -257,7 +255,7 @@ public class SuppliesActivity extends HomeBaseActivity {
     @Override
     public void onUpdateAlertListByTypeSuccess(ArrayList<HomeBaseAlert> alerts)
     {
-        if (supplyContainers.size() == 0){
+        if (alerts.size() == 0){
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
