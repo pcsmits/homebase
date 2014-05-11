@@ -64,14 +64,14 @@ public abstract class HomeBaseActivity extends ActionBarActivity{
                 //Log.d("x1: ", "" + x1);
 
                 // if left to right sweep event on screen
-                if (x1 < 25 && ((x1 + 100) < x2 && ((y2 - y1) < 20 || (y1 - y2) < 20 )))
+                if (x1 < 25 && ((x1 + 25) < x2 && ((y2 - y1) < 20 || (y1 - y2) < 20 )))
                 {
                     //Toast.makeText(this, "Right to Left Swap Performed", Toast.LENGTH_LONG).show();
                     onBackPressed();
                 }
                 
                 //if right to left sweep event on screen
-                if (x1 > screenWidth - 25 && (x1 > (x2 + 100) && ((y2 - y1) < 20 || (y1 - y2) < 20 )))
+                if (x1 > screenWidth - 25 && (x1 > (x2 + 25) && ((y2 - y1) < 20 || (y1 - y2) < 20 )))
                 {
                     //Toast.makeText(this, "Right to Left Swap Performed", Toast.LENGTH_LONG).show();
                     onForwardSwipe();
