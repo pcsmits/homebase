@@ -121,7 +121,7 @@ public class ChoreInfoActivity extends HomeBaseActivity {
             }
         }
 
-        mApplication.parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, completedUsers, this);
+        mApplication.parse.updateAlertResponsibleUsers(creator, title, responsibleUsers, completedUsers, "Chore", this);
     }
 
     public void onChoreInfoCancelClick(View view)
