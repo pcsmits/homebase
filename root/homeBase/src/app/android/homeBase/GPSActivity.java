@@ -32,7 +32,6 @@ public class GPSActivity extends HomeBaseActivity {
 
 
         //if no user print message
-        Log.d("Number of users", String.valueOf(mApplication.users.size()));
         if(mApplication.users.size() < 2){
 
             LinearLayout layout = (LinearLayout) findViewById(R.id.GPSuser_container);
