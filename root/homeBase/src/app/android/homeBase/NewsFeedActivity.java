@@ -167,34 +167,33 @@ public class NewsFeedActivity extends HomeBaseActivity {
 
             BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
             header.setText("Welcome");
-            return;
-        }
+        } else {
+            for (int i = 0; i < alerts.size(); i++) {
+                newsFeedAlerts.add(alerts.get(i));
 
-        for (int i = 0; i < alerts.size(); i++) {
-            newsFeedAlerts.add(alerts.get(i));
+                LayoutInflater inflater = LayoutInflater.from(this);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
 
-            LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
+                newsFeedContainers.add(myButton);
+                alertToButtonMap.put(alerts.get(i), myButton);
+                buttonToAlertMap.put(myButton, alerts.get(i));
 
-            newsFeedContainers.add(myButton);
-            alertToButtonMap.put(alerts.get(i), myButton);
-            buttonToAlertMap.put(myButton, alerts.get(i));
+                buttonCont.removeView(myButton);
+                feedContainerLayout.addView(myButton);
+                String text = alerts.get(i).getDescription();
+                myButton.setText(text);
 
-            buttonCont.removeView(myButton);
-            feedContainerLayout.addView(myButton);
-            String text = alerts.get(i).getDescription();
-            myButton.setText(text);
-
-            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
-            header.setText(alerts.get(i).getTitle());
-            Log.d("Type: ", alerts.get(i).getType());
-            if (alerts.get(i).getType().equals("Bill")) {
-                header.setBootstrapType("bill");
-            }
-            else if (alerts.get(i).getType().equals("Supply")) {
-                header.setBootstrapType("supply");
+                BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
+                header.setText(alerts.get(i).getTitle());
+                Log.d("Type: ", alerts.get(i).getType());
+                if (alerts.get(i).getType().equals("Bill")) {
+                    header.setBootstrapType("bill");
+                }
+                else if (alerts.get(i).getType().equals("Supply")) {
+                    header.setBootstrapType("supply");
+                }
             }
         }
 

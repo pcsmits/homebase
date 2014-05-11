@@ -153,32 +153,32 @@ public class BillsActivity extends HomeBaseActivity {
 
             myButton.setText("You have no chores at this time");
             header.setText("Welcome");
-        }
+        } else {
+            // Fetch all the bills from parse
+            for (HomeBaseAlert alert : alerts)
+            {
+                LayoutInflater inflater = LayoutInflater.from(this);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
-        // Fetch all the bills from parse
-        for (HomeBaseAlert alert : alerts)
-        {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+                BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
 
-            BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
-            BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+                buttonCont.removeView(myButton);
+                layout.addView(myButton);
 
-            buttonCont.removeView(myButton);
-            layout.addView(myButton);
+                String title = alert.getTitle();
+                String information = alert.getDescription() + " [$" + alert.getAmount() + "]";
+                String creator = alert.getCreatorID();
+                Log.d("Creator: ", creator);
 
-            String title = alert.getTitle();
-            String information = alert.getDescription() + " [$" + alert.getAmount() + "]";
-            String creator = alert.getCreatorID();
-            Log.d("Creator: ", creator);
+                headerBar.setText(title);
+                headerBar.setBootstrapType("bill");
+                myButton.setText(information);
 
-            headerBar.setText(title);
-            headerBar.setBootstrapType("bill");
-            myButton.setText(information);
-
-            billContainers.add(myButton);
-            billDescriptions.put(myButton, alert);
-            billIDs.add(alert.getId());
+                billContainers.add(myButton);
+                billDescriptions.put(myButton, alert);
+                billIDs.add(alert.getId());
+            }
         }
 
         loadingScreen.hide();
