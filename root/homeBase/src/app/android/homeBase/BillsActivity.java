@@ -148,13 +148,14 @@ public class BillsActivity extends HomeBaseActivity {
             LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
 
             BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
-            BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.alertContainer_header);
+            BootstrapButton header = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
 
             buttonCont.removeView(myButton);
             layout.addView(myButton);
 
             myButton.setText("You have no chores at this time");
             header.setText("Welcome");
+            header.setBootstrapType("bill");
         } else {
             // Fetch all the bills from parse
             for (HomeBaseAlert alert : alerts)

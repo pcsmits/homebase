@@ -20,6 +20,7 @@ import com.parse.SaveCallback;
 
 public class ApplicationManager extends Application {
     public ArrayList<String> users;
+    public ArrayList<String> roommates;
     public ParseBase parse;
     public HashMap<String, ParseUser> usersObjects = new HashMap<String, ParseUser>();
     public GPSservice gps;
@@ -60,6 +61,7 @@ public class ApplicationManager extends Application {
     private void initialize()
     {
         instance.users = new ArrayList<String>();
+        instance.roommates = new ArrayList<String>();
         instance.parse = new ParseBase();
         instance.gps = new GPSservice(instance);
         instance.forwardIntentQueue = new LinkedList<Intent>();
@@ -91,6 +93,7 @@ public class ApplicationManager extends Application {
     {
         return users;
     }
+    public ArrayList<String> getRoommates() { return this.roommates; }
 
     public void onGetHomeUsersSuccess(List<ParseUser> parseUsers)
     {
@@ -100,6 +103,13 @@ public class ApplicationManager extends Application {
                 instance.users.add(user.getUsername());
                 instance.usersObjects.put(user.getUsername(), user);
             }
+
+            //list of only roommates
+            if(!instance.roommates.contains(user.getUsername())
+                    && !user.getUsername().equals(instance.parse.getCurrentUser().getUsername())) {
+                    instance.roommates.add(user.getUsername());
+            }
+
         }
     }
 
@@ -126,6 +136,7 @@ public class ApplicationManager extends Application {
 
     public void logout()
     {
+        instance.roommates.clear();
         instance.users.clear();
         instance.forwardIntentQueue.clear();
         instance.usersObjects.clear();
