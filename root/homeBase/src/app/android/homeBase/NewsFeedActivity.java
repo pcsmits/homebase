@@ -282,12 +282,12 @@ public class NewsFeedActivity extends HomeBaseActivity {
     void refreshHouse()
     {
         if (mApplication.hasHouse()) {
-            mApplication.parse.updateHouse(mApplication.getHouse(), NewsFeedActivity.this);
+            mApplication.parse.getHouse(mApplication.getHouse(), NewsFeedActivity.this);
         }
     }
 
     @Override
-    public void onUpdateHouseSuccess(HomeBaseHouse house)
+    public void onGetHouseSuccess(HomeBaseHouse house)
     {
         mApplication.setHouse(house);
     }
