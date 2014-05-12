@@ -713,4 +713,17 @@ public class ParseBase
             }
         });
     }
+
+    public void RefreshCurrentUser()
+    {
+            ParseUser.getCurrentUser().refreshInBackground(new RefreshCallback() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    // Success!
+                } else {
+                    // Failure!
+                }
+            }
+        });
+    }
 }

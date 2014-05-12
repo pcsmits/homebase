@@ -284,6 +284,10 @@ public class NewsFeedActivity extends HomeBaseActivity {
         if (mApplication.hasHouse()) {
             mApplication.parse.getHouse(mApplication.getHouse(), NewsFeedActivity.this);
         }
+
+        if (mApplication.parse.getCurrentUser() != null) {
+            mApplication.parse.RefreshCurrentUser();
+        }
     }
 
     @Override
