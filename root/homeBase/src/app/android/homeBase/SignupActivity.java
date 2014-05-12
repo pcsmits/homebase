@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
+import com.beardedhen.androidbootstrap.BootstrapThumbnail;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
@@ -33,6 +34,7 @@ public class SignupActivity extends HomeBaseActivity
 {
     private ProgressBar progressSpinner;
     private List<BootstrapEditText> editTexts;
+    private List<Boolean> boxesChecked;
     private ApplicationManager mApplication;
 
     @Override
@@ -61,11 +63,17 @@ public class SignupActivity extends HomeBaseActivity
         editTexts.add(passwordVerEditText);
 
         // Ref all four checkboxes make sure they are checked
-        final List<CheckBox> boxes = new LinkedList<CheckBox>();
-        boxes.add((CheckBox) findViewById(R.id.username_checkbox));
-        boxes.add((CheckBox) findViewById(R.id.email_checkbox));
-        boxes.add((CheckBox) findViewById(R.id.password_checkbox));
-        boxes.add((CheckBox) findViewById(R.id.passwordVer_checkbox));
+        final List<BootstrapButton> boxes = new LinkedList<BootstrapButton>();
+        boxes.add((BootstrapButton) findViewById(R.id.username_checkbox));
+        boxes.add((BootstrapButton) findViewById(R.id.email_checkbox));
+        boxes.add((BootstrapButton) findViewById(R.id.password_checkbox));
+        boxes.add((BootstrapButton) findViewById(R.id.passwordVer_checkbox));
+
+        boxesChecked = new LinkedList<Boolean>();
+        boxesChecked.add(false);
+        boxesChecked.add(false);
+        boxesChecked.add(false);
+        boxesChecked.add(false);
 
         usernameEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -100,8 +108,9 @@ public class SignupActivity extends HomeBaseActivity
                 if (actionId == EditorInfo.IME_ACTION_DONE && !TextUtils.isEmpty(emailEditText.getText())) {
                     String email = emailEditText.getText().toString();
                     if (!email.isEmpty() && emailVal.validate(email)) {
-                        CheckBox emailCheckBox = (CheckBox) findViewById(R.id.email_checkbox);
-                        emailCheckBox.setChecked(true);
+                        BootstrapButton emailCheckBox = (BootstrapButton) findViewById(R.id.email_checkbox);
+                        emailCheckBox.setBootstrapType("success");
+                        boxesChecked.set(1, true);
                     } else {
                         Toast.makeText(view.getContext(), "Please enter a valid email", Toast.LENGTH_LONG).show();
                     }
@@ -117,8 +126,9 @@ public class SignupActivity extends HomeBaseActivity
                 if (!hasFocus && !TextUtils.isEmpty(emailEditText.getText())) {
                     String email = emailEditText.getText().toString();
                     if (!email.isEmpty() && emailVal.validate(email)) {
-                        CheckBox emailCheckBox = (CheckBox) findViewById(R.id.email_checkbox);
-                        emailCheckBox.setChecked(true);
+                        BootstrapButton emailCheckBox = (BootstrapButton) findViewById(R.id.email_checkbox);
+                        emailCheckBox.setBootstrapType("success");
+                        boxesChecked.set(1, true);
                     } else {
                         Toast.makeText(view.getContext(), "Please enter a valid email", Toast.LENGTH_LONG).show();
                     }
@@ -134,14 +144,16 @@ public class SignupActivity extends HomeBaseActivity
             public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_DONE && !TextUtils.isEmpty(passwordEditText.getText()))
                 {
-                    CheckBox passWordCheckBox = (CheckBox) findViewById(R.id.password_checkbox);
+                    BootstrapButton passWordCheckBox = (BootstrapButton) findViewById(R.id.password_checkbox);
                     String password = passwordEditText.getText().toString();
                     // If the password is valid the checkbox gets checked
                     if (password.length() < 5) {
                         Toast.makeText(view.getContext(), "Please enter a password of at least 6 characters", Toast.LENGTH_LONG).show();
-                        passWordCheckBox.setChecked(false);
+                        passWordCheckBox.setBootstrapType("danger");
+                        boxesChecked.set(2, false);
                     } else {
-                        passWordCheckBox.setChecked(true);
+                        passWordCheckBox.setBootstrapType("success");
+                        boxesChecked.set(2, true);
                     }
                 }
                 return false;
@@ -153,14 +165,16 @@ public class SignupActivity extends HomeBaseActivity
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus && !TextUtils.isEmpty(passwordEditText.getText())) {
-                    CheckBox passWordCheckBox = (CheckBox) findViewById(R.id.password_checkbox);
+                    BootstrapButton passWordCheckBox = (BootstrapButton) findViewById(R.id.password_checkbox);
                     String password = passwordEditText.getText().toString();
                     // If the password is valid the checkbox gets checked
                     if (password.length() < 5) {
                         Toast.makeText(view.getContext(), "Please enter a password of at least 6 characters", Toast.LENGTH_LONG).show();
-                        passWordCheckBox.setChecked(false);
+                        passWordCheckBox.setBootstrapType("danger");
+                        boxesChecked.set(2, false);
                     } else {
-                        passWordCheckBox.setChecked(true);
+                        passWordCheckBox.setBootstrapType("success");
+                        boxesChecked.set(2, true);
                     }
                 }
             }
@@ -172,13 +186,15 @@ public class SignupActivity extends HomeBaseActivity
                 if(actionId == EditorInfo.IME_ACTION_DONE && !TextUtils.isEmpty(passwordVerEditText.getText())) {
                     String passwordVer = passwordVerEditText.getText().toString();
                     String password = passwordEditText.getText().toString();
-                    CheckBox passWordVerCheckBox = (CheckBox) findViewById(R.id.passwordVer_checkbox);
-                    CheckBox passWordCheckBox = (CheckBox) findViewById(R.id.password_checkbox);
-                    if (password.equals(passwordVer) && passWordCheckBox.isChecked()) {
-                        passWordVerCheckBox.setChecked(true);
+                    BootstrapButton passWordVerCheckBox = (BootstrapButton) findViewById(R.id.passwordVer_checkbox);
+                    BootstrapButton passWordCheckBox = (BootstrapButton) findViewById(R.id.password_checkbox);
+                    if (password.equals(passwordVer) && boxesChecked.get(2)) {
+                        passWordVerCheckBox.setBootstrapType("success");
+                        boxesChecked.set(3, true);
                     } else {
                         Toast.makeText(view.getContext(), "Passwords do not match", Toast.LENGTH_LONG).show();
-                        passWordVerCheckBox.setChecked(false);
+                        passWordVerCheckBox.setBootstrapType("danger");
+                        boxesChecked.set(3, false);
                     }
                 }
                 return false;
@@ -192,13 +208,15 @@ public class SignupActivity extends HomeBaseActivity
                 if (!hasFocus && !TextUtils.isEmpty(passwordVerEditText.getText())) {
                     String passwordVer = passwordVerEditText.getText().toString();
                     String password = passwordEditText.getText().toString();
-                    CheckBox passWordVerCheckBox = (CheckBox) findViewById(R.id.passwordVer_checkbox);
-                    CheckBox passWordCheckBox = (CheckBox) findViewById(R.id.password_checkbox);
-                    if (password.equals(passwordVer) && passWordCheckBox.isChecked()) {
-                        passWordVerCheckBox.setChecked(true);
+                    BootstrapButton passWordVerCheckBox = (BootstrapButton) findViewById(R.id.passwordVer_checkbox);
+                    BootstrapButton passWordCheckBox = (BootstrapButton) findViewById(R.id.password_checkbox);
+                    if (password.equals(passwordVer) && boxesChecked.get(2)) {
+                        passWordVerCheckBox.setBootstrapType("success");
+                        boxesChecked.set(3, true);
                     } else {
                         Toast.makeText(view.getContext(), "Passwords do not match", Toast.LENGTH_LONG).show();
-                        passWordVerCheckBox.setChecked(false);
+                        passWordVerCheckBox.setBootstrapType("danger");
+                        boxesChecked.set(3, false);
                     }
                 }
             }
@@ -211,9 +229,9 @@ public class SignupActivity extends HomeBaseActivity
             @Override
             public void onClick(View view)
             {
-                for(CheckBox box : boxes)
+                for(Boolean validated : boxesChecked)
                 {
-                    if(!box.isChecked())
+                    if(!validated)
                     {
                         Toast.makeText(SignupActivity.this, "Please correctly fill out all fields", Toast.LENGTH_LONG).show();
                         return;
@@ -252,23 +270,26 @@ public class SignupActivity extends HomeBaseActivity
     @Override
     public void onCheckUserSuccess()
     {
-        CheckBox usernameCheckBox = (CheckBox) findViewById(R.id.username_checkbox);
-        usernameCheckBox.setChecked(true);
+        BootstrapButton usernameCheckBox = (BootstrapButton) findViewById(R.id.username_checkbox);
+        boxesChecked.set(0, true);
+        usernameCheckBox.setBootstrapType("success");
     }
 
     @Override
     public void onCheckUserFailure()
     {
-        CheckBox usernameCheckBox = (CheckBox) findViewById(R.id.username_checkbox);
-        usernameCheckBox.setChecked(false);
+        BootstrapButton usernameCheckBox = (BootstrapButton) findViewById(R.id.username_checkbox);
+        boxesChecked.set(0, false);
+        usernameCheckBox.setBootstrapType("danger");
         Toast.makeText(SignupActivity.this, "This username is taken!", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onCheckUserError(ParseException e)
     {
-        CheckBox usernameCheckBox = (CheckBox) findViewById(R.id.username_checkbox);
-        usernameCheckBox.setChecked(false);
+        BootstrapButton usernameCheckBox = (BootstrapButton) findViewById(R.id.username_checkbox);
+        boxesChecked.set(0, false);
+        usernameCheckBox.setBootstrapType("danger");
         Toast.makeText(SignupActivity.this, "Error: "+e.getMessage(), Toast.LENGTH_LONG).show();
     }
 
