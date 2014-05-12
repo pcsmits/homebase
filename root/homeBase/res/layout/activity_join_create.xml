@@ -7,40 +7,48 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:fontFamily="fontawesome-webfont.ttf"
-    android:background="@drawable/background"
+    android:background="@color/bbutton_primary_disabled"
     >
 
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="200dp"></RelativeLayout>
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:text="Create House"
-        bootstrapbutton:bb_size="default"
-        bootstrapbutton:bb_type="primary"
-        android:onClick="onCreateHouseClick">
-    </com.beardedhen.androidbootstrap.BootstrapButton>
+        <com.beardedhen.androidbootstrap.BootstrapEditText
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:hint="Existing House Admin"
+            android:textColor="@android:color/black"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:id="@+id/newhouse_joinhouse_etext"
+            />
 
-    <com.beardedhen.androidbootstrap.BootstrapEditText
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop = "50dp"
-        android:hint="Enter house admin"
-        android:textColor="@android:color/black"
-        android:imeOptions="actionNext"
-        android:singleLine="true"
-        android:id="@+id/newhouse_joinhouse_etext"
-        />
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:text="Join House"
+            bootstrapbutton:bb_size="default"
+            bootstrapbutton:bb_type="primary"
+            bootstrapbutton:bb_icon_right="fa-chevron-right"
+            android:onClick="onJoinClick">
+        </com.beardedhen.androidbootstrap.BootstrapButton>
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:text="Join House"
-        bootstrapbutton:bb_size="default"
-        bootstrapbutton:bb_type="primary"
-        bootstrapbutton:bb_text_alignment="center"
-        bootstrapbutton:bb_icon_right="fa-chevron-right"
-        android:onClick="onJoinClick">
-    </com.beardedhen.androidbootstrap.BootstrapButton>
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:text="Create House"
+            bootstrapbutton:bb_size="default"
+            bootstrapbutton:bb_type="primary"
+            bootstrapbutton:bb_icon_right="fa-chevron-right"
+            android:onClick="onCreateHouseClick">
+        </com.beardedhen.androidbootstrap.BootstrapButton>
+    </LinearLayout>
 
 </LinearLayout>

@@ -18,7 +18,7 @@
             >
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="427dp"
+            android:layout_height="510dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -28,6 +28,11 @@
                 android:layout_gravity="center"
                 android:gravity="center"
             >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp">
+                </RelativeLayout>
 
                 <com.beardedhen.androidbootstrap.BootstrapEditText
                     android:id="@id/signup_username_etext"
@@ -124,7 +129,7 @@
                     android:weightSum="1">
 
                     <RelativeLayout
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="105dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp">
                     <com.beardedhen.androidbootstrap.BootstrapButton
