@@ -88,9 +88,10 @@ public class SuppliesActivity extends HomeBaseActivity {
             myButton.setClickable(false);
             layout.addView(myButton);
 
-            myButton.setText("No supplies are needed");
-            header.setText("Welcome");
-            header.setBootstrapType("supply");
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
+
+            myButton.removeView(header);
             return;
         }
 
@@ -185,9 +186,10 @@ public class SuppliesActivity extends HomeBaseActivity {
             myButton.setClickable(false);
             layout.addView(myButton);
 
-            myButton.setText("No supplies are needed");
-            header.setText("Welcome");
-            header.setBootstrapType("supply");
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
+
+            myButton.removeView(header);
             return;
         }
 
@@ -213,9 +215,10 @@ public class SuppliesActivity extends HomeBaseActivity {
             myButton.setClickable(false);
             layout.addView(myButton);
 
-            myButton.setText("No supplies are needed");
-            header.setText("Welcome");
-            header.setBootstrapType("supply");
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
+
+            myButton.removeView(header);
             return;
         }
 
@@ -267,9 +270,10 @@ public class SuppliesActivity extends HomeBaseActivity {
             myButton.setClickable(false);
             layout.addView(myButton);
 
-            myButton.setText("No supplies are needed");
-            header.setText("Welcome");
-            header.setBootstrapType("supply");
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
+
+            myButton.removeView(header);
             return;
         }
 

@@ -140,9 +140,10 @@ public class BillsActivity extends HomeBaseActivity {
             myButton.setClickable(false);
             layout.addView(myButton);
 
-            myButton.setText("You have no bills at this time");
-            header.setText("Welcome");
-            header.setBootstrapType("bill");
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
+
+            myButton.removeView(header);
             return;
         }
 
@@ -176,9 +177,10 @@ public class BillsActivity extends HomeBaseActivity {
             myButton.setClickable(false);
             layout.addView(myButton);
 
-            myButton.setText("You have no bills at this time");
-            header.setText("Welcome");
-            header.setBootstrapType("bill");
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
+
+            myButton.removeView(header);
             return;
         }
 
@@ -208,9 +210,10 @@ public class BillsActivity extends HomeBaseActivity {
             myButton.setClickable(false);
             layout.addView(myButton);
 
-            myButton.setText("You have no chores at this time");
-            header.setText("Welcome");
-            header.setBootstrapType("bill");
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
+
+            myButton.removeView(header);
             return;
         } else {
             // Fetch all the bills from parse

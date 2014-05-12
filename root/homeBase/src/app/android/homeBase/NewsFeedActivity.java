@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -184,10 +185,11 @@ public class NewsFeedActivity extends HomeBaseActivity {
             buttonCont.removeView(myButton);
             myButton.setClickable(false);
             feedContainerLayout.addView(myButton);
-            myButton.setText("You have no alerts at this time");
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
 
             BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
-            header.setText("Welcome");
+            myButton.removeView(header);
         } else {
             for (int i = 0; i < alerts.size(); i++) {
                 newsFeedAlerts.add(alerts.get(i));
@@ -240,10 +242,12 @@ public class NewsFeedActivity extends HomeBaseActivity {
             buttonCont.removeView(myButton);
             myButton.setClickable(false);
             feedContainerLayout.addView(myButton);
-            myButton.setText("You have no alerts at this time");
+
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
 
             BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
-            header.setText("Welcome");
+            myButton.removeView(header);
         } else {
             for (int i = 0; i < alerts.size(); i++) {
                 newsFeedAlerts.add(alerts.get(i));

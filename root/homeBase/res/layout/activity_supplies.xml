@@ -77,7 +77,7 @@
                         <com.beardedhen.androidbootstrap.BootstrapButton
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:text="@string/supply_viewMine_button"
+                            android:text="Created"
                             android:textAlignment="center"
                             bootstrapbutton:bb_roundedCorners="false"
                             bootstrapbutton:bb_size="default"

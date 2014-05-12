@@ -145,8 +145,10 @@ public class ChoresActivity extends HomeBaseActivity {
             myButton.setClickable(false);
             layout.addView(myButton);
 
-            myButton.setText("You have no chores at this time");
-            header.setText("Welcome");
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
+
+            myButton.removeView(header);
             return;
         }
 
@@ -180,8 +182,10 @@ public class ChoresActivity extends HomeBaseActivity {
             myButton.setClickable(false);
             layout.addView(myButton);
 
-            myButton.setText("You have no chores at this time");
-            header.setText("Welcome");
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
+
+            myButton.removeView(header);
             return;
         }
 
@@ -210,8 +214,10 @@ public class ChoresActivity extends HomeBaseActivity {
             myButton.setClickable(false);
             layout.addView(myButton);
 
-            myButton.setText("You have no chores at this time");
-            header.setText("Welcome");
+            myButton.setText("You have no alerts at this time.");
+            myButton.setTextGravity("Center");
+
+            myButton.removeView(header);
             return;
         } else {
             for (int i = 0; i < alerts.size(); i++) {
