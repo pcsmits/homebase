@@ -58,8 +58,25 @@ public class NewsFeedActivity extends HomeBaseActivity {
             return;
         }
 
+        closeMenu();
         mApplication.parse.refreshAlerts(this);
         refreshHouse();
+    }
+
+    private void closeMenu() {
+        LinearLayout relativeLayout = globalLayout;
+
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) (relativeLayout.getLayoutParams());
+
+        ResizeAnimation a = new ResizeAnimation(relativeLayout);
+        a.setDuration(250);
+
+
+        lp.height = menuHeight;
+
+        expand = false;
+
+        relativeLayout.setLayoutParams(lp);
     }
 
     public void onMenuButtonClick(View view)
