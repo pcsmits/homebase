@@ -55,13 +55,34 @@
                             bootstrapbutton:bb_size="default"
                             bootstrapbutton:bb_type="primary"
                             bootstrapbutton:bb_text_alignment="center"
-                            bootstrapbutton:bb_icon_right="fa-chevron-down"
                             android:layout_gravity="center_horizontal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:onClick="onMenuButtonClick">
                         </com.beardedhen.androidbootstrap.BootstrapButton>
+                        <RelativeLayout
+                            android:layout_width="48dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentRight="true">
+                            <com.beardedhen.androidbootstrap.BootstrapButton
+                                android:id="@id/newsfeed_refresh_button"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                bootstrapbutton:bb_size="default"
+                                bootstrapbutton:bb_type="success"
+                                android:onClick="onRefreshNewsfeed">
+                            </com.beardedhen.androidbootstrap.BootstrapButton>
+                            <com.beardedhen.androidbootstrap.FontAwesomeText
+                                android:id="@id/newsfeed_refresh_icon"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                fontawesometext:fa_icon="fa-refresh"
+                                android:layout_margin="10dp"
+                                android:textSize="24sp"
+                                android:textColor="@color/white"
+                                />
+                        </RelativeLayout>
                     </RelativeLayout>
                 </LinearLayout>
 

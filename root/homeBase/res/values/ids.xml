@@ -68,6 +68,8 @@
     <item name="newsfeed_newsfeedItem_container" type="id"/>
     <item name="newsfeed_template_button" type="id"/>
     <item name="newsfeed_template_button_header" type="id"/>
+    <item name="newsfeed_refresh_button" type="id"/>
+    <item name="newsfeed_refresh_icon" type="id"/>
 
     <item name="newhouse_code_etext" type="id"/>
     <item name="newhouse_newhouse_text" type="id"/>

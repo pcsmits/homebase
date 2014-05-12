@@ -13,8 +13,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.FontAwesome;
+import com.beardedhen.androidbootstrap.FontAwesomeText;
 
 public class NewsFeedActivity extends HomeBaseActivity {
+    private FontAwesomeText refreshIcon;
+    private BootstrapButton refreshButton;
     private ArrayList<BootstrapButton> newsFeedContainers = new ArrayList<BootstrapButton>();
     private ArrayList<HomeBaseAlert> newsFeedAlerts = new ArrayList<HomeBaseAlert>();
     private HashMap<BootstrapButton, HomeBaseAlert> buttonToAlertMap = new HashMap<BootstrapButton, HomeBaseAlert>();
@@ -35,6 +39,9 @@ public class NewsFeedActivity extends HomeBaseActivity {
         myClassName = "NewsFeedActivity";
         overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
         setContentView(R.layout.activity_newsfeed);
+
+        refreshIcon = (FontAwesomeText)this.findViewById(R.id.newsfeed_refresh_icon);
+        refreshButton = (BootstrapButton)this.findViewById(R.id.newsfeed_refresh_button);
 
         globalLayout = (LinearLayout)this.findViewById(R.id.newsfeed_menu_container);
         menuHeight = globalLayout.getLayoutParams().height;
@@ -78,6 +85,15 @@ public class NewsFeedActivity extends HomeBaseActivity {
         expand = false;
 
         relativeLayout.setLayoutParams(lp);
+    }
+
+    public void onRefreshNewsfeed(View view)
+    {
+        refreshIcon.setIcon("fa-spinner");
+        refreshIcon.startRotate(this, true, FontAwesomeText.AnimationSpeed.MEDIUM);
+        mApplication.parse.refreshAlerts(this);
+        refreshHouse();
+        refreshButton.setBootstrapType("danger");
     }
 
     public void onMenuButtonClick(View view)
@@ -233,6 +249,10 @@ public class NewsFeedActivity extends HomeBaseActivity {
     @Override
     public void onUpdateAlertListSuccess(ArrayList<HomeBaseAlert> alerts)
     {
+        refreshIcon.setIcon("fa-refresh");
+        refreshIcon.stopAnimation();
+        refreshButton.setBootstrapType("success");
+
         feedContainerLayout.removeAllViews();
         if (alerts.size() == 0){
             LayoutInflater inflater = LayoutInflater.from(this);
