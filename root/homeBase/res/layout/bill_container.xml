@@ -26,24 +26,42 @@
         android:onClick="onChoreContainerClick">
 
         <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_marginBottom="4dp"
-            android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:layout_gravity="top"
-            android:paddingBottom="0dp"
-            android:paddingTop="0dp"
-            android:text="TITLE"
-            android:textAlignment="center"
-            bootstrapbutton:bb_roundedCorners="false"
-            bootstrapbutton:bb_size="small"
-            bootstrapbutton:bb_type="chore"
-            bootstrapbutton:bb_text_alignment="center"
-            android:enabled="false"
-            android:id="@id/alertContainer_header"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            >
-        </com.beardedhen.androidbootstrap.BootstrapButton>
+        android:layout_marginBottom="4dp"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_gravity="top"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        android:text="TITLE"
+        android:textAlignment="center"
+        bootstrapbutton:bb_roundedCorners="false"
+        bootstrapbutton:bb_size="small"
+        bootstrapbutton:bb_type="chore"
+        bootstrapbutton:bb_text_alignment="center"
+        android:enabled="false"
+        android:id="@id/alertContainer_header"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        >
+    </com.beardedhen.androidbootstrap.BootstrapButton>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right">
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_marginBottom="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Amount"
+                android:id="@id/alertContainer_money"
+                bootstrapbutton:bb_size="small"
+                bootstrapbutton:bb_type="bill"
+                android:enabled="false"
+                >
+            </com.beardedhen.androidbootstrap.BootstrapButton>
+        </RelativeLayout>
 
     </com.beardedhen.androidbootstrap.BootstrapButton>
 </LinearLayout>

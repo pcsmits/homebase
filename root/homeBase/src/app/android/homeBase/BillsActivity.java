@@ -220,19 +220,21 @@ public class BillsActivity extends HomeBaseActivity {
             for (HomeBaseAlert alert : alerts)
             {
                 LayoutInflater inflater = LayoutInflater.from(this);
-                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.bill_container, null, false);
 
                 BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
                 BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+                BootstrapButton amountField = (BootstrapButton) myButton.findViewById(R.id.alertContainer_money);
 
                 buttonCont.removeView(myButton);
                 layout.addView(myButton);
 
                 String title = alert.getTitle();
-                String information = alert.getDescription() + " [$" + alert.getAmount() + "]";
-                String creator = alert.getCreatorID();
-                Log.d("Creator: ", creator);
+                String information = alert.getDescription();
+                String money = "$" + alert.getAmount();
 
+                amountField.setBootstrapType("bill");
+                amountField.setText(money);
                 headerBar.setText(title);
                 headerBar.setBootstrapType("bill");
                 myButton.fitLine(1);
@@ -298,17 +300,20 @@ public class BillsActivity extends HomeBaseActivity {
             if (!billIDs.contains(alert.getId()))
             {
                 LayoutInflater inflater = LayoutInflater.from(this);
-                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.alert_container, null, false);
+                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.bill_container, null, false);
 
                 BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
                 BootstrapButton headerBar = (BootstrapButton) myButton.findViewById(R.id.alertContainer_header);
+                BootstrapButton amountField = (BootstrapButton) myButton.findViewById(R.id.alertContainer_money);
 
                 buttonCont.removeView(myButton);
 
                 String title = alert.getTitle();
-                String information = alert.getDescription() + " [$" + alert.getAmount() + "]";
-                String creator = alert.getCreatorID();
+                String information = alert.getDescription();
+                String money = "$" + alert.getAmount();
 
+                amountField.setBootstrapType("bill");
+                amountField.setText(money);
                 headerBar.setText(title);
                 headerBar.setBootstrapType("bill");
                 myButton.fitLine(1);

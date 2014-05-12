@@ -14,6 +14,7 @@
     <item name="signup_signup_button" type="id"/>
 
     <item name="chores_choreContainer_button" type="id"/>
+    <item name="alertContainer_money" type="id"/>
     <item name="alertContainer_header" type="id"/>
     <item name="alertContainer_container" type="id"/>
     <item name="chores_allFilter_button" type="id"/>

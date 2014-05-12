@@ -165,6 +165,13 @@ public class NewsFeedActivity extends HomeBaseActivity {
         }
     }
 
+    public void onChoreContainerClick(View view)
+    {
+        BootstrapButton thisButton = (BootstrapButton) view.findViewById(R.id.alertContainer_container);
+        HomeBaseAlert correspondingAlert = buttonToAlertMap.get(thisButton);
+        HandleBillClick(correspondingAlert);
+    }
+
     private void HandleChoreClick(HomeBaseAlert clicked)
     {
         Intent intent = new Intent(NewsFeedActivity.this, ChoreInfoActivity.class);
@@ -211,36 +218,49 @@ public class NewsFeedActivity extends HomeBaseActivity {
                 newsFeedAlerts.add(alerts.get(i));
 
                 LayoutInflater inflater = LayoutInflater.from(this);
-                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
-
-                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
-
-                newsFeedContainers.add(myButton);
-                alertToButtonMap.put(alerts.get(i), myButton);
-                buttonToAlertMap.put(myButton, alerts.get(i));
-
-                buttonCont.removeView(myButton);
-                feedContainerLayout.addView(myButton);
-                String text = alerts.get(i).getDescription();
-                /*int max = 40;
-                String ellipse = "...";
-                if (text.length() < 40) {
-                    max = text.length();
-                    ellipse = "";
-                }
-                myButton.setText(text.substring(0, max)+ellipse);
-*/
-                myButton.fitLine(1);
-                myButton.setText(text);
-
-                BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
-                header.setText(alerts.get(i).getTitle());
-
                 if (alerts.get(i).getType().equals("Bill")) {
+                    LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.bill_container, null, false);
+
+                    BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+                    BootstrapButton header = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_header);
+                    BootstrapButton moneyField = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_money);
+
+                    newsFeedContainers.add(myButton);
+                    alertToButtonMap.put(alerts.get(i), myButton);
+                    buttonToAlertMap.put(myButton, alerts.get(i));
+
+                    buttonCont.removeView(myButton);
+                    feedContainerLayout.addView(myButton);
+                    String text = alerts.get(i).getDescription();
+
+                    myButton.fitLine(1);
+                    myButton.setText(text);
+
+                    header.setText(alerts.get(i).getTitle());
+                    moneyField.setText("$" + alerts.get(i).getAmount());
+                    moneyField.setBootstrapType("bill");
                     header.setBootstrapType("bill");
-                }
-                else if (alerts.get(i).getType().equals("Supply")) {
-                    header.setBootstrapType("supply");
+                } else {
+                    LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
+
+                    BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
+
+                    newsFeedContainers.add(myButton);
+                    alertToButtonMap.put(alerts.get(i), myButton);
+                    buttonToAlertMap.put(myButton, alerts.get(i));
+
+                    buttonCont.removeView(myButton);
+                    feedContainerLayout.addView(myButton);
+                    String text = alerts.get(i).getDescription();
+
+                    myButton.fitLine(1);
+                    myButton.setText(text);
+                    BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
+                    header.setText(alerts.get(i).getTitle());
+
+                    if (alerts.get(i).getType().equals("Supply")) {
+                        header.setBootstrapType("supply");
+                    }
                 }
             }
         }
@@ -273,36 +293,50 @@ public class NewsFeedActivity extends HomeBaseActivity {
                 newsFeedAlerts.add(alerts.get(i));
 
                 LayoutInflater inflater = LayoutInflater.from(this);
-                LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
-
-                BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
-
-                newsFeedContainers.add(myButton);
-                alertToButtonMap.put(alerts.get(i), myButton);
-                buttonToAlertMap.put(myButton, alerts.get(i));
-
-                buttonCont.removeView(myButton);
-                feedContainerLayout.addView(myButton);
-                String text = alerts.get(i).getDescription();
-
-                /*int max = 40;
-                String ellipse = "...";
-                if (text.length() < 40) {
-                    max = text.length();
-                    ellipse = "";
-                }
-                myButton.setText(text.substring(0, max)+ellipse);
-*/
-                myButton.fitLine(1);
-                myButton.setText(text);
-                BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
-                header.setText(alerts.get(i).getTitle());
 
                 if (alerts.get(i).getType().equals("Bill")) {
+                    LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.bill_container, null, false);
+
+                    BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_container);
+                    BootstrapButton header = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_header);
+                    BootstrapButton moneyField = (BootstrapButton) buttonCont.findViewById(R.id.alertContainer_money);
+
+                    newsFeedContainers.add(myButton);
+                    alertToButtonMap.put(alerts.get(i), myButton);
+                    buttonToAlertMap.put(myButton, alerts.get(i));
+
+                    buttonCont.removeView(myButton);
+                    feedContainerLayout.addView(myButton);
+                    String text = alerts.get(i).getDescription();
+
+                    myButton.fitLine(1);
+                    myButton.setText(text);
+
+                    header.setText(alerts.get(i).getTitle());
+                    moneyField.setText("$" + alerts.get(i).getAmount());
+                    moneyField.setBootstrapType("bill");
                     header.setBootstrapType("bill");
-                }
-                else if (alerts.get(i).getType().equals("Supply")) {
-                    header.setBootstrapType("supply");
+                } else {
+                    LinearLayout buttonCont = (LinearLayout) inflater.inflate(R.layout.newsfeed_item_template, null, false);
+
+                    BootstrapButton myButton = (BootstrapButton) buttonCont.findViewById(R.id.newsfeed_template_button);
+
+                    newsFeedContainers.add(myButton);
+                    alertToButtonMap.put(alerts.get(i), myButton);
+                    buttonToAlertMap.put(myButton, alerts.get(i));
+
+                    buttonCont.removeView(myButton);
+                    feedContainerLayout.addView(myButton);
+                    String text = alerts.get(i).getDescription();
+
+                    myButton.fitLine(1);
+                    myButton.setText(text);
+                    BootstrapButton header = (BootstrapButton)myButton.findViewById(R.id.newsfeed_template_button_header);
+                    header.setText(alerts.get(i).getTitle());
+
+                    if (alerts.get(i).getType().equals("Supply")) {
+                        header.setBootstrapType("supply");
+                    }
                 }
             }
         }
